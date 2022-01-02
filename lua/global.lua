@@ -1,5 +1,5 @@
 local global   = {}
-local home     = os.getenv("HOME")
+local home     = os.getenv("HOME") or "C:/Users/sriesland"
 local os_name  = vim.loop.os_uname().sysname
 local path_sep = string.find(os_name, 'Windows') and '\\' or '/'
 
@@ -7,7 +7,7 @@ function global:load_variables()
   self.is_mac      = string.find(os_name, 'Darwin')
   self.is_linux    = string.find(os_name, 'Linux')
   self.is_windows  = string.find(os_name, 'Windows')
-  self.vim_path    = vim.fn.stdpath('config')
+  self.vim_path    = vim.fn.stdpath('config')  -- path to nvim config, e.g. ~/.config/nvim
   self.cache_dir   = home .. path_sep ..'.cache'.. path_sep ..'nvim'.. path_sep
   self.modules_dir = self.vim_path .. path_sep..'modules'
   self.path_sep    = path_sep

@@ -164,31 +164,31 @@ end
 
 -- Disable built-in neovim plugins that are unused. {{{1
 local disable_default_neovim_plugins = function()
-   local disabled_built_ins = {
-       "netrw",
-       "netrwPlugin",
-       "netrwSettings",
-       "netrwFileHandlers",
-       "gzip",
-       "zip",
-       "zipPlugin",
-       "tar",
-       "tarPlugin",
-       "getscript",
-       "getscriptPlugin",
-       "vimball",
-       "vimballPlugin",
-       "2html_plugin",
-       "logipat",
-       "rrhelper",
-       --"spellfile_plugin",
-       "matchit",
-       "matchparen"
-   }
-   for _, plugin in pairs(disabled_built_ins) do
-       vim.g["loaded_" .. plugin] = 1
-   end
-   vim.g.did_load_filetypes = 1
+  local disabled_built_ins = {
+    "netrw",
+    "netrwPlugin",
+    "netrwSettings",
+    "netrwFileHandlers",
+    "gzip",
+    "zip",
+    "zipPlugin",
+    "tar",
+    "tarPlugin",
+    "getscript",
+    "getscriptPlugin",
+    "vimball",
+    "vimballPlugin",
+    "2html_plugin",
+    "logipat",
+    "rrhelper",
+    --"spellfile_plugin",
+    "matchit",
+    "matchparen"
+  }
+  for _, plugin in pairs(disabled_built_ins) do
+    vim.g["loaded_" .. plugin] = 1
+  end
+  vim.g.did_load_filetypes = 1
 end
 
 -- Set the map leaders for future key maps. {{{1
@@ -201,18 +201,19 @@ end
 
 -- Load options, mappings and plugins. {{{1
 local load_core = function()
-   local core_modules = {
-      "appearances",
-      "options",
-      "mappings",
-      "event",
-      "packer_compiled",
-   }
+  -- These correspond to .lua files
+  local core_modules = {
+    "appearances",
+    "options",
+    "mappings",
+    "event",
+    "packer_compiled",
+  }
 
-   for i = 1, #core_modules, 1 do
-      local ok, err = pcall(require, core_modules[i])
-      if not ok then print(err) end
-   end
+  for i = 1, #core_modules, 1 do
+    local ok, err = pcall(require, core_modules[i])
+    if not ok then print(err) end
+  end
 end
 
 --=====[ Main ]====={{{1

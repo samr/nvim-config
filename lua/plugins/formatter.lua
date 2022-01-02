@@ -1,5 +1,6 @@
 vim.cmd[[packadd formatter.nvim]]
 
+local global = require('global')
 local remap = vim.api.nvim_set_keymap
 local fn = vim.fn
 local is_cfg_present = require('global').is_cfg_present
@@ -59,11 +60,12 @@ local gofmt = function()
 end
 
 local luafmt = function()
-  return {
-    exe = "lua-format",
-    args = {"-i", "--config", "~/.config/nvim/.luafmt"},
-    stdin = true
-  }
+    -- Note: LuaFormatter is best compiled from source directly, luarocks was a no-go.
+    return {
+      exe = "lua-format",
+      args = {"-i", "--config", global.vim_path.."/.luafmt"},
+      stdin = true
+    }
 end
 
 require('formatter').setup{
