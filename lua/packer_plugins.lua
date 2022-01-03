@@ -70,10 +70,10 @@ return packer.startup(function()
 
   --=====[ Language Server Protocol ]====={{{1
   --
-  use {
-    "github/copilot.vim",
-    event = "InsertEnter",
-  }
+  -- use {
+  --   "github/copilot.vim",
+  --   event = "InsertEnter",
+  -- }
 
   use {
     "neovim/nvim-lspconfig",
@@ -109,27 +109,67 @@ return packer.startup(function()
   use {
     "L3MON4D3/LuaSnip",
     wants = "friendly-snippets",
-    --after = "nvim-cmp",
+    after = "nvim-cmp",
     config = function()
       require("plugins.others").luasnip()
     end,
   }
 
   --=====[ Code Completion ]====={{{1
-  --
+
   use {
-    'ms-jpq/coq_nvim',
-    branch = 'coq',
-    opt = false,
+    "hrsh7th/nvim-cmp",
+    after = "friendly-snippets",
     config = function()
-      require("plugins.coq").luasnip()
+       require "plugins.cmp"
     end,
   }
 
-  use {  -- 9000+ Snippets
-    'ms-jpq/coq.artifacts',
-    branch = 'artifacts',
+  use {
+    "saadparwaiz1/cmp_luasnip",
+    after = "LuaSnip",
   }
+
+  use {
+    "hrsh7th/cmp-nvim-lua",
+    after = "nvim-cmp",
+  }
+
+  use {
+    "hrsh7th/cmp-nvim-lsp",
+    after = "nvim-cmp",
+  }
+
+  use {
+    "lukas-reineke/cmp-rg",
+    after = "nvim-cmp",
+  }
+
+  use {
+    "ray-x/cmp-treesitter",
+    after = "nvim-cmp",
+  }
+
+  use {
+    "hrsh7th/cmp-path",
+    after = "nvim-cmp",
+  }
+
+  -- Maybe use this in the future. While VERY fast, I am not entirely sold on the snippet support and the constant
+  -- suggestions were a bit too frenetic without being what I really want completed in many contexts.
+  -- use {
+  --   'ms-jpq/coq_nvim',
+  --   branch = 'coq',
+  --   opt = false,
+  --   config = function()
+  --     require "plugins.coq"
+  --   end,
+  -- }
+
+  -- use {  -- 9000+ Snippets
+  --   'ms-jpq/coq.artifacts',
+  --   branch = 'artifacts',
+  -- }
 
   --=====[ Telescope ]====={{{1
   --
@@ -308,43 +348,4 @@ return packer.startup(function()
   --
   --=====[ Disabled (indefinitely) ]====={{{1
   --
-  -- Must say, coq is impressive...
-  -- use {
-  --   "hrsh7th/nvim-cmp",
-  --   after = "friendly-snippets",
-  --   config = function()
-  --      require "plugins.cmp"
-  --   end,
-  -- }
-
-  -- use {
-  --   "saadparwaiz1/cmp_luasnip",
-  --   after = "LuaSnip",
-  -- }
-
-  -- use {
-  --   "hrsh7th/cmp-nvim-lua",
-  --   after = "nvim-cmp",
-  -- }
-
-  -- use {
-  --   "hrsh7th/cmp-nvim-lsp",
-  --   after = "nvim-cmp",
-  -- }
-
-  -- use {
-  --   "lukas-reineke/cmp-rg",
-  --   after = "nvim-cmp",
-  -- }
-
-  -- use {
-  --   "ray-x/cmp-treesitter",
-  --   after = "nvim-cmp",
-  -- }
-
-  -- use {
-  --   "hrsh7th/cmp-path",
-  --   after = "nvim-cmp",
-  -- }
-
 end)

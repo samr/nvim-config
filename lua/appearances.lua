@@ -148,6 +148,37 @@ ColorUtil.override_darkdevel3 = function()
   end
 end
 
+-- Change the pop-up auto-completion box.
+ColorUtil.vscode_dark_for_cmp = function()
+  local highlights = {
+    -- dark gray
+    {'Pmenu', { bg = '#303030', fg="NONE" }},
+    -- emerald green
+    {'PmenuSel', { bg = '#105E26', fg="NONE" }},
+    -- gray
+    {'CmpItemAbbrDeprecated', { bg='NONE', gui="strikethrough", fg='#808080'}},
+    -- blue
+    {'CmpItemAbbrMatch', { bg='NONE', fg='#569CD6' }},
+    {'CmpItemAbbrMatchFuzzy', { bg='NONE', fg='#569CD6' }},
+    -- light blue
+    {'CmpItemKindVariable', { bg='NONE', fg='#9CDCFE' }},
+    {'CmpItemKindInterface', { bg='NONE', fg='#9CDCFE' }},
+    {'CmpItemKindText', { bg='NONE', fg='#9CDCFE' }},
+    -- pink
+    {'CmpItemKindFunction', { bg='NONE', fg='#C586C0' }},
+    {'CmpItemKindMethod', { bg='NONE', fg='#C586C0' }},
+    -- front
+    {'CmpItemKindKeyword', { bg='NONE', fg='#D4D4D4' }},
+    {'CmpItemKindProperty', { bg='NONE', fg='#D4D4D4' }},
+    {'CmpItemKindUnit', { bg='NONE', fg='#D4D4D4' }},
+  }
+  for _, highlight in pairs(highlights) do
+    hl(highlight[1], highlight[2])
+  end
+end
+
+--ColorUtil.vscode_dark_for_cmp()
+
 -- italicize comments
 hl('Comment', { gui = 'italic' })
 
@@ -158,6 +189,7 @@ vim.cmd('au ColorScheme desert2 call v:lua.ColorUtil.override_desert2()')
 vim.cmd('au ColorScheme gruvbox8 call v:lua.ColorUtil.override_gruvbox8()')
 vim.cmd('au ColorScheme eunoia call v:lua.ColorUtil.override_eunoia()')
 vim.cmd('au ColorScheme darkdevel3 call v:lua.ColorUtil.override_darkdevel3()')
+vim.cmd('au ColorScheme * call v:lua.ColorUtil.vscode_dark_for_cmp()')
 vim.cmd('augroup END')
 
 -- disable invert selection for gruvbox

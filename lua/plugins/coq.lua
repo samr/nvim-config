@@ -72,7 +72,7 @@ vim.g.coq_settings = {
       weight_adjust = -1.5
     },
     lsp = {
-      enabled = true,
+      enabled = false,
       weight_adjust = 1.5
     },
     snippets = {
