@@ -6,9 +6,11 @@ local has_nvim_lsp, nvim_lsp = pcall(require, "lspconfig")
 local has_lsp_status, lsp_status = pcall(require, "lsp-status")
 local has_lsp_installer, lsp_installer = pcall(require, "nvim-lsp-installer")
 local has_lsp_window, window = pcall(require, "plugins.modules.lsp_window")
-local coq = require "coq"
 
+local global = require "global"
+local coq = require "coq"
 local lsp = vim.lsp
+local remap = vim.api.nvim_set_keymap
 
 if not has_nvim_lsp then
   print("Failed to load nvim-lspconfig")
@@ -21,57 +23,62 @@ end
 
 lsp_status.register_progress()
 
--- TODO: requires remap()
--- local lsp_mappings = function(client)
---   remap('n', 'gK', '<cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
---   remap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
--- 	remap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', { noremap = true, silent = true })
---   remap('n', 'gD', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', { noremap = true, silent = true })
---   remap('n', 'gr', '<cmd>lua require"telescope.builtin".lsp_references()<CR>', { noremap = true, silent = true })
---   remap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })
---   remap('n', 'gw', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', { noremap = true, silent = true })
---   remap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', { noremap = true, silent = true })
--- 	remap('n', 'go', '<cmd>lua vim.lsp.buf.code_action({source = {organizeImports = true}})<CR>', { noremap = true, silent = true })
--- 
---   -- I don't like input mode mappings that collide with words like "length"
---   --remap('i', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', { noremap = true, silent = true })
---   --remap('i', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', { noremap = true, silent = true })
--- 
--- 	-- Few language severs support these three
--- 	remap('n', '<leader>ff',  '<cmd>lua vim.lsp.buf.formatting()<CR>', { noremap = true, silent = true })
--- 	remap('n', '<leader>ai',  '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', { noremap = true, silent = true })
--- 	remap('n', '<leader>ao',  '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', { noremap = true, silent = true })
--- 
--- 	-- if diagnostic plugin is installed
--- 	remap('n', '<leader>ep', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
--- 	remap('n', '<leader>en', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
--- 	remap('n', '<leader>eo', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', { noremap = true, silent = true })
--- 
---   -- if client.resolved_capabilities.hover then
---   --   mega.bmap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
---   -- end
---   -- if client.resolved_capabilities.goto_definition then
---   --   mega.bmap("n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>")
---   --   mega.bmap("n", "<Leader>lgd", "<cmd>lua vim.lsp.buf.definition()<CR>")
---   -- end
---   -- if client.resolved_capabilities.find_references then
---   --   mega.bmap("n", "<Leader>lr", "<cmd>lua vim.lsp.buf.references()<CR>")
---   --   mega.bmap("n", "<Leader>lgr", "<cmd>lua vim.lsp.buf.references()<CR>")
---   -- -- mega.bmap("n", "<Leader>lgr", '<cmd>lua require("telescope.builtin").lsp_references()<CR>')
---   -- end
---   -- if client.resolved_capabilities.rename then
---   --   mega.bmap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
---   --   mega.bmap("n", "<Leader>ln", "<cmd>lua vim.lsp.buf.rename()<CR>")
---   -- end
--- 
--- 	-- command! LspRestart lua vim.lsp.stop_client(vim.lsp.get_active_clients()); vim.cmd('edit')
--- 	-- command! LspClearLineDiagnostics lua require('mode-diagnostic')()
--- 
---   -- show/hide diagnostics to be solved in https://github.com/neovim/neovim/issues/13324
--- end
+-- Allow toggling of showing diagnostics from the LSP.
+-- Taken from, https://github.com/neovim/neovim/issues/14825
+function _G.toggle_diagnostics()
+  if vim.g.diagnostics_visible then
+    vim.g.diagnostics_visible = false
+    vim.diagnostic.disable()
+  else
+    -- Note, there appears to be a race condition where if this gets toggled too quickly after loading a file then this
+    -- will trigger the error:  "E5108: ... diagnostic.lua:945: line value outside range"
+    vim.g.diagnostics_visible = true
+    vim.diagnostic.enable()
+  end
+end
+
+-- Control the appearance of the diagnostics.
+lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(
+  lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = {
+      source = "always",  -- Or "if_many"
+    },
+    signs = {
+      enable = true,
+      priority = 20
+    },
+    underline = true,
+    update_in_insert = false,
+  }
+)
+
+-- Do not show diagnostics by default.
+vim.g.diagnostics_visible = false
+vim.diagnostic.disable()
+
+local lsp_mappings = function(client)
+  -- TODO: clangd appears to be lying about its capabilities or this isn't working...
+  if client.resolved_capabilities.find_references then
+    print("Adding find_references capabilities.")
+    remap("n", "<leader>lr", "<cmd>lua vim.lsp.buf.references()<CR>")
+    remap("n", "<leader>lgr", "<cmd>lua vim.lsp.buf.references()<CR>")
+    remap('n', 'gr', '<cmd>lua require"telescope.builtin".lsp_references()<CR>', { noremap = true, silent = true })
+  end
+
+  -- if client.resolved_capabilities.hover then
+  --   mega.bmap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
+  -- end
+  -- if client.resolved_capabilities.goto_definition then
+  --   mega.bmap("n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>")
+  --   mega.bmap("n", "<Leader>lgd", "<cmd>lua vim.lsp.buf.definition()<CR>")
+  -- end
+  -- if client.resolved_capabilities.rename then
+  --   remap("n", "<Leader>gR", "<cmd>lua vim.lsp.buf.rename()<CR>")
+  -- end
+end
 
 local custom_on_attach = function(client)
-  --lsp_mappings(client)
+  lsp_mappings(client)
 
   if client.config.flags then
     client.config.flags.allow_incremental_sync = true
@@ -104,27 +111,15 @@ lsp.handlers['textDocument/hover'] = function(_, method, result)
   end)
 end
 
--- add smol icon before diagnostics
-lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-   virtual_text = {
-      prefix = "",
-      spacing = 0,
-   },
-   signs = true,
-   underline = true,
-   update_in_insert = false, -- update diagnostics insert mode
-})
-
 -- rounded borders
 lsp.handlers["textDocument/hover"] = lsp.with(lsp.handlers.hover, { border = "rounded" })
 lsp.handlers["textDocument/signatureHelp"] = lsp.with(lsp.handlers.signature_help, { border = "rounded" })
 
-
--- [Notes on clangd LSP]
+-- For C++ use the clangd LSP
 --
--- Set --log=verbose for debugging.
+-- Install clangd from LLVM source/releases.
 --
--- To find the location of the logs in neovim:
+-- To find the location of the clangd logs from neovim:
 --    :lua print(vim.lsp.get_log_path())
 --
 -- To turn on c++17 support create %LocalAppData%/clangd/config.yaml, ~/.config/clangd/config.yaml, or .clangd in the
@@ -135,7 +130,16 @@ lsp.handlers["textDocument/signatureHelp"] = lsp.with(lsp.handlers.signature_hel
 nvim_lsp.clangd.setup{
   coq.lsp_ensure_capabilities{
     handlers = lsp_status.extensions.clangd.setup(),
-    cmd={"clangd", "--background-index", "--enable-config", "--log=info"},
+    cmd = {
+      "clangd",
+      "--background-index",
+      "--enable-config",
+      "--log=info",  -- To help debugging, set "--log=verbose" can help.
+      -- TODO: Maybe try these
+      -- "--suggest-missing-includes",
+      -- "--clang-tidy",
+      -- "--header-insertion=iwyu",
+    },
     filetypes = { "c", "cpp", "objc", "objcpp", "cuh", "cu" },
     init_options = {
       clangdFileStatus = true,
@@ -170,16 +174,8 @@ nvim_lsp.clangd.setup{
   }
 }
 
-if not (present1 or present2) then
-   return
-end
-
--- Ugly, but if we have no HOME directory then guess...
-local home_dir = os.getenv("HOME")
-if home_dir == nil or home_dir == '' then
-  home_dir = "C:\\Users\\sriesland"
-end
-local sumneko_root = home_dir .. "\\Dev\\lua-language-server"
+-- For Lua LSP use the sumneko lua-language-server
+local sumneko_root = global.home .. "\\Dev\\lua-language-server"
 
 nvim_lsp.sumneko_lua.setup{
   coq.lsp_ensure_capabilities{
@@ -198,32 +194,53 @@ nvim_lsp.sumneko_lua.setup{
           enable = true,
           globals = {
             "vim", "describe", "it", "before_each", "after_each",
-            "awesome", "theme", "client"
+            "awesome", "theme", "client", "packer_plugins",
           },
+        },
+        workspace = {
+          library = vim.list_extend({[vim.fn.expand("$VIMRUNTIME/lua")] = true},{}),
         },
       }
     }
   }
 }
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.preselectSupport = true
-capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-   properties = {
-      "documentation",
-      "detail",
-      "additionalTextEdits",
-   },
+-- For CMake LSP use the cmake-language-server
+-- https://github.com/regen100/cmake-language-server
+-- pip install cmake-language-server
+nvim_lsp.cmake.setup{
+  coq.lsp_ensure_capabilities{
+    cmd = { "cmake-language-server" },
+    filetypes = { "cmake" },
+    init_options = {
+      buildDirectory = "build"
+    },
+    root_dir = nvim_lsp.util.root_pattern(".git", "compile_commands.json", "build"),
+    on_attach = custom_on_attach,
+    on_init = custom_on_init,
+  }
 }
 
--- nvim-lsp-installer
+-- TODO: Figure out how this is useful
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- capabilities.textDocument.completion.completionItem.preselectSupport = true
+-- capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+-- capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+-- capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+-- capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+-- capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
+-- capabilities.textDocument.completion.completionItem.resolveSupport = {
+--    properties = {
+--       "documentation",
+--       "detail",
+--       "additionalTextEdits",
+--    },
+-- }
+
+-- TODO: Perhaps try using this instead of nvim_lsp so-as to keep them up-to-date. See 
+-- https://github.com/williamboman/nvim-lsp-installer/wiki/Advanced-Configuration#overriding-the-default-lsp-server-options
 if has_lsp_installer then
   lsp_installer.on_server_ready(function(server)
     local opts = {}
@@ -231,11 +248,11 @@ if has_lsp_installer then
   end)
 end
 
--- replace the default lsp diagnostic symbols
-local function lspSymbol(name, icon)
-   vim.fn.sign_define("LspDiagnosticsSign" .. name, { text = icon, numhl = "LspDiagnosticsDefaul" .. name })
-end
-lspSymbol("Error", "")
-lspSymbol("Information", "")
-lspSymbol("Hint", "")
-lspSymbol("Warning", "")
+-- -- replace the default lsp diagnostic symbols
+-- local function lspSymbol(name, icon)
+--    vim.fn.sign_define("LspDiagnosticsSign" .. name, { text = icon, numhl = "LspDiagnosticsDefaul" .. name })
+-- end
+-- lspSymbol("Error", "")
+-- lspSymbol("Information", "")
+-- lspSymbol("Hint", "")
+-- lspSymbol("Warning", "")

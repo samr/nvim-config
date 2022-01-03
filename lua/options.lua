@@ -185,28 +185,31 @@ vim.g.author = "sriesland"
 vim.g.author_short = "sriesland"
 
 if global.is_windows then
-   -- Set python and node provider path to make startup faster
-   vim.g.python_host_prog = 'C:/Python27/python.exe'
-   vim.g.python3_host_prog = 'C:/Python38/python.exe'
+  -- Set python and node provider path to make startup faster
+  vim.g.python_host_prog = 'C:/Python27/python.exe'
+  vim.g.python3_host_prog = 'C:/Python38/python.exe'
 
-   -- Set the clipboard explicitly for windows so that clipboard.vim loads faster.
-   vim.g.clipboard = {
-      name = 'win32yank',
-      copy = {
-         ['+'] = {'win32yank.exe', '-i', '--crlf'},
-         ['*'] = {'win32yank.exe', '-i', '--crlf'}
-      },
-      paste = {
-         ['+'] = {'win32yank.exe', '-o', '--lf'},
-         ['*'] = {'win32yank.exe', '-o', '--lf'}
-      },
-      cache_enabled = 1
-    }
+  -- Set the clipboard explicitly for windows so that clipboard.vim loads faster.
+  vim.g.clipboard = {
+    name = 'win32yank',
+    copy = {
+       ['+'] = {'win32yank.exe', '-i', '--crlf'},
+       ['*'] = {'win32yank.exe', '-i', '--crlf'}
+    },
+    paste = {
+       ['+'] = {'win32yank.exe', '-o', '--lf'},
+       ['*'] = {'win32yank.exe', '-o', '--lf'}
+    },
+    cache_enabled = 1
+  }
 end
 
 --=====[ Plugin options ]====={{{1
 --
 -------[ Assorted plugins ]-----{{{2
+
+-- Auto start the coq nvim plugin, but quietly
+vim.g.coq_settings = { auto_start = 'shut-up' }
 
 -- disable git messenger default mappings
 vim.g.git_messenger_no_default_mappings = true

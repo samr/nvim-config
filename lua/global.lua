@@ -1,7 +1,15 @@
 local global   = {}
-local home     = os.getenv("HOME") or "C:/Users/sriesland"
 local os_name  = vim.loop.os_uname().sysname
 local path_sep = string.find(os_name, 'Windows') and '\\' or '/'
+local home     = os.getenv("HOME")
+
+if not home then
+  if string.find(os_name, 'Windows') then
+    home = "C:\\Users\\sriesland"
+  else
+    home = "~"
+  end
+end
 
 function global:load_variables()
   self.is_mac      = string.find(os_name, 'Darwin')
@@ -21,5 +29,18 @@ function global:load_variables()
 end
 
 global:load_variables()
+
+-- Allow ":lua put(foo)" instead of ":lua print(vim.inspect(foo))"
+-- Recommended in https://github.com/nanotee/nvim-lua-guide#the-vim-namespace
+function _G.put(...)
+  local objects = {}
+  for i = 1, select('#', ...) do
+    local v = select(i, ...)
+    table.insert(objects, vim.inspect(v))
+  end
+
+  print(table.concat(objects, '\n'))
+  return ...
+end
 
 return global

@@ -120,10 +120,10 @@ return packer.startup(function()
   use {
     'ms-jpq/coq_nvim',
     branch = 'coq',
-    -- TODO: Enable this and play with it...
-    --config = function()
-    --  require("plugins.coq").luasnip()
-    --end,
+    opt = false,
+    config = function()
+      require("plugins.coq").luasnip()
+    end,
   }
 
   use {  -- 9000+ Snippets
@@ -142,14 +142,14 @@ return packer.startup(function()
     opt = false,
     requires = {
       {
-         "nvim-lua/plenary.nvim",
-         'nvim-lua/popup.nvim',
-         "nvim-telescope/telescope-fzf-native.nvim",
+        "nvim-lua/plenary.nvim",
+        'nvim-lua/popup.nvim',
+        "nvim-telescope/telescope-fzf-native.nvim",
       },
     },
     config = function()
       require "plugins.telescope"
-     end,
+    end,
   }
 
   --=====[ File and Buffer Navigation ]====={{{1

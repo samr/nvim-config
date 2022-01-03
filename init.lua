@@ -205,6 +205,7 @@ local load_core = function()
   local core_modules = {
     "appearances",
     "options",
+    "commands",
     "mappings",
     "event",
     "packer_compiled",

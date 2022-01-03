@@ -236,6 +236,8 @@ remap('n', ';P', ':cpfile<CR>', { noremap = true, silent = true })
 
 -- ===[ LSP Mappings ]=== {{{1
 --
+-- These are mostly determined here but some are optionally added depending on the LSP's capabilities in
+-- lua\plugins\lspconfig.lua.
 remap('n', 'gK', '<cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
 remap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
 remap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', { noremap = true, silent = true })
@@ -245,6 +247,7 @@ remap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>', { noremap = true, silent =
 remap('n', 'gw', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', { noremap = true, silent = true })
 remap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', { noremap = true, silent = true })
 remap('n', 'go', '<cmd>lua vim.lsp.buf.code_action({source = {organizeImports = true}})<CR>', { noremap = true, silent = true })
+remap('n', 'gt', ':call v:lua.toggle_diagnostics()<CR>', {silent=true, noremap=true})
 
 -- I don't like input mode mappings that collide with words like "length"
 --remap('i', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', { noremap = true, silent = true })

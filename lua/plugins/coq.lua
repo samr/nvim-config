@@ -3,7 +3,10 @@
 -- <bs> -> backspace always, even when completion menu is open
 -- <c-w> -> delete word before the cursor, even when completion menu is open
 -- <c-u> -> delete all entered characters before the cursor, even when completion menu is open
--- <cr> -> used to select completion if completion menu is open
+-- <c-k> -> move from floating window to fixed window
+-- <c-h> -> jump to mark
+-- <c-c> -> resume editing as normal
+-- <cr> -> select completion if completion menu is open
 -- <tab> -> if completion menu is open: select next item
 -- <s-tab> -> if completion menu is open: select prev item
 --
@@ -30,21 +33,19 @@
 --  { src = "demo" },
 --}
 --
-local present, coq = pcall(require, "coq_3p")
+local present, coq = pcall(require, "coq")
 if not present then
-   return
+  print("Coq not present.")
+  return
 end
 
 vim.g.coq_settings = {
-  --["clients.snippets.user_path"] = "",
-  --coq_settings.display.pum.y_max_len
-  --coq_settings.display.pum.y_ratio
-  -- On Linux use XDG
-  -- ["xdg"] = true
   keymap = {
-    recommended=false,
-    jump_to_mark='<C-g>', -- <c-h> conflicts with my binding for :TmuxNavigateLeft
-    -- eval_snips = '<leader>j' -- unbound by default
+    -- recommended = false,
+    -- jump_to_mark = '<C-g>', -- <c-h> conflicts with my binding for :TmuxNavigateLeft
+
+    -- evaluate current visual selection or buffer as a user defined snippet (unbound by default)
+    eval_snips = '<leader>j',
   },
   auto_start = 'shut-up',
   display {
@@ -52,6 +53,8 @@ vim.g.coq_settings = {
       mode = 'none',  -- disable icons
     },
     pum {
+      --y_max_len,
+      --y_ratio,
       fast_close = false
     },
   },
@@ -77,6 +80,8 @@ vim.g.coq_settings = {
       weight_adjust = 1.9
       --user_path = ""
     },
+  -- On Linux use XDG
+  -- ["xdg"] = true
   }
 }
 
