@@ -38,6 +38,17 @@ return packer.startup(function()
   --
   use {'kyazdani42/nvim-web-devicons'}
 
+  -- TODO: Explore using this
+  -- use({
+  --   "narutoxy/themer.lua",
+  --   branch = "dev", -- I recommend dev branch because it has more plugin support currently
+  --   module = "themer", -- load it as fast as possible
+  --   config = function()
+  --     -- vim.cmd("colorscheme dark_cpt") -- you can also do this
+  --     require("themer").load("dark_cpt")
+  --   end,
+  -- })
+
   --=====[ Treesitter ]====={{{1
   --
   use {
@@ -95,9 +106,28 @@ return packer.startup(function()
     "ray-x/lsp_signature.nvim",
     after = "nvim-lspconfig",
     config = function()
-      require("plugins.others").signature()
+      require("plugins.others").lsp_signature()
     end,
   }
+
+  -- TODO: Try these... possibly instead of lsp_signature
+  --
+  -- use {
+  --   'glepnir/lspsaga.nvim',
+  --   requires = "nvim-lspconfig",
+  --   config = function()
+  --     require("plugins.others").lspsaga()
+  --   end,
+  -- }
+  --
+  -- use {
+  --   "folke/trouble.nvim",
+  --   requires = "kyazdani42/nvim-web-devicons",
+  --   after = { "nvim-lspconfig", "telescope", },
+  --   config = function()
+  --     require("plugins.others").trouble()
+  --   end,
+  -- }
 
   --=====[ Snippets ]====={{{1
   --
@@ -198,13 +228,14 @@ return packer.startup(function()
   use {'jlanzarotta/bufexplorer', cmd = "BufExplorer" }
   use {'lambdalisue/fern.vim'}
   use {'hrsh7th/fern-mapping-collapse-or-leave.vim'}
-  use {
+
+  use { -- super fast file tree viewer (note: currently does not work on Windows)
     'kyazdani42/nvim-tree.lua',
     opt = true,
     requires = {
       {'kyazdani42/nvim-web-devicons', opt = true}
     },
-  } -- super fast file tree viewer (note: currently does not work on Windows)
+  }
 
   use {
     "phaazon/hop.nvim",

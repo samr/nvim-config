@@ -49,8 +49,16 @@ lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(
     },
     underline = true,
     update_in_insert = false,
+    -- float = { border = "single" },
   }
 )
+
+-- Show line diagnostics automatically in hover window.
+-- Set updatetime which affects CursorHold
+-- vim.o.updatetime = 250
+-- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+-- or...
+-- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})]]
 
 -- Do not show diagnostics by default.
 vim.g.diagnostics_visible = false
