@@ -1,12 +1,16 @@
 " Use a ! to supress fixed width metric warning from Qt.
-" Some decent fonts are available from fonts.google.com
-" Also, from https://www.jetbrains.com/lp/mono/
+" Nerd Fonts can be found at https://github.com/ryanoasis/nerd-fonts/
+
+" Old fonts that were not so bad
 "Guifont! Roboto Mono Medium:h7
 "Guifont! JetBrains Mono:h8:b
-Guifont! Roboto Mono Medium for Powerlin:h7
+"Guifont! Roboto Mono Medium for Powerlin:h7
 
 " When no fonts are downloaded, this is ok on a laptop screen but not a monitor.
-"Guifont! Consolas:h7
+"Guifont! Consolas:h8
+
+" This is the Medium version (~ same as Powerline). Some icons still cause alignment issues.
+Guifont! RobotoMono NF:h7
 
 "" Set a thin cursor for both insert and visual mode
 "" This does not seem to work with nvim-qt
@@ -39,6 +43,5 @@ vmap <LeftRelease> "*ygv
 imap <S-Insert> <C-R>*
 
 set selection=inclusive " make the cursor select what is under it
-
 set showtabline=1  " Show tabs only when there is more than one tab
 set guioptions-=e  " Don't use GUI tabline

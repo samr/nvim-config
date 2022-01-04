@@ -38,6 +38,22 @@ return packer.startup(function()
   --
   use {'kyazdani42/nvim-web-devicons'}
 
+  use {
+    'feline-nvim/feline.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function()
+      require("plugins.others").feline()
+    end,
+  }
+
+  -- use {
+  --   'nvim-lualine/lualine.nvim',
+  --   requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+  --   config = function()
+  --     require("plugins.others").lualine()
+  --   end,
+  -- }
+
   -- TODO: Explore using this
   -- use({
   --   "narutoxy/themer.lua",
@@ -48,6 +64,7 @@ return packer.startup(function()
   --     require("themer").load("dark_cpt")
   --   end,
   -- })
+  --
 
   --=====[ Treesitter ]====={{{1
   --
@@ -74,7 +91,7 @@ return packer.startup(function()
     "lukas-reineke/indent-blankline.nvim",
     config = function()
       require("plugins.others").blankline()
-     end,
+    end,
   }
 
   use { "lewis6991/gitsigns.nvim", }
@@ -278,7 +295,7 @@ return packer.startup(function()
     'machakann/vim-sandwich',
     config = function()
       require "plugins.vim_sandwich"
-     end,
+    end,
   }
 
   use { -- auto format stuff easier, e.g. clang-format
@@ -351,7 +368,6 @@ return packer.startup(function()
   -- use {'stevearc/aerial.nvim'} -- Symbol tree. Better than symbols-outline.nvim because it allows filtering by symbol type.
   -- use {'kevinhwang91/nvim-bqf'} -- better quick fix
   -- use {'tjdevries/colorbuddy.nvim', opt = false} -- inheritance based colorschemes
-  -- use {'nvim-lua/completion-nvim', opt = false} -- better completion using lsp
   -- use {'RishabhRD/nvim-lsputils', opt = false} -- lsp popups and ease of use
   -- use { 'tpope/vim-rhubarb' } -- git related
   -- use { 'pwntester/octo.nvim', requires = { 'kyazdani42/nvim-web-devicons' } } -- Who needs web interfaces when you have neovim interfaces (for Github)?
@@ -379,4 +395,5 @@ return packer.startup(function()
   --
   --=====[ Disabled (indefinitely) ]====={{{1
   --
+  -- use {'nvim-lua/completion-nvim', opt = false} -- no longer maintained.
 end)

@@ -95,6 +95,8 @@ M.lspsaga = function ()
     return
   end
   saga.init_lsp_saga {
+    -- code_action_icon = '💡'
+
     -- Default values:
     -- use_saga_diagnostic_sign = true
     -- error_sign = '',
@@ -142,6 +144,55 @@ M.trouble = function ()
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
   }
+end
+
+M.lualine = function()
+  local present, lualine = pcall(require, "lualine")
+  if not present then
+    return
+  end
+  print("loading lualine")
+  -- Note, one can get the current config with: require('lualine').get_config()
+  lualine.setup {
+    options = {
+      icons_enabled = true,
+      -- https://github.com/nvim-lualine/lualine.nvim/blob/master/THEMES.md
+      theme = 'auto',
+      component_separators = { left = '', right = ''},
+      section_separators = { left = '', right = ''},
+      disabled_filetypes = {},
+      always_divide_middle = true,
+    },
+    sections = {
+      lualine_a = {'mode'},
+      lualine_b = {'branch', 'diff', 'diagnostics'},
+      lualine_c = {'filename'},
+      lualine_x = {'encoding', 'fileformat', 'filetype'},
+      lualine_y = {'progress'},
+      lualine_z = {'location'}
+    },
+    inactive_sections = {
+      lualine_a = {},
+      lualine_b = {},
+      lualine_c = {'filename'},
+      lualine_x = {'location'},
+      lualine_y = {},
+      lualine_z = {}
+    },
+    tabline = {},
+    extensions = {}
+  }
+end
+
+M.feline = function()
+  local present, feline = pcall(require, "feline")
+  if not present then
+    return
+  end
+  print("loading feline")
+  feline.setup({
+      -- preset = 'noicon'
+  })
 end
 
 return M
