@@ -150,8 +150,9 @@ nvim_lsp.clangd.setup{
   cmd = {
     "clangd",
     "--background-index",
-    "--enable-config",
+    "--enable-config",  -- Respect config.yaml and .clangd files.
     "--log=info",  -- To help debugging, set "--log=verbose" can help.
+    --
     -- TODO: Maybe try these
     -- "--suggest-missing-includes",
     -- "--clang-tidy",

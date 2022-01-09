@@ -38,13 +38,21 @@ return packer.startup(function()
   --
   use {'kyazdani42/nvim-web-devicons'}
 
-  use {
-    'feline-nvim/feline.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-    config = function()
-      require("plugins.others").feline()
-    end,
-  }
+  -- TODO: Good but need to solve the colorscheme issues.
+  -- use {
+  --   'windwp/windline.nvim',
+  --    config = function()
+  --      require("plugins.others").windline()
+  --    end,
+  -- }
+
+  -- use {
+  --   'feline-nvim/feline.nvim',
+  --   requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+  --   config = function()
+  --     require("plugins.others").feline()
+  --   end,
+  -- }
 
   -- use {
   --   'nvim-lualine/lualine.nvim',
@@ -220,7 +228,7 @@ return packer.startup(function()
 
   --=====[ Telescope ]====={{{1
   --
-  use {'nvim-lua/"plenary.nvim'}
+  use {'nvim-lua/plenary.nvim'}
   use {'nvim-lua/popup.nvim'}
   use {'nvim-telescope/telescope-fzf-native.nvim', branch = 'main', run = 'make'}
   use {
@@ -230,7 +238,7 @@ return packer.startup(function()
     requires = {
       {
         "nvim-lua/plenary.nvim",
-        'nvim-lua/popup.nvim',
+        "nvim-lua/popup.nvim",
         "nvim-telescope/telescope-fzf-native.nvim",
       },
     },
@@ -290,6 +298,7 @@ return packer.startup(function()
   --=====[ Text Modification and Formatting ]====={{{1
   --
   use {'kana/vim-textobj-user'} -- define custom text objects
+  use {'Julian/vim-textobj-variable-segment'} -- iv and av text objects for variable name manipulation
 
   use { -- surround selections with symbols, such as quotes and parens
     'machakann/vim-sandwich',

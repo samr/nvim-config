@@ -126,8 +126,12 @@
 --
 -- }}}
 
--- Let impatient cache things
-local impatient = require('impatient')
+-- Let impatient cache things, if it is available
+local has_impatient, impatient = pcall(require, "impatient")
+if not has_impatient then
+  print('Unable to load plugin "impatient" -- probably because you need to run :PackerSync or similar.')
+end
+
 local global = require('global')
 local vim = vim
 
@@ -188,7 +192,12 @@ local disable_default_neovim_plugins = function()
   for _, plugin in pairs(disabled_built_ins) do
     vim.g["loaded_" .. plugin] = 1
   end
-  vim.g.did_load_filetypes = 1
+  -- Opt in to new native filtetype.lua support.
+  -- To go back to old support, set:
+  --   vim.g.do_filetype_lua = 0
+  --   vim.g.did_load_filetypes = 1
+  vim.g.do_filetype_lua = 1
+  vim.g.did_load_filetypes = 0
 end
 
 -- Set the map leaders for future key maps. {{{1

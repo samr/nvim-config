@@ -19,10 +19,6 @@ function autocmd.load_autocmds()
     --   {"BufWritePost","*.lua","lua require('core.pack').auto_compile()"};
     -- },
     bufs = {
-      -- Reload vim config automatically
-      {"BufWritePost",[[$VIM_PATH/{*.vim,*.yaml,vimrc} nested source $MYVIMRC | redraw]]};
-      -- Reload Vim script automatically if setlocal autoread
-      {"BufWritePost,FileWritePost","*.vim", [[nested if &l:autoread > 0 | source <afile> | echo 'source ' . bufname('%') | endif]]};
       {"BufWritePre","/tmp/*","setlocal noundofile"};
       {"BufWritePre","COMMIT_EDITMSG","setlocal noundofile"};
       {"BufWritePre","MERGE_MSG","setlocal noundofile"};
@@ -33,15 +29,19 @@ function autocmd.load_autocmds()
     };
 
     wins = {
-      -- Highlight current line only on focused window
-      {"WinEnter,BufEnter,InsertLeave", "*", [[if ! &cursorline && &filetype !~# '^\(dashboard\|clap_\)' && ! &pvw | setlocal cursorline | endif]]};
-      {"WinLeave,BufLeave,InsertEnter", "*", [[if &cursorline && &filetype !~# '^\(dashboard\|clap_\)' && ! &pvw | setlocal nocursorline | endif]]};
-      -- Equalize window dimensions when resizing vim window
-      {"VimResized", "*", [[tabdo wincmd =]]};
       -- Force write shada on leaving nvim
       {"VimLeave", "*", [[if has('nvim') | wshada! | else | wviminfo! | endif]]};
       -- Check if file changed when its window is focus, more eager than 'autoread'
       {"FocusGained", "* checktime"};
+      --
+      -- Disable these as they do not seem to work currently:
+      --
+      -- Highlight current line only on focused window
+      -- {"WinEnter,BufEnter,InsertLeave", "*", "[[if ! &cursorline && &filetype !~# '^\(dashboard\|clap_\)' && ! &pvw | setlocal cursorline | endif]]"};
+      -- {"WinLeave,BufLeave,InsertEnter", "*", "[[if &cursorline && &filetype !~# '^\(dashboard\|clap_\)' && ! &pvw | setlocal nocursorline | endif]]"};
+      --
+      -- Equalize window dimensions when resizing vim window
+      -- {"VimResized", "*", "[[tabdo wincmd =]]"};
     };
 
     ft = {
@@ -63,11 +63,3 @@ function autocmd.load_autocmds()
 end
 
 autocmd.load_autocmds()
-
--- since we lazy load packer.nvim, we need to load it when we run packer-related commands
-vim.cmd "silent! command PackerCompile lua require 'packer_plugins' require('packer').compile()"
-vim.cmd "silent! command PackerInstall lua require 'packer_plugins' require('packer').install()"
-vim.cmd "silent! command PackerStatus lua require 'packer_plugins' require('packer').status()"
-vim.cmd "silent! command PackerSync lua require 'packer_plugins' require('packer').sync()"
-vim.cmd "silent! command PackerUpdate lua require 'packer_plugins' require('packer').update()"
-vim.cmd "silent! command PackerClean lua require 'packer_plugins' require('packer').clean()"
