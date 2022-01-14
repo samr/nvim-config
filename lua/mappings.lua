@@ -266,33 +266,31 @@ remap('n', '<leader>eo', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', { nore
 
 -- ===[ Platform Specific Mappings ]=== {{{1
 
--- local OS_NAME = vim.loop.os_uname()['sysname']
-
+ -- =[ Windows ]= --
 if vim.fn.has 'win32'  == 1 then
- -- Windows
 
  -- remap('n', '<A-/>', ':set hlsearch! hlsearch?<CR>', {noremap = true, silent = true}) -- toggle search highlighting
- remap('n', '<A-/>', ':nohl<CR>', {noremap = true, silent = true}) -- toggle search highlighting
+ remap('n', '<A-/>', ':nohl<CR>', {noremap = true, silent = true}) -- toggle search highlighting (usually off)
 
  remap('n', '<F11>', '<CMD>Guifont! Roboto Mono Medium for Powerlin:h8<CR>', {noremap = true})
  remap('n', '<F10>', '<CMD>Guifont! JetBrains Mono:h8:b<CR>', {noremap = true})
  remap('n', '<F9>', '<CMD>Guifont! Roboto Mono Medium for Powerlin:h7<CR>', {noremap = true})
 
- -- Toggle nerdtree
- --remap('n', '<F3>', '<CMD>NERDTreeToggle<CR>', { noremap = true })
+ -- Toggle filesystem viewer
+ remap('n', '<F2>', '<CMD>NeoTreeRevealToggle<CR>', { noremap = true })
  remap('n', '<F3>', '<CMD>Fern . -reveal=%<CR>', { noremap = true })
 
+ -- =[ MacOS ]= --
 elseif vim.fn.has 'mac'  == 1 then
- -- MacOS
 
- -- Toggle luatree
- remap('n', '<F3>', '<CMD>NvimTreeToggle<CR>', { noremap = true })
+ -- Toggle filesystem viewer
+ remap('n', '<F3>', '<CMD>NeoTreeRevealToggle<CR>', { noremap = true })
 
+ -- =[ Linux (or other) ]= --
 else
- -- Linux (or other)
 
- -- Toggle luatree
- remap('n', '<F3>', '<CMD>NvimTreeToggle<CR>', { noremap = true })
+ -- Toggle filesystem viewer
+ remap('n', '<F3>', '<CMD>NeoTreeRevealToggle<CR>', { noremap = true })
 
  -- Preview things in their native app
  -- vim.cmd('command! -nargs=0 PreviewFile lua require"modules.util".xdg_open()') -- alternative way

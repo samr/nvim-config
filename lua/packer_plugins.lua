@@ -250,17 +250,31 @@ return packer.startup(function()
   --=====[ File and Buffer Navigation ]====={{{1
   --
   use {'tpope/vim-projectionist', opt = false} -- allow for project files
-  use {'jlanzarotta/bufexplorer', cmd = "BufExplorer" }
+  use {'jlanzarotta/bufexplorer', cmd = "BufExplorer"}
+  use {'famiu/bufdelete.nvim', cmd = "Bdelete"}
+
   use {'lambdalisue/fern.vim'}
   use {'hrsh7th/fern-mapping-collapse-or-leave.vim'}
 
-  use { -- super fast file tree viewer (note: currently does not work on Windows)
-    'kyazdani42/nvim-tree.lua',
-    opt = true,
-    requires = {
-      {'kyazdani42/nvim-web-devicons', opt = true}
+  use {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v1.x",
+    requires = { 
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "kyazdani42/nvim-web-devicons",
     },
+    cmd = "NeoTreeReveal", -- lazy load when F2 is pressed
+    config = function ()
+      require("plugins.others").neo_tree()
+    end,
   }
+
+  -- consider using lir instead of neo-tree and fern.
+  -- use {'tamago324/lir.nvim'}
+  -- use {'tamago324/lir-git-status.nvim'}
+  -- use {'tamago324/lir-bookmark.nvim'}
+  -- use {'tamago324/lir-mmv.nvim'}
 
   use {
     "phaazon/hop.nvim",
