@@ -135,6 +135,9 @@ return packer.startup(function()
     end,
   }
 
+  -- Maybe try this as well for finding references and definitions, though it looks frenetic
+  -- use {'ray-x/navigator.lua', requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make'}}
+
   -- TODO: Try these... possibly instead of lsp_signature
   --
   -- use {
@@ -153,6 +156,25 @@ return packer.startup(function()
   --     require("plugins.others").trouble()
   --   end,
   -- }
+
+  -- TODO: Try this to browse call and symbol trees
+  --
+  -- use {
+  --   'ldelossa/litee.nvim',
+  --   config = function()
+  --     require('litee.lib').setup({
+  --         tree = {
+  --             icon_set = "codicons"
+  --         },
+  --         panel = {
+  --             orientation = "left",
+  --             panel_size  = 30
+  --         }
+  --     })
+  --   end,
+  -- }
+  -- use {'ldelossa/litee-calltree.nvim'} -- more set up required
+  -- use {'ldelossa/litee-symboltree.nvim'} -- more set up required
 
   --=====[ Snippets ]====={{{1
   --
@@ -235,17 +257,20 @@ return packer.startup(function()
     "nvim-telescope/telescope.nvim",
     cmd = "Telescope",
     opt = false,
-    requires = {
-      {
-        "nvim-lua/plenary.nvim",
-        "nvim-lua/popup.nvim",
-        "nvim-telescope/telescope-fzf-native.nvim",
-      },
-    },
     config = function()
       require "plugins.telescope"
     end,
   }
+
+  -- TODO: Maybe add this, it requires wrapping all key mappings and not sure it plays well with which key.
+  --
+  -- use {  -- fuzzy find key mappings
+  --   "lazytanuki/nvim-mapper",
+  --   before = "telescope.nvim"
+  --   config = function()
+  --     require("plugins.others").nvim_mapper()
+  --   end,
+  -- }
 
   --=====[ File and Buffer Navigation ]====={{{1
   --
@@ -265,7 +290,7 @@ return packer.startup(function()
       "kyazdani42/nvim-web-devicons",
     },
     cmd = "NeoTreeReveal", -- lazy load when F2 is pressed
-    config = function ()
+    config = function()
       require("plugins.others").neo_tree()
     end,
   }
@@ -276,6 +301,7 @@ return packer.startup(function()
   -- use {'tamago324/lir-bookmark.nvim'}
   -- use {'tamago324/lir-mmv.nvim'}
 
+  use {'ggandor/lightspeed.nvim'}
   use {
     "phaazon/hop.nvim",
     cmd = {
