@@ -3,6 +3,8 @@ if not present then
    return
 end
 
+print("loaded neogit config")
+
 neogit.setup{
   disable_signs = false,
   disable_hint = false,
@@ -14,7 +16,7 @@ neogit.setup{
   commit_popup = {
     kind = "split",
   },
-  kind = "tab", -- Change the default way of opening neogit
+  kind = "split", -- Change the default way of opening neogit
   signs = { -- Customize displayed signs
     section = { ">", "v" }, -- { closed, opened }
     item = { ">", "v" },
@@ -54,7 +56,7 @@ neogit.setup{
       -- Adds a mapping with "B" as key that does the "BranchPopup" command
       ["B"] = "BranchPopup",
       -- Removes the default mapping of "s"
-      ["s"] = "",
+      -- ["s"] = "",
     }
   }
 }

@@ -320,11 +320,6 @@ return packer.startup(function()
   --=====[ Git and Diff ]====={{{1
   --
   use {
-    "sindrets/diffview.nvim",
-    -- after = "neogit",
-  }
-
-  use {
     "TimUntersberger/neogit",
     cmd = {
       "Neogit",
@@ -333,6 +328,11 @@ return packer.startup(function()
     config = function()
       require "plugins.neogit"
     end,
+  }
+
+  use {
+    "sindrets/diffview.nvim",
+    after = "neogit",
   }
 
   --=====[ Text Modification and Formatting ]====={{{1
