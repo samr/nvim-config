@@ -321,7 +321,7 @@ return packer.startup(function()
   --
   use {
     "sindrets/diffview.nvim",
-    after = "neogit",
+    -- after = "neogit",
   }
 
   use {
@@ -337,6 +337,7 @@ return packer.startup(function()
 
   --=====[ Text Modification and Formatting ]====={{{1
   --
+  use {"gennaro-tedesco/nvim-peekup"} -- vim registers made easy, type ""
   use {'kana/vim-textobj-user'} -- define custom text objects
   use {'Julian/vim-textobj-variable-segment'} -- iv and av text objects for variable name manipulation
 
@@ -375,6 +376,18 @@ return packer.startup(function()
   --   after = {"mfussenegger/nvim-dap"}
   -- }
   -- use {'theHamsta/nvim-dap-virtual-text'}
+  -- use {'jbyuki/one-small-step-for-vimkind'}
+
+  -- use {  -- use https://godbolt.org by way of curl
+  --   'p00f/godbolt.nvim',
+  --   cmd = {
+  --     "Godbolt",
+  --     "GodboltCompiler",
+  --   },
+  --   config = function()
+  --      require("godbolt").setup({})
+  --   end,
+  -- }
 
   --=====[ Other Plugins ]====={{{1
   --
