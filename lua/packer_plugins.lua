@@ -301,7 +301,6 @@ return packer.startup(function()
   -- use {'tamago324/lir-bookmark.nvim'}
   -- use {'tamago324/lir-mmv.nvim'}
 
-  use {'ggandor/lightspeed.nvim'}
   use {
     "phaazon/hop.nvim",
     cmd = {
@@ -316,6 +315,8 @@ return packer.startup(function()
       require("hop").setup()
     end,
   }
+
+  -- use {'ggandor/lightspeed.nvim'} -- Disabled because being mapped to s/S drives me crazy
 
   --=====[ Git and Diff ]====={{{1
   --

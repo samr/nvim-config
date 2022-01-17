@@ -73,23 +73,42 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
+    -- Smarter tab completion:
+    --   1. When the preceding character is whitespace or at the beginning of the line, then do nothing
+    --      but normal tab behvior.
+    --   2. If the tab completion drop down is open, go to the next/prev entry.
+    --   3. If there is a snippet marker to jump to, then do that.
+    --   4. Open the tab completion drop down with potential options.
     ["<Tab>"] = function(fallback)
-      if cmp.visible() then
+      local win = vim.api.nvim_get_current_win()
+      local col = vim.api.nvim_win_get_cursor(win)[2]
+      local line = vim.api.nvim_get_current_line()
+      local char = (col == nil or line == nil or line == '') and " " or string.sub(line, col, col)
+      if char and string.find(char, '%s') ~= nil then
+        fallback()
+      elseif cmp.visible() then
         cmp.select_next_item()
       elseif require("luasnip").expand_or_jumpable() then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
       else
         cmp.complete()
-        --local copilot_keys = vim.fn["copilot#Accept"]()
-        --if copilot_keys ~= "" then
-        --  vim.api.nvim_feedkeys(copilot_keys, "i", true)
-        --else
-        --  fallback()
-        --end
+        -- TODO: Experiment with copilot at some point
+        -- local copilot_keys = vim.fn["copilot#Accept"]()
+        -- if copilot_keys ~= "" then
+        --   vim.api.nvim_feedkeys(copilot_keys, "i", true)
+        -- else
+        --   cmp.complete()
+        -- end
       end
     end,
-    ["<S-Tab>"] = function(fallback)
-      if cmp.visible() then
+    ["<S-Tab>"] = function(fallback) -- Similar to smart tab completion above, but looking backward.
+      local win = vim.api.nvim_get_current_win()
+      local col = vim.api.nvim_win_get_cursor(win)[2]
+      local line = vim.api.nvim_get_current_line()
+      local char = (col == nil or line == nil or line == '') and " " or string.sub(line, col, col)
+      if char and string.find(char, '%s') ~= nil then
+        fallback()
+      elseif cmp.visible() then
         cmp.select_prev_item()
       elseif require("luasnip").jumpable(-1) then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
@@ -101,8 +120,8 @@ cmp.setup {
   sources = {
     { name = "nvim_lsp" },
     { name = "luasnip" },
-    -- { name = "rg" },
+    { name = "treesitter" },
+    -- { name = "rg" },  -- this can be slow
     -- { name = "nvim_lua" },
-    -- { name = "treesitter" },
   },
 }
