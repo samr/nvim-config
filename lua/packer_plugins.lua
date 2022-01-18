@@ -253,12 +253,22 @@ return packer.startup(function()
   use {'nvim-lua/plenary.nvim'}
   use {'nvim-lua/popup.nvim'}
   use {'nvim-telescope/telescope-fzf-native.nvim', branch = 'main', run = 'make'}
+
   use {
     "nvim-telescope/telescope.nvim",
     cmd = "Telescope",
     opt = false,
     config = function()
       require "plugins.telescope"
+    end,
+  }
+  use { -- allow searching all previous copy/pastes with :Telescope neoclip
+    "AckslD/nvim-neoclip.lua",
+    requires = { 
+      {'nvim-telescope/telescope.nvim'},
+    },
+    config = function()
+      require("plugins.others").neoclip()
     end,
   }
 
@@ -376,7 +386,7 @@ return packer.startup(function()
   use {'jeetsukumaran/quickfix-rex.nvim'} -- :Qfrex to load quickfix from grep
 
   use { -- Makes quickfix and location list window editable (not a lua plugin)
-    'stefandtw/quickfix-reflector.vim'
+    'stefandtw/quickfix-reflector.vim',
     config = function()
       vim.g.qf_modifiable = 0  -- Require manually making the window editable.
     end,
