@@ -81,19 +81,19 @@ return packer.startup(function()
     requires = {
       {'nvim-treesitter/nvim-treesitter-textobjects'}, -- language aware text objects
     },
-    --run = ':TSUpdate'
+    -- run = ':TSUpdate', -- auto-update disabled due to file locking issues on windows
     config = function()
        require "plugins.treesitter"
     end,
   }
 
+  use {'nvim-treesitter/nvim-treesitter-textobjects'} -- Text objects based on syntax trees!!
+  use {'nvim-treesitter/nvim-treesitter-refactor'} -- Highlight definition of current symbol, current scope
+
   use {
     "nvim-treesitter/playground",
     cmd = "TSPlayground",
   }
-
-  use {'nvim-treesitter/nvim-treesitter-textobjects'} -- Text objects based on syntax trees!!
-  use {'nvim-treesitter/nvim-treesitter-refactor'} -- Highlight definition of current symbol, current scope
 
   use {
     "lukas-reineke/indent-blankline.nvim",
@@ -379,8 +379,6 @@ return packer.startup(function()
     end,
   }
 
-  -- use { 'RRethy/nvim-treesitter-textsubjects', } -- does not support C++ (though probably not too difficult to add)
-
   --=====[ Quickfix and Location List ]====={{{1
   --
   use {'jeetsukumaran/quickfix-rex.nvim'} -- :Qfrex to load quickfix from grep
@@ -466,6 +464,7 @@ return packer.startup(function()
   -- use {'chriskempson/base16-vim'}
   -- use {"lukas-reineke/indent-blankline.nvim", ft = { 'html', 'htmldjango', 'python' }}
   -- use {'sedm0784/vim-resize-mode'} -- After doing <C-w>,  be able to type consecutive +,-,<,>
+  -- use { 'RRethy/nvim-treesitter-textsubjects', }  -- wish this worked, unfortunately it does not seem to.
   --
   -- Git fun...
   -- use {'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Look at lines added/modified/taken away, all at a glance.
