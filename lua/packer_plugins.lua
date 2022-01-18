@@ -301,7 +301,9 @@ return packer.startup(function()
   -- use {'tamago324/lir-bookmark.nvim'}
   -- use {'tamago324/lir-mmv.nvim'}
 
-  use {
+  use {'ggandor/lightspeed.nvim'} -- The s/S mapping drives me crazy, but it's worth it.
+
+  use { -- I don't use this as much as lightpseed but it's still fun.
     "phaazon/hop.nvim",
     cmd = {
       "HopWord",
@@ -315,8 +317,6 @@ return packer.startup(function()
       require("hop").setup()
     end,
   }
-
-  -- use {'ggandor/lightspeed.nvim'} -- Disabled because being mapped to s/S drives me crazy
 
   --=====[ Git and Diff ]====={{{1
   --
@@ -366,6 +366,19 @@ return packer.startup(function()
     after = "friendly-snippets",
     config = function()
        require("plugins.others").comment()
+    end,
+  }
+
+  -- use { 'RRethy/nvim-treesitter-textsubjects', } -- does not support C++ (though probably not too difficult to add)
+
+  --=====[ Quickfix and Location List ]====={{{1
+  --
+  use {'jeetsukumaran/quickfix-rex.nvim'} -- :Qfrex to load quickfix from grep
+
+  use { -- Makes quickfix and location list window editable (not a lua plugin)
+    'stefandtw/quickfix-reflector.vim'
+    config = function()
+      vim.g.qf_modifiable = 0  -- Require manually making the window editable.
     end,
   }
 
