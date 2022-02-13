@@ -8,20 +8,26 @@
 --   zR open all folds
 --   zM close all folds
 --
-local present, packer = pcall(require, "packer_init")
-
-if present then
-  packer = require "packer"
-else
+local present, packer_init = pcall(require, "packer_init")
+if not present then
+  print("Could not load packer_init")
   return false
 end
 
-local use = packer.use
-return packer.startup(function()
+local packer_present, packer = pcall(require, "packer")
+if not packer_present then
+  print("Could not load packer")
+  return false
+end
+
+--local use = packer.use
+
+return packer.startup(function(use)
   --=====[ Packer ]====={{{1
   use {
     "wbthomason/packer.nvim",
     event = "VimEnter", -- manages itself
+    commit = "c5e98e3ca84843dbae47cd8f3a76bc38c6404241",  -- TODO: Remove this when it is fixed for Windows.
   }
 
   --=====[ Startup ]====={{{1
@@ -87,8 +93,11 @@ return packer.startup(function()
     end,
   }
 
-  use {'nvim-treesitter/nvim-treesitter-textobjects'} -- Text objects based on syntax trees!!
+  -- Text objects based on syntax trees (e.g. ]] goes to next parameter of a function, and vif selects the function)
+  use {'nvim-treesitter/nvim-treesitter-textobjects'}
   use {'nvim-treesitter/nvim-treesitter-refactor'} -- Highlight definition of current symbol, current scope
+  use {'David-Kunz/treesitter-unit'}
+  use {'mfussenegger/nvim-treehopper'}
 
   use {
     "nvim-treesitter/playground",
@@ -180,7 +189,7 @@ return packer.startup(function()
   --
   use {
     "rafamadriz/friendly-snippets",
-    event = "InsertEnter",
+    opt = false,
   }
 
   use {
@@ -196,7 +205,7 @@ return packer.startup(function()
 
   use {
     "hrsh7th/nvim-cmp",
-    after = "friendly-snippets",
+    wants = "friendly-snippets",
     config = function()
        require "plugins.cmp"
     end,
@@ -231,22 +240,6 @@ return packer.startup(function()
     "hrsh7th/cmp-path",
     after = "nvim-cmp",
   }
-
-  -- Maybe use this in the future. While VERY fast, I am not entirely sold on the snippet support and the constant
-  -- suggestions were a bit too frenetic without being what I really want completed in many contexts.
-  -- use {
-  --   'ms-jpq/coq_nvim',
-  --   branch = 'coq',
-  --   opt = false,
-  --   config = function()
-  --     require "plugins.coq"
-  --   end,
-  -- }
-
-  -- use {  -- 9000+ Snippets
-  --   'ms-jpq/coq.artifacts',
-  --   branch = 'artifacts',
-  -- }
 
   --=====[ Telescope ]====={{{1
   --
@@ -311,8 +304,6 @@ return packer.startup(function()
   -- use {'tamago324/lir-bookmark.nvim'}
   -- use {'tamago324/lir-mmv.nvim'}
 
-  use {'ggandor/lightspeed.nvim'} -- The s/S mapping drives me crazy, but it's worth it.
-
   use { -- I don't use this as much as lightpseed but it's still fun.
     "phaazon/hop.nvim",
     cmd = {
@@ -349,10 +340,13 @@ return packer.startup(function()
   --=====[ Text Modification and Formatting ]====={{{1
   --
   use {"gennaro-tedesco/nvim-peekup"} -- vim registers made easy, type ""
-  use {'kana/vim-textobj-user'} -- define custom text objects
-  use {'Julian/vim-textobj-variable-segment'} -- iv and av text objects for variable name manipulation
+  use {'kana/vim-textobj-user', opt = false} -- define custom text objects (though many don't work or are unneeded)
+  use {'terryma/vim-expand-region', opt = false} -- in visual mode + and - expand or shrink selection
+  use {'deathlyfrantic/vim-textobj-blanklines', opt = false} -- use vi<Space> and va<Space> to select blank lines
 
-  use { -- surround selections with symbols, such as quotes and parens
+  -- Change surrounding characters or select textobjs based on the surrounding characters, such as quotes and parens,
+  -- e.g. Typing vi{ in normal mode will select all text inside {}, or typing cs'" will change a surrounding ' to ".
+  use {
     'machakann/vim-sandwich',
     config = function()
       require "plugins.vim_sandwich"
@@ -362,18 +356,14 @@ return packer.startup(function()
   use { -- auto format stuff easier, e.g. clang-format
     'mhartington/formatter.nvim',
     opt = false,
-    --cmd = {
-    --  "Format",
-    --  "FormatWrite",
-    --},
     config = function()
       require "plugins.formatter"
     end,
   }
 
-  use {
+  use { -- (un)comment toggle with gc and gb in visual mode, or gc(motion) in normal mode (e.g. gcip)
     "numToStr/Comment.nvim",
-    after = "friendly-snippets",
+    opt = false,
     config = function()
        require("plugins.others").comment()
     end,
@@ -464,7 +454,7 @@ return packer.startup(function()
   -- use {'chriskempson/base16-vim'}
   -- use {"lukas-reineke/indent-blankline.nvim", ft = { 'html', 'htmldjango', 'python' }}
   -- use {'sedm0784/vim-resize-mode'} -- After doing <C-w>,  be able to type consecutive +,-,<,>
-  -- use { 'RRethy/nvim-treesitter-textsubjects', }  -- wish this worked, unfortunately it does not seem to.
+  -- use { 'RRethy/nvim-treesitter-textsubjects', }  -- wish this worked, unfortunately it does not seem to, especially for C++. Seems like an alternative to vim-expand-region.
   --
   -- Git fun...
   -- use {'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Look at lines added/modified/taken away, all at a glance.
@@ -481,4 +471,24 @@ return packer.startup(function()
   --=====[ Disabled (indefinitely) ]====={{{1
   --
   -- use {'nvim-lua/completion-nvim', opt = false} -- no longer maintained.
+  -- use {'ggandor/lightspeed.nvim'} -- The s/S mapping drives me crazy, and hop.nvim works
+  -- use {'Julian/vim-textobj-brace', opt = false} -- ij and aj for inside [], (), {} (works but don't need it with vim-sandwich)
+  -- use {'Julian/vim-textobj-variable-segment'} -- iv and av text objects for variable names (does not work)
+
+  -- Maybe use this in the future. While VERY fast, I am not entirely sold on the snippet support and the constant
+  -- suggestions were a bit too frenetic without being what I really want completed in many contexts.
+  -- use {
+  --   'ms-jpq/coq_nvim',
+  --   branch = 'coq',
+  --   opt = false,
+  --   config = function()
+  --     require "plugins.coq"
+  --   end,
+  -- }
+
+  -- use {  -- 9000+ Snippets
+  --   'ms-jpq/coq.artifacts',
+  --   branch = 'artifacts',
+  -- }
+
 end)

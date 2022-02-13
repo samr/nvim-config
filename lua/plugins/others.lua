@@ -83,12 +83,14 @@ M.lsp_signature = function()
 end
 
 M.comment = function()
-  local present, comment = pcall(require, "Commment")
-  if present then
-    comment.setup {
-      padding = true,
-    }
+  local present, comment = pcall(require, "Comment")
+  if not present then
+    print("unable to load comment")
+    return
   end
+  comment.setup {
+    padding = true,
+  }
 end
 
 M.lspsaga = function ()
@@ -362,7 +364,7 @@ end
 M.neoclip = function()
   require('neoclip').setup({
     history = 1000,
-    enable_persistant_history = false,
+    enable_persistent_history = false,
     db_path = vim.fn.stdpath("data") .. "/databases/neoclip.sqlite3",
     filter = nil,
     preview = true,

@@ -1,4 +1,5 @@
 vim.cmd "packadd packer.nvim"
+
 local present, packer = pcall(require, "packer")
 
 -- clone packer if it's missing
@@ -17,6 +18,7 @@ if not present then
     print "Packer cloned successfully."
   else
     error("Couldn't clone packer !\nPacker path: " .. packer_path)
+    return false;
   end
 end
 
@@ -34,5 +36,5 @@ return packer.init {
   },
   git = {
     clone_timeout = 600 -- Timeout, in seconds, for git clones
-  }
+  },
 }

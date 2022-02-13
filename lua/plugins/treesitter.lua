@@ -60,6 +60,7 @@ ts_config.setup {
       persist_queries = false, -- Whether the query persists across vim sessions
    },
    incremental_selection = {
+
       enable = false,
       keymaps = {
          init_selection = "<CR>",
@@ -76,8 +77,8 @@ ts_config.setup {
             -- You can use the capture groups defined in textobjects.scm
             ["af"] = "@function.outer",
             ["if"] = "@function.inner",
-            ["ac"] = "@class.outer",
-            ["ic"] = "@class.inner",
+            -- ["ac"] = "@comment.outer",  -- doesn't really work well for C++ comments of form //
+            -- ["ic"] = "@comment.outer",
          },
       },
       lsp_interop = {
@@ -88,19 +89,19 @@ ts_config.setup {
          set_jumps = true, -- whether to set jumps in the jumplist
          goto_next_start = {
             ["]m"] = "@function.outer",
-            ["]]"] = "@class.outer",
+            ["]]"] = "@parameter.inner",
          },
          goto_next_end = {
             ["]M"] = "@function.outer",
-            ["]["] = "@class.outer",
+            ["]["] = "@parameter.outer",
          },
          goto_previous_start = {
             ["[m"] = "@function.outer",
-            ["[["] = "@class.outer",
+            ["[["] = "@parameter.inner",
          },
          goto_previous_end = {
             ["[M"] = "@function.outer",
-            ["[]"] = "@class.outer",
+            ["[]"] = "@parameter.outer",
          },
       },
    },

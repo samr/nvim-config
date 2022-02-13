@@ -263,6 +263,15 @@ remap('n', '<leader>ep', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', { norema
 remap('n', '<leader>en', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
 remap('n', '<leader>eo', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', { noremap = true, silent = true })
 
+-- Text objects for plugin 'David-Kunz/treesitter-unit'
+remap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', {noremap=true})
+remap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', {noremap=true})
+remap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', {noremap=true})
+remap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', {noremap=true})
+
+-- Mapping for plugin 'mfussenegger/nvim-treehopper'
+remap('o', 'm', ':<c-u>lua require"tsht".nodes()<CR>', {noremap=false})
+remap('v', 'm', ':lua require"tsht".nodes()<CR>', {noremap=true})
 
 -- ===[ Platform Specific Mappings ]=== {{{1
 
