@@ -77,8 +77,8 @@ ts_config.setup {
             -- You can use the capture groups defined in textobjects.scm
             ["af"] = "@function.outer",
             ["if"] = "@function.inner",
-            -- ["ac"] = "@comment.outer",  -- doesn't really work well for C++ comments of form //
-            -- ["ic"] = "@comment.outer",
+            ["ac"] = "@comment.outer",  -- works well for C++ comments of form /* */
+            -- ["ic"] = "@comment.outer",  -- mapped elsewhere for C++ comments of form //
          },
       },
       lsp_interop = {
