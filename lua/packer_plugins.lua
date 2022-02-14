@@ -517,4 +517,10 @@ return packer.startup(function(use)
   --   branch = 'artifacts',
   -- }
 
+  -- use { -- projectionist alternative (does not seem to work)
+  --   "Everduin94/nvim-quick-switcher",
+  --   keys = "<leader>oc",
+  -- }
+  -- -- remap('n', '<leader>oc', ":lua require('nvim-quick-switcher').toggle('cpp', 'h')<CR>", {noremap = true, silent = true})
+
 end)
