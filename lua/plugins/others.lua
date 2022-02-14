@@ -405,4 +405,24 @@ M.neoclip = function()
   })
 end
 
+M.indentomatic = function()
+  require('indent-o-matic').setup({
+    -- Number of lines without indentation before giving up (use -1 for infinite)
+    max_lines = 2048,
+
+    -- Space indentations that should be detected
+    standard_widths = { 2, 3, 4, },
+
+    -- -- Disable indent-o-matic for LISP files
+    -- filetype_lisp = {
+    --     max_lines = 0,
+    -- },
+
+    -- -- Only detect 2 and 4 spaces and tabs for Rust files
+    -- filetype_rust = {
+    --     standard_widths = { 2, 4 },
+    -- },
+  })
+end
+
 return M

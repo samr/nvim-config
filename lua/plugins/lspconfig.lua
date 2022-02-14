@@ -88,7 +88,6 @@ local custom_on_attach = function(client)
   lsp_mappings(client)
 
   if has_lsp_signature then
-    print("Attached lsp_signature.")
     lsp_signature.on_attach()
   end
 

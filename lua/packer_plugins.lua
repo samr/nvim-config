@@ -153,6 +153,14 @@ return packer.startup(function(use)
     end,
   }
 
+  use {
+    'j-hui/fidget.nvim',
+    opt = false,
+    config = function()
+      require("fidget").setup()
+    end,
+  }
+
   -- Maybe try this as well for finding references and definitions, though it looks frenetic
   -- use {'ray-x/navigator.lua', requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make'}}
 
@@ -378,6 +386,14 @@ return packer.startup(function(use)
     end,
   }
 
+  use { -- autodetect tabs or spaces and to what degree of indent
+    "Darazaki/indent-o-matic",
+    cmd = "IndentOMatic",
+    config = function()
+      require("plugins.others").indentomatic()
+    end,
+  }
+
   --=====[ Quickfix and Location List ]====={{{1
   --
   use {'jeetsukumaran/quickfix-rex.nvim'} -- :Qfrex to load quickfix from grep
@@ -444,6 +460,7 @@ return packer.startup(function(use)
   -- }
   --
   --
+  -- use {'zsugabubus/crazy8.nvim'} -- Autodetect tabs/spaces and to what degree
   -- use {'Shatur/neovim-session-manager'} -- Save sessions by directory
   -- use {'hkupty/iron.nvim'} -- Spin up a repl in a neovim terminal and send text to it
   -- use {'famiu/nvim-reload'} -- Adds :Reload and :Restart to make reloading lua easier
