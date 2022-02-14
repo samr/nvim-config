@@ -44,6 +44,14 @@ return packer.startup(function(use)
   --
   use {'kyazdani42/nvim-web-devicons'}
 
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function()
+      require("plugins.others").lualine()
+    end,
+  }
+
   -- TODO: Good but need to solve the colorscheme issues.
   -- use {
   --   'windwp/windline.nvim',
@@ -61,19 +69,12 @@ return packer.startup(function(use)
   --   end,
   -- }
 
+  -- TODO: Lots of the examples did not work or were old
   -- use {
   --   'feline-nvim/feline.nvim',
   --   requires = { 'kyazdani42/nvim-web-devicons', opt = true },
   --   config = function()
   --     require("plugins.others").feline()
-  --   end,
-  -- }
-
-  -- use {
-  --   'nvim-lualine/lualine.nvim',
-  --   requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-  --   config = function()
-  --     require("plugins.others").lualine()
   --   end,
   -- }
 
@@ -102,8 +103,6 @@ return packer.startup(function(use)
     end,
   }
 
-  -- Text objects based on syntax trees (e.g. ]] goes to next parameter of a function, and vif selects the function)
-  use {'nvim-treesitter/nvim-treesitter-textobjects'}
   use {'nvim-treesitter/nvim-treesitter-refactor'} -- Highlight definition of current symbol, current scope
   use {'David-Kunz/treesitter-unit'}
   use {'mfussenegger/nvim-treehopper'}
@@ -125,7 +124,7 @@ return packer.startup(function(use)
     requires = "nvim-treesitter/nvim-treesitter",
   }
 
-  use { "lewis6991/gitsigns.nvim", }
+  use { "lewis6991/gitsigns.nvim", } -- look at lines added/modified/taken away, all at a glance.
 
   -- C++ specific stuff: TSCppDefineClassFunc, TSCppMakeConcreteClass, TSCppRuleOf5 (config in treesitter)
   -- TODO: Figure out why it fails in some cases
@@ -376,8 +375,21 @@ return packer.startup(function(use)
   --
   use {"gennaro-tedesco/nvim-peekup"} -- vim registers made easy, type ""
   use {'kana/vim-textobj-user', opt = false} -- define custom text objects (though many don't work or are unneeded)
-  use {'terryma/vim-expand-region', opt = false} -- in visual mode + and - expand or shrink selection
+  use {'kana/vim-textobj-line', opt = false} -- il and al for selecting the current line
+  use {'kana/vim-textobj-indent', opt = false} -- ii and ai for things at same indent
   use {'deathlyfrantic/vim-textobj-blanklines', opt = false} -- use vi<Space> and va<Space> to select blank lines
+
+  -- Text objects based on syntax trees (e.g. ]] goes to next parameter of a function, and vif selects the function)
+  -- See https://github.com/nvim-treesitter/nvim-treesitter-textobjects#built-in-textobjects
+  use {'nvim-treesitter/nvim-treesitter-textobjects'}
+
+  use { -- in visual mode + and - expand or shrink selection
+    'terryma/vim-expand-region',
+    opt = false,
+    config = function()
+       require("plugins.others").vim_expand_region()
+    end,
+  }
 
   -- Change surrounding characters or select textobjs based on the surrounding characters, such as quotes and parens,
   -- e.g. Typing vi{ in normal mode will select all text inside {}, or typing cs'" will change a surrounding ' to ".
@@ -488,7 +500,6 @@ return packer.startup(function(use)
   -- use {'tjdevries/colorbuddy.nvim', opt = false} -- inheritance based colorschemes
   -- use {'RishabhRD/nvim-lsputils', opt = false} -- lsp popups and ease of use
   -- use { 'tpope/vim-rhubarb' } -- git related
-  -- use { 'pwntester/octo.nvim', requires = { 'kyazdani42/nvim-web-devicons' } } -- Who needs web interfaces when you have neovim interfaces (for Github)?
   -- use {'vim-airline/vim-airline'}
   -- use {'vim-airline/vim-airline-themes'}
   -- use {'folke/zen-mode.nvim',  branch = 'main'}
@@ -501,7 +512,6 @@ return packer.startup(function(use)
   -- use { 'RRethy/nvim-treesitter-textsubjects', }  -- wish this worked, unfortunately it does not seem to, especially for C++. Seems like an alternative to vim-expand-region.
   --
   -- Git fun...
-  -- use {'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Look at lines added/modified/taken away, all at a glance.
   -- use {'tpope/vim-fugitive', requires = { 'nvim-lua/plenary.nvim' } } -- And I quote tpope, "A git plugin so awesome, it should be illegal."
   -- use {'tpope/vim-rhubarb' }
   -- use {'pwntester/octo.nvim', requires = { 'kyazdani42/nvim-web-devicons' } } -- Who needs web interfaces when you have neovim interfaces (for Github)?

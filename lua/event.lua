@@ -54,9 +54,10 @@ function autocmd.load_autocmds()
       {"BufNewFile,BufRead","*.toml"," setf toml"};
     };
 
-    yank = {
-      {"TextYankPost", [[* silent! lua vim.highlight.on_yank({higroup="IncSearch", timeout=400})]]};
-    };
+    -- yank = {
+    --   -- Highlight what was yanked after it was yanked
+    --   {"TextYankPost", [[* silent! lua vim.highlight.on_yank({higroup="IncSearch", timeout=400})]]};
+    -- };
   }
 
   autocmd.nvim_create_augroups(definitions)

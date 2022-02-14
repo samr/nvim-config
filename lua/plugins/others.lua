@@ -156,35 +156,82 @@ M.lualine = function()
     return
   end
   print("loading lualine")
-  -- Note, one can get the current config with: require('lualine').get_config()
-  lualine.setup {
+
+  -- Bubbles config for lualine
+  -- Author: lokesh-krishna
+  -- MIT license, see LICENSE for more details.
+
+  -- stylua: ignore
+  local colors = {
+    blue   = '#80a0ff',
+    cyan   = '#79dac8',
+    black  = '#080808',
+    white  = '#c6c6c6',
+    red    = '#ff5189',
+    violet = '#d183e8',
+    grey   = '#303030',
+  }
+
+  local bubbles_theme = {
+    normal = {
+      a = { fg = colors.black, bg = colors.violet },
+      b = { fg = colors.white, bg = colors.grey },
+      c = { fg = colors.black, bg = colors.black },
+    },
+
+    insert = { a = { fg = colors.black, bg = colors.blue } },
+    visual = { a = { fg = colors.black, bg = colors.cyan } },
+    replace = { a = { fg = colors.black, bg = colors.red } },
+
+    inactive = {
+      a = { fg = colors.white, bg = colors.grey },
+      b = { fg = colors.white, bg = colors.grey },
+      c = { fg = colors.black, bg = colors.grey },
+    },
+  }
+
+  require('lualine').setup {
     options = {
-      icons_enabled = true,
-      -- https://github.com/nvim-lualine/lualine.nvim/blob/master/THEMES.md
-      theme = 'auto',
-      component_separators = { left = '', right = ''},
-      section_separators = { left = '', right = ''},
-      disabled_filetypes = {},
-      always_divide_middle = true,
+      theme = bubbles_theme,
+      component_separators = '|',
+      section_separators = { left = '', right = '' },
     },
     sections = {
-      lualine_a = {'mode'},
-      lualine_b = {'branch', 'diff', 'diagnostics'},
-      lualine_c = {'filename'},
-      lualine_x = {'encoding', 'fileformat', 'filetype'},
-      lualine_y = {'progress'},
-      lualine_z = {'location'}
+      lualine_a = {
+        {
+          'mode',
+          -- separator = { left = '' },
+          right_padding = 2
+        },
+      },
+      lualine_b = {
+        { 'filename', path = 1 },
+        'branch',
+        -- { 'buffers', show_filename_only = false, },
+      },
+      lualine_c = { 'fileformat' },
+      lualine_x = {},
+      lualine_y = { 'filetype', 'progress' },
+      lualine_z = {
+        {
+          'location',
+          --separator = { right = '' },
+          left_padding = 2
+        },
+      },
     },
     inactive_sections = {
-      lualine_a = {},
+      lualine_a = {
+        { 'filename', path = 1 },
+      },
       lualine_b = {},
-      lualine_c = {'filename'},
-      lualine_x = {'location'},
+      lualine_c = {},
+      lualine_x = {},
       lualine_y = {},
-      lualine_z = {}
+      lualine_z = { 'location' },
     },
     tabline = {},
-    extensions = {}
+    extensions = {},
   }
 end
 
@@ -423,6 +470,42 @@ M.indentomatic = function()
     --     standard_widths = { 2, 4 },
     -- },
   })
+end
+
+M.vim_expand_region = function()
+  -- In the dictionaries below, '1' indicates that the text object is recursive
+  -- (think of nested parens or brackets)
+
+  vim.fn['expand_region#custom_text_objects']({
+    ['a]'] = 1, -- Support nesting of 'around' brackets
+    ['ab'] = 1, -- Support nesting of 'around' parentheses
+    ['aB'] = 1, -- Support nesting of 'around' braces
+    ['ii'] = 0, -- 'inside indent'. Available through https://github.com/kana/vim-textobj-indent
+    ['ai'] = 0, -- 'around indent'. Available through https://github.com/kana/vim-textobj-indent
+    ['i '] = 0, -- 'space below'.
+    ['a '] = 0, -- 'space above'.
+    ["af"] = 0, -- function
+    ["if"] = 0, -- function
+    ["a?"] = 0, -- conditional
+    ["i?"] = 0, -- conditional
+    ["ao"] = 0, -- loop
+    ["io"] = 0, -- loop
+    })
+
+  vim.g.expand_region_text_objects = {
+    ['iw']    = 0,
+    ['iW']    = 0,
+    ['i"']    = 0,
+    ['i\'']   = 0,
+    ['i]']    = 1, -- Support nesting of square brackets
+    ['ib']    = 1, -- Support nesting of parentheses
+    ['il']    = 0, -- 'inside line'. Available through https://github.com/kana/vim-textobj-line
+    ['a?']    = 0,
+    ['ao']    = 0,
+    ['iB']    = 1, -- Support nesting of braces
+    ['ip']    = 0,
+    ['ie']    = 0, -- 'entire file'. Available through https://github.com/kana/vim-textobj-entire
+    }
 end
 
 return M

@@ -76,6 +76,10 @@ ts_config.setup {
         -- You can use the capture groups defined in textobjects.scm
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
+        ["a?"] = "@conditional.outer",
+        ["i?"] = "@conditional.inner",
+        ["ao"] = "@loop.outer",
+        ["io"] = "@loop.inner",
         ["ac"] = "@comment.outer",  -- works well for C++ comments of form /* */
         -- ["ic"] = "@comment.outer",  -- mapped elsewhere for C++ comments of form //
       },
