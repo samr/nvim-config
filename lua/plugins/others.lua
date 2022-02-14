@@ -206,12 +206,18 @@ M.lualine = function()
       },
       lualine_b = {
         { 'filename', path = 1 },
-        'branch',
         -- { 'buffers', show_filename_only = false, },
       },
-      lualine_c = { 'fileformat' },
+      lualine_c = {
+        'fileformat'
+      },
       lualine_x = {},
-      lualine_y = { 'filetype', 'progress' },
+      lualine_y = {
+        "aerial",
+        'branch',
+        'filetype',
+        'progress',
+      },
       lualine_z = {
         {
           'location',
@@ -492,6 +498,7 @@ M.vim_expand_region = function()
     ["io"] = 0, -- loop
     })
 
+  -- Dicates the order in which + tries to grow the visual selection with text objects.
   vim.g.expand_region_text_objects = {
     ['iw']    = 0,
     ['iW']    = 0,
@@ -499,7 +506,7 @@ M.vim_expand_region = function()
     ['i\'']   = 0,
     ['i]']    = 1, -- Support nesting of square brackets
     ['ib']    = 1, -- Support nesting of parentheses
-    ['il']    = 0, -- 'inside line'. Available through https://github.com/kana/vim-textobj-line
+    ['al']    = 0, -- 'outside line'. Available through https://github.com/kana/vim-textobj-line
     ['a?']    = 0,
     ['ao']    = 0,
     ['iB']    = 1, -- Support nesting of braces

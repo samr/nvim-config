@@ -273,6 +273,10 @@ remap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', {noremap
 remap('o', 'm', ':<c-u>lua require"tsht".nodes()<CR>', {noremap=false})
 remap('v', 'm', ':lua require"tsht".nodes()<CR>', {noremap=true})
 
+-- Mapping for plugin "stevearc/aerial.nvim",
+remap('n', '<leader>a', '<cmd>AerialToggle!<CR>', {})
+
+
 -- ===[ Platform Specific Mappings ]=== {{{1
 
  -- =[ Windows ]= --

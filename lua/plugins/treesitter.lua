@@ -73,7 +73,8 @@ ts_config.setup {
       enable = true,
       lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
       keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
+        ["a."] = "@class.outer",  -- class appears to not work currently in C++
+        ["i."] = "@class.inner",
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
         ["a?"] = "@conditional.outer",

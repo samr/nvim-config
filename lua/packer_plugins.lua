@@ -27,7 +27,6 @@ return packer.startup(function(use)
   use {
     "wbthomason/packer.nvim",
     event = "VimEnter", -- manages itself
-    commit = "c5e98e3ca84843dbae47cd8f3a76bc38c6404241",  -- TODO: Remove this when it is fixed for Windows.
   }
 
   --=====[ Startup ]====={{{1
@@ -163,7 +162,7 @@ return packer.startup(function(use)
 
   use {
     "stevearc/aerial.nvim",
-    cmd = "AerialToggle",
+    opt = false,  -- so we can use it with lualine
     after = "nvim-lspconfig",
     config = function()
       require("plugins.aerial")
@@ -377,6 +376,7 @@ return packer.startup(function(use)
   use {'kana/vim-textobj-user', opt = false} -- define custom text objects (though many don't work or are unneeded)
   use {'kana/vim-textobj-line', opt = false} -- il and al for selecting the current line
   use {'kana/vim-textobj-indent', opt = false} -- ii and ai for things at same indent
+  use {'kana/vim-textobj-entire', opt = false} -- ie selects the entire file
   use {'deathlyfrantic/vim-textobj-blanklines', opt = false} -- use vi<Space> and va<Space> to select blank lines
 
   -- Text objects based on syntax trees (e.g. ]] goes to next parameter of a function, and vif selects the function)
@@ -495,7 +495,6 @@ return packer.startup(function(use)
   -- use {'hkupty/iron.nvim'} -- Spin up a repl in a neovim terminal and send text to it
   -- use {'famiu/nvim-reload'} -- Adds :Reload and :Restart to make reloading lua easier
   -- use {'kosayoda/nvim-lightbulb'}
-  -- use {'stevearc/aerial.nvim'} -- Symbol tree. Better than symbols-outline.nvim because it allows filtering by symbol type.
   -- use {'kevinhwang91/nvim-bqf'} -- better quick fix
   -- use {'tjdevries/colorbuddy.nvim', opt = false} -- inheritance based colorschemes
   -- use {'RishabhRD/nvim-lsputils', opt = false} -- lsp popups and ease of use
