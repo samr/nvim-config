@@ -122,6 +122,10 @@ return packer.startup(function(use)
 
   use { "lewis6991/gitsigns.nvim", }
 
+  -- C++ specific stuff: TSCppDefineClassFunc, TSCppMakeConcreteClass, TSCppRuleOf5 (config in treesitter)
+  -- TODO: Figure out why it fails in some cases
+  use {"Badhi/nvim-treesitter-cpp-tools"}
+
   --=====[ Language Server Protocol ]====={{{1
   --
   -- use {
@@ -150,6 +154,15 @@ return packer.startup(function(use)
     after = "nvim-lspconfig",
     config = function()
       require("plugins.others").lsp_signature()
+    end,
+  }
+
+  use {
+    "stevearc/aerial.nvim",
+    cmd = "AerialToggle",
+    after = "nvim-lspconfig",
+    config = function()
+      require("plugins.aerial")
     end,
   }
 
