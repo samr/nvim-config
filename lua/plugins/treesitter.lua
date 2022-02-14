@@ -111,4 +111,5 @@ ts_config.setup {
       accept = '<S-Enter>' -- optional keymapping for accept preview
     },
   },
+  yati = { enable = true }, -- for "yioneko/nvim-yati"
 }

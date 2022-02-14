@@ -113,11 +113,16 @@ return packer.startup(function(use)
     cmd = "TSPlayground",
   }
 
-  use {
+  use {  -- show indentation guides
     "lukas-reineke/indent-blankline.nvim",
     config = function()
       require("plugins.others").blankline()
     end,
+  }
+
+  use {  -- syntax aware indentation
+    "yioneko/nvim-yati",
+    requires = "nvim-treesitter/nvim-treesitter",
   }
 
   use { "lewis6991/gitsigns.nvim", }
