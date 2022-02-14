@@ -52,6 +52,15 @@ return packer.startup(function(use)
   --    end,
   -- }
 
+  -- TODO: Does not appear to work out of the box.
+  -- use {
+  --   'rebelot/heirline.nvim',
+  --   opt = false,
+  --   config = function()
+  --     require("plugins.heirline").setup()
+  --   end,
+  -- }
+
   -- use {
   --   'feline-nvim/feline.nvim',
   --   requires = { 'kyazdani42/nvim-web-devicons', opt = true },
