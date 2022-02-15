@@ -142,6 +142,9 @@ ColorUtil.override_darkdevel3 = function()
     -- Group.new('LspDiagnosticsUnderlineHint', nil, nil, s.underline)
     -- Group.new('LspDiagnosticsUnderlineInfo', nil, nil, s.underline)
     -- Group.new('LspDiagnosticsUnderlineWarning', nil, nil, s.underline)
+
+    -- Bottom command-line area, make it distinguishable, barely.
+    {'MsgArea', {bg='#0a0a2f', fg='32be32'}},
   }
   for _, highlight in pairs(highlights) do
     hl(highlight[1], highlight[2])

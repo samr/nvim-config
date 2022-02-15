@@ -153,9 +153,9 @@ end
 M.lualine = function()
   local present, lualine = pcall(require, "lualine")
   if not present then
+    print("unable to load lualine")
     return
   end
-  print("loading lualine")
 
   -- Bubbles config for lualine
   -- Author: lokesh-krishna

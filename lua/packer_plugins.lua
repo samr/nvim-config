@@ -24,15 +24,25 @@ end
 
 return packer.startup(function(use)
   --=====[ Packer ]====={{{1
+  --
   use {
     "wbthomason/packer.nvim",
     event = "VimEnter", -- manages itself
   }
 
+  --=====[ Core ]====={{{1
+  -- Often required by others
+  --
+  use {'nvim-lua/plenary.nvim', opt = false}  -- async coroutines
+  use {'nvim-lua/popup.nvim', opt = false}
+  use {'MunifTanjim/nui.nvim', opt = false} -- general UI component library
+  use {'kyazdani42/nvim-web-devicons', opt = false} -- collection of icons
+  use {'rafamadriz/friendly-snippets', opt = false} -- collection of snippets
+
   --=====[ Startup ]====={{{1
   --
-  use { "nathom/filetype.nvim", }
-  use { "lewis6991/impatient.nvim", }
+  use {'lewis6991/impatient.nvim', opt = false} -- faster loading of lua modules
+  use {'nathom/filetype.nvim', opt = false}  -- faster filetype support
 
   use {  -- start with "nvim-qt -- --startuptime time.log", then use :StartupTime
     'dstein64/vim-startuptime',
@@ -41,53 +51,12 @@ return packer.startup(function(use)
 
   --=====[ Appearances ]====={{{1
   --
-  use {'kyazdani42/nvim-web-devicons'}
-
   use {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
       require("plugins.others").lualine()
     end,
   }
-
-  -- TODO: Good but need to solve the colorscheme issues.
-  -- use {
-  --   'windwp/windline.nvim',
-  --    config = function()
-  --      require("plugins.others").windline()
-  --    end,
-  -- }
-
-  -- TODO: Does not appear to work out of the box.
-  -- use {
-  --   'rebelot/heirline.nvim',
-  --   opt = false,
-  --   config = function()
-  --     require("plugins.heirline").setup()
-  --   end,
-  -- }
-
-  -- TODO: Lots of the examples did not work or were old
-  -- use {
-  --   'feline-nvim/feline.nvim',
-  --   requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-  --   config = function()
-  --     require("plugins.others").feline()
-  --   end,
-  -- }
-
-  -- TODO: Explore using this
-  -- use({
-  --   "narutoxy/themer.lua",
-  --   branch = "dev", -- I recommend dev branch because it has more plugin support currently
-  --   module = "themer", -- load it as fast as possible
-  --   config = function()
-  --     -- vim.cmd("colorscheme dark_cpt") -- you can also do this
-  --     require("themer").load("dark_cpt")
-  --   end,
-  -- })
-  --
 
   --=====[ Treesitter ]====={{{1
   --
@@ -98,7 +67,7 @@ return packer.startup(function(use)
     },
     -- run = ':TSUpdate', -- auto-update disabled due to file locking issues on windows
     config = function()
-       require "plugins.treesitter"
+       require("plugins.treesitter")
     end,
   }
 
@@ -118,12 +87,7 @@ return packer.startup(function(use)
     end,
   }
 
-  use {  -- syntax aware indentation
-    "yioneko/nvim-yati",
-    requires = "nvim-treesitter/nvim-treesitter",
-  }
-
-  use { "lewis6991/gitsigns.nvim", } -- look at lines added/modified/taken away, all at a glance.
+  use {"yioneko/nvim-yati"}  -- syntax aware indentation (requires treesitter)
 
   -- C++ specific stuff: TSCppDefineClassFunc, TSCppMakeConcreteClass, TSCppRuleOf5 (config in treesitter)
   -- TODO: Figure out why it fails in some cases
@@ -131,15 +95,10 @@ return packer.startup(function(use)
 
   --=====[ Language Server Protocol ]====={{{1
   --
-  -- use {
-  --   "github/copilot.vim",
-  --   event = "InsertEnter",
-  -- }
-
   use {
     "neovim/nvim-lspconfig",
     config = function()
-      require "plugins.lspconfig"
+      require("plugins.lspconfig")
     end,
   }
 
@@ -177,8 +136,277 @@ return packer.startup(function(use)
     end,
   }
 
+  --=====[ Snippets ]====={{{1
+  --
+  use {
+    "L3MON4D3/LuaSnip",
+    wants = "friendly-snippets",
+    after = "nvim-cmp",
+    config = function()
+      require("plugins.others").luasnip()
+    end,
+  }
+
+  --=====[ Code Completion ]====={{{1
+  --
+  use {
+    "hrsh7th/nvim-cmp",
+    wants = "friendly-snippets",
+    config = function()
+       require("plugins.cmp")
+    end,
+  }
+
+  use {
+    "saadparwaiz1/cmp_luasnip",
+    after = "LuaSnip",
+  }
+  use {
+    "hrsh7th/cmp-nvim-lua",
+    after = "nvim-cmp",
+  }
+  use {
+    "hrsh7th/cmp-nvim-lsp",
+    after = "nvim-cmp",
+  }
+  use {
+    "lukas-reineke/cmp-rg",
+    after = "nvim-cmp",
+  }
+  use {
+    "ray-x/cmp-treesitter",
+    after = "nvim-cmp",
+  }
+  use {
+    "hrsh7th/cmp-path",
+    after = "nvim-cmp",
+  }
+
+  --=====[ Telescope ]====={{{1
+  --
+  use {'nvim-telescope/telescope-fzf-native.nvim', branch = 'main', run = 'make'}
+
+  use {
+    "nvim-telescope/telescope.nvim",
+    cmd = "Telescope",
+    opt = false,
+    config = function()
+      require("plugins.telescope")
+    end,
+  }
+
+  use { -- allow searching all previous copy/pastes with :Telescope neoclip (requires telescope obviously)
+    "AckslD/nvim-neoclip.lua",
+    config = function()
+      require("plugins.others").neoclip()
+    end,
+  }
+
+  --=====[ File and Buffer Navigation ]====={{{1
+  --
+  use {'tpope/vim-projectionist', opt = false} -- allow for project files
+  use {'jlanzarotta/bufexplorer', cmd = "BufExplorer"}
+  use {'famiu/bufdelete.nvim', cmd = "Bdelete"}
+
+  use {'lambdalisue/fern.vim'}
+  use {'hrsh7th/fern-mapping-collapse-or-leave.vim'}
+
+  -- TODO: Create some key mappings for this.
+  use {'ThePrimeagen/harpoon'} -- requires "nvim-lua/plenary.nvim"
+
+  use {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v1.x",
+    cmd = "NeoTreeReveal", -- lazy load when F2 is pressed
+    config = function()
+      require("plugins.others").neo_tree()
+    end,
+    -- we explicitly include these dependencies, so this is just documentation
+    -- requires = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "kyazdani42/nvim-web-devicons", },
+  }
+
+  use { -- I don't use this as much as lightpseed but it's still fun.
+    "phaazon/hop.nvim",
+    cmd = {
+      "HopWord",
+      "HopLine",
+      "HopChar1",
+      "HopChar2",
+      "HopPattern",
+    },
+    as = "hop",
+    config = function()
+      require("hop").setup()
+    end,
+  }
+
+  --=====[ Git and Diff ]====={{{1
+  --
+  use {'lewis6991/gitsigns.nvim'} -- look at lines added/modified/taken away, all at a glance.
+
+  use {
+    "TimUntersberger/neogit",
+    cmd = {
+      "Neogit",
+      "Neogit commit",
+    },
+    config = function()
+      require("plugins.neogit")
+    end,
+  }
+
+  use {
+    "sindrets/diffview.nvim",
+    after = "neogit",
+  }
+
+  --=====[ Text Modification and Formatting ]====={{{1
+  --
+  use {"gennaro-tedesco/nvim-peekup"} -- vim registers made easy, type ""
+  use {'kana/vim-textobj-user', opt = false} -- define custom text objects (though many don't work or are unneeded)
+  use {'kana/vim-textobj-line', opt = false} -- il and al for selecting the current line
+  use {'kana/vim-textobj-indent', opt = false} -- ii and ai for things at same indent
+  use {'kana/vim-textobj-entire', opt = false} -- ie selects the entire file
+  use {'deathlyfrantic/vim-textobj-blanklines', opt = false} -- use vi<Space> and va<Space> to select blank lines
+
+  -- Text objects based on syntax trees (e.g. ]] goes to next parameter of a function, and vif selects the function)
+  -- See https://github.com/nvim-treesitter/nvim-treesitter-textobjects#built-in-textobjects
+  use {'nvim-treesitter/nvim-treesitter-textobjects'}
+
+  use { -- in visual mode + and - expand or shrink selection
+    'terryma/vim-expand-region',
+    opt = false,
+    config = function()
+       require("plugins.others").vim_expand_region()
+    end,
+  }
+
+  -- Change surrounding characters or select textobjs based on the surrounding characters, such as quotes and parens,
+  -- e.g. Typing vi{ in normal mode will select all text inside {}, or typing cs'" will change a surrounding ' to ".
+  use {
+    'machakann/vim-sandwich',
+    config = function()
+      require("plugins.vim_sandwich")
+    end,
+  }
+
+  use { -- auto format stuff easier, e.g. clang-format
+    'mhartington/formatter.nvim',
+    opt = false,
+    config = function()
+      require("plugins.formatter")
+    end,
+  }
+
+  use { -- (un)comment toggle with gc and gb in visual mode, or gc(motion) in normal mode (e.g. gcip)
+    "numToStr/Comment.nvim",
+    opt = false,
+    config = function()
+       require("plugins.others").comment()
+    end,
+  }
+
+  use { -- autodetect tabs or spaces and to what degree of indent
+    "Darazaki/indent-o-matic",
+    cmd = "IndentOMatic",
+    config = function()
+      require("plugins.others").indentomatic()
+    end,
+  }
+
+  --=====[ Quickfix and Location List ]====={{{1
+  --
+  use {'jeetsukumaran/quickfix-rex.nvim'} -- :Qfrex to load quickfix from grep
+
+  use { -- Makes quickfix and location list window editable (not a lua plugin)
+    'stefandtw/quickfix-reflector.vim',
+    config = function()
+      vim.g.qf_modifiable = 0  -- Require manually making the window editable.
+    end,
+  }
+
+  --=====[ Miscellaneous Plugins ]====={{{1
+  --
+  use {'vim-scripts/stlrefvim'} --  C++ STL docs
+  use {'antoinemadec/FixCursorHold.nvim'}
+  use {'simnalamburt/vim-mundo'} -- a tree of undo
+  use {'plasticboy/vim-markdown',  ft = { 'markdown' }}
+  use {'dhruvasagar/vim-table-mode', ft = { 'markdown'}}
+
+  --=====[ Debugging ]====={{{1
+  --
+  -- use {'mfussenegger/nvim-dap'}
+  -- use {
+  --   "rcarriga/nvim-dap-ui",
+  --   after = {"mfussenegger/nvim-dap"}
+  -- }
+  -- use {'theHamsta/nvim-dap-virtual-text'}
+  -- use {'jbyuki/one-small-step-for-vimkind'}
+
+  -- use {  -- use https://godbolt.org by way of curl
+  --   'p00f/godbolt.nvim',
+  --   cmd = {
+  --     "Godbolt",
+  --     "GodboltCompiler",
+  --   },
+  --   config = function()
+  --      require("godbolt").setup({})
+  --   end,
+  -- }
+
+  --=====[ Disabled (to try) ]====={{{1
+  --
+  -- use {'fern-bookmark.vim'}
+  -- use {'fern-git-status.vim'}
+  -- use {'fern-mapping-project-top.vim'}
+
+  -- consider using lir instead of neo-tree and fern.
+  -- use {'tamago324/lir.nvim'}
+  -- use {'tamago324/lir-git-status.nvim'}
+  -- use {'tamago324/lir-bookmark.nvim'}
+  -- use {'tamago324/lir-mmv.nvim'}
+
+  -- TODO: Maybe add this, it requires wrapping all key mappings and not sure it plays well with which key.
+  -- use {  -- fuzzy find key mappings
+  --   "lazytanuki/nvim-mapper",
+  --   before = "telescope.nvim"
+  --   config = function()
+  --     require("plugins.others").nvim_mapper()
+  --   end,
+  -- }
+
+  -- use {
+  --    "rcarriga/nvim-notify",
+  --    config = function()
+  --       vim.notify = require "notify"
+  --       require("notify").setup {
+  --          stages = "slide",
+  --          timeout = 2500,
+  --          minimum_width = 50,
+  --          icons = {
+  --             ERROR = "",
+  --             WARN = "",
+  --             INFO = "",
+  --             DEBUG = "",
+  --             TRACE = "✎",
+  --          },
+  --       }
+  --    end,
+  -- }
+  --
   -- Maybe try this as well for finding references and definitions, though it looks frenetic
   -- use {'ray-x/navigator.lua', requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make'}}
+
+  -- TODO: Explore using this
+  -- use({
+  --   "narutoxy/themer.lua",
+  --   branch = "dev", -- I recommend dev branch because it has more plugin support currently
+  --   module = "themer", -- load it as fast as possible
+  --   config = function()
+  --     -- vim.cmd("colorscheme dark_cpt") -- you can also do this
+  --     require("themer").load("dark_cpt")
+  --   end,
+  -- })
 
   -- TODO: Try these... possibly instead of lsp_signature
   --
@@ -218,278 +446,6 @@ return packer.startup(function(use)
   -- use {'ldelossa/litee-calltree.nvim'} -- more set up required
   -- use {'ldelossa/litee-symboltree.nvim'} -- more set up required
 
-  --=====[ Snippets ]====={{{1
-  --
-  use {
-    "rafamadriz/friendly-snippets",
-    opt = false,
-  }
-
-  use {
-    "L3MON4D3/LuaSnip",
-    wants = "friendly-snippets",
-    after = "nvim-cmp",
-    config = function()
-      require("plugins.others").luasnip()
-    end,
-  }
-
-  --=====[ Code Completion ]====={{{1
-
-  use {
-    "hrsh7th/nvim-cmp",
-    wants = "friendly-snippets",
-    config = function()
-       require "plugins.cmp"
-    end,
-  }
-
-  use {
-    "saadparwaiz1/cmp_luasnip",
-    after = "LuaSnip",
-  }
-
-  use {
-    "hrsh7th/cmp-nvim-lua",
-    after = "nvim-cmp",
-  }
-
-  use {
-    "hrsh7th/cmp-nvim-lsp",
-    after = "nvim-cmp",
-  }
-
-  use {
-    "lukas-reineke/cmp-rg",
-    after = "nvim-cmp",
-  }
-
-  use {
-    "ray-x/cmp-treesitter",
-    after = "nvim-cmp",
-  }
-
-  use {
-    "hrsh7th/cmp-path",
-    after = "nvim-cmp",
-  }
-
-  --=====[ Telescope ]====={{{1
-  --
-  use {'nvim-lua/plenary.nvim'}
-  use {'nvim-lua/popup.nvim'}
-  use {'nvim-telescope/telescope-fzf-native.nvim', branch = 'main', run = 'make'}
-
-  use {
-    "nvim-telescope/telescope.nvim",
-    cmd = "Telescope",
-    opt = false,
-    config = function()
-      require "plugins.telescope"
-    end,
-  }
-  use { -- allow searching all previous copy/pastes with :Telescope neoclip
-    "AckslD/nvim-neoclip.lua",
-    requires = { 
-      {'nvim-telescope/telescope.nvim'},
-    },
-    config = function()
-      require("plugins.others").neoclip()
-    end,
-  }
-
-  -- TODO: Maybe add this, it requires wrapping all key mappings and not sure it plays well with which key.
-  --
-  -- use {  -- fuzzy find key mappings
-  --   "lazytanuki/nvim-mapper",
-  --   before = "telescope.nvim"
-  --   config = function()
-  --     require("plugins.others").nvim_mapper()
-  --   end,
-  -- }
-
-  --=====[ File and Buffer Navigation ]====={{{1
-  --
-  use {'tpope/vim-projectionist', opt = false} -- allow for project files
-  use {'jlanzarotta/bufexplorer', cmd = "BufExplorer"}
-  use {'famiu/bufdelete.nvim', cmd = "Bdelete"}
-
-  use {'lambdalisue/fern.vim'}
-  use {'hrsh7th/fern-mapping-collapse-or-leave.vim'}
-
-  use {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v1.x",
-    requires = { 
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-      "kyazdani42/nvim-web-devicons",
-    },
-    cmd = "NeoTreeReveal", -- lazy load when F2 is pressed
-    config = function()
-      require("plugins.others").neo_tree()
-    end,
-  }
-
-  -- consider using lir instead of neo-tree and fern.
-  -- use {'tamago324/lir.nvim'}
-  -- use {'tamago324/lir-git-status.nvim'}
-  -- use {'tamago324/lir-bookmark.nvim'}
-  -- use {'tamago324/lir-mmv.nvim'}
-
-  use { -- I don't use this as much as lightpseed but it's still fun.
-    "phaazon/hop.nvim",
-    cmd = {
-      "HopWord",
-      "HopLine",
-      "HopChar1",
-      "HopChar2",
-      "HopPattern",
-    },
-    as = "hop",
-    config = function()
-      require("hop").setup()
-    end,
-  }
-
-  --=====[ Git and Diff ]====={{{1
-  --
-  use {
-    "TimUntersberger/neogit",
-    cmd = {
-      "Neogit",
-      "Neogit commit",
-    },
-    config = function()
-      require "plugins.neogit"
-    end,
-  }
-
-  use {
-    "sindrets/diffview.nvim",
-    after = "neogit",
-  }
-
-  --=====[ Text Modification and Formatting ]====={{{1
-  --
-  use {"gennaro-tedesco/nvim-peekup"} -- vim registers made easy, type ""
-  use {'kana/vim-textobj-user', opt = false} -- define custom text objects (though many don't work or are unneeded)
-  use {'kana/vim-textobj-line', opt = false} -- il and al for selecting the current line
-  use {'kana/vim-textobj-indent', opt = false} -- ii and ai for things at same indent
-  use {'kana/vim-textobj-entire', opt = false} -- ie selects the entire file
-  use {'deathlyfrantic/vim-textobj-blanklines', opt = false} -- use vi<Space> and va<Space> to select blank lines
-
-  -- Text objects based on syntax trees (e.g. ]] goes to next parameter of a function, and vif selects the function)
-  -- See https://github.com/nvim-treesitter/nvim-treesitter-textobjects#built-in-textobjects
-  use {'nvim-treesitter/nvim-treesitter-textobjects'}
-
-  use { -- in visual mode + and - expand or shrink selection
-    'terryma/vim-expand-region',
-    opt = false,
-    config = function()
-       require("plugins.others").vim_expand_region()
-    end,
-  }
-
-  -- Change surrounding characters or select textobjs based on the surrounding characters, such as quotes and parens,
-  -- e.g. Typing vi{ in normal mode will select all text inside {}, or typing cs'" will change a surrounding ' to ".
-  use {
-    'machakann/vim-sandwich',
-    config = function()
-      require "plugins.vim_sandwich"
-    end,
-  }
-
-  use { -- auto format stuff easier, e.g. clang-format
-    'mhartington/formatter.nvim',
-    opt = false,
-    config = function()
-      require "plugins.formatter"
-    end,
-  }
-
-  use { -- (un)comment toggle with gc and gb in visual mode, or gc(motion) in normal mode (e.g. gcip)
-    "numToStr/Comment.nvim",
-    opt = false,
-    config = function()
-       require("plugins.others").comment()
-    end,
-  }
-
-  use { -- autodetect tabs or spaces and to what degree of indent
-    "Darazaki/indent-o-matic",
-    cmd = "IndentOMatic",
-    config = function()
-      require("plugins.others").indentomatic()
-    end,
-  }
-
-  --=====[ Quickfix and Location List ]====={{{1
-  --
-  use {'jeetsukumaran/quickfix-rex.nvim'} -- :Qfrex to load quickfix from grep
-
-  use { -- Makes quickfix and location list window editable (not a lua plugin)
-    'stefandtw/quickfix-reflector.vim',
-    config = function()
-      vim.g.qf_modifiable = 0  -- Require manually making the window editable.
-    end,
-  }
-
-  --=====[ Debugging ]====={{{1
-  --
-  -- use {'mfussenegger/nvim-dap'}
-  -- use {
-  --   "rcarriga/nvim-dap-ui",
-  --   after = {"mfussenegger/nvim-dap"}
-  -- }
-  -- use {'theHamsta/nvim-dap-virtual-text'}
-  -- use {'jbyuki/one-small-step-for-vimkind'}
-
-  -- use {  -- use https://godbolt.org by way of curl
-  --   'p00f/godbolt.nvim',
-  --   cmd = {
-  --     "Godbolt",
-  --     "GodboltCompiler",
-  --   },
-  --   config = function()
-  --      require("godbolt").setup({})
-  --   end,
-  -- }
-
-  --=====[ Other Plugins ]====={{{1
-  --
-  use {'vim-scripts/stlrefvim'} --  C++ STL docs
-  use {'antoinemadec/FixCursorHold.nvim'}
-  use {'simnalamburt/vim-mundo'} -- a tree of undo
-  use {'plasticboy/vim-markdown',  ft = { 'markdown' }}
-  use {'dhruvasagar/vim-table-mode', ft = { 'markdown'}}
-
-  --=====[ Disabled (to try) ]====={{{1
-  --
-  -- use {'fern-bookmark.vim'}
-  -- use {'fern-git-status.vim'}
-  -- use {'fern-mapping-project-top.vim'}
-  --
-  -- use {
-  --    "rcarriga/nvim-notify",
-  --    config = function()
-  --       vim.notify = require "notify"
-  --       require("notify").setup {
-  --          stages = "slide",
-  --          timeout = 2500,
-  --          minimum_width = 50,
-  --          icons = {
-  --             ERROR = "",
-  --             WARN = "",
-  --             INFO = "",
-  --             DEBUG = "",
-  --             TRACE = "✎",
-  --          },
-  --       }
-  --    end,
-  -- }
-  --
-  --
   -- use {'zsugabubus/crazy8.nvim'} -- Autodetect tabs/spaces and to what degree
   -- use {'Shatur/neovim-session-manager'} -- Save sessions by directory
   -- use {'hkupty/iron.nvim'} -- Spin up a repl in a neovim terminal and send text to it
@@ -509,18 +465,18 @@ return packer.startup(function(use)
   -- use {"lukas-reineke/indent-blankline.nvim", ft = { 'html', 'htmldjango', 'python' }}
   -- use {'sedm0784/vim-resize-mode'} -- After doing <C-w>,  be able to type consecutive +,-,<,>
   -- use { 'RRethy/nvim-treesitter-textsubjects', }  -- wish this worked, unfortunately it does not seem to, especially for C++. Seems like an alternative to vim-expand-region.
-  --
+
   -- Git fun...
   -- use {'tpope/vim-fugitive', requires = { 'nvim-lua/plenary.nvim' } } -- And I quote tpope, "A git plugin so awesome, it should be illegal."
   -- use {'tpope/vim-rhubarb' }
   -- use {'pwntester/octo.nvim', requires = { 'kyazdani42/nvim-web-devicons' } } -- Who needs web interfaces when you have neovim interfaces (for Github)?
-  -- 
+
   -- Kotlin
   -- use {'udalov/kotlin-vim'}
-  --
+
   -- -- Rust
   -- use {'simrat39/rust-tools.nvim'}
-  --
+
   --=====[ Disabled (indefinitely) ]====={{{1
   --
   -- use {'nvim-lua/completion-nvim', opt = false} -- no longer maintained.
@@ -549,5 +505,32 @@ return packer.startup(function(use)
   --   keys = "<leader>oc",
   -- }
   -- -- remap('n', '<leader>oc', ":lua require('nvim-quick-switcher').toggle('cpp', 'h')<CR>", {noremap = true, silent = true})
+  -- use { "github/copilot.vim", event = "InsertEnter", } -- a bit creepy/privacy violating
+
+  -- TODO: Good but need to solve the colorscheme issues.
+  -- use {
+  --   'windwp/windline.nvim',
+  --    config = function()
+  --      require("plugins.others").windline()
+  --    end,
+  -- }
+
+  -- TODO: Does not appear to work out of the box.
+  -- use {
+  --   'rebelot/heirline.nvim',
+  --   opt = false,
+  --   config = function()
+  --     require("plugins.heirline").setup()
+  --   end,
+  -- }
+
+  -- TODO: Lots of the examples did not work or were old
+  -- use {
+  --   'feline-nvim/feline.nvim',
+  --   requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+  --   config = function()
+  --     require("plugins.others").feline()
+  --   end,
+  -- }
 
 end)
