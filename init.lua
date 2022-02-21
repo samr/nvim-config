@@ -189,9 +189,9 @@ local disable_default_neovim_plugins = function()
     "2html_plugin",
     "logipat",
     "rrhelper",
-    --"spellfile_plugin",
     "matchit",
-    "matchparen"
+    --"spellfile_plugin",
+    --"matchparen",
   }
   for _, plugin in pairs(disabled_built_ins) do
     vim.g["loaded_" .. plugin] = 1

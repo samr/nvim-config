@@ -85,7 +85,7 @@ local function load_options()
     completeopt    = 'menu,menuone,noinsert,noselect'; -- better completion
     jumpoptions    = "stack";
     showmode       = false;
-    shortmess      = "csaI"; -- disable some stuff on shortmess
+    shortmess      = "filnxocsaIF"; -- disable some stuff on shortmess
     --shortmess    = "aoOTIcF"; -- glepnir defaults
     --shortmess    = "filnxtToOFcaI"; -- default + caI
     scrolloff      = 2;
