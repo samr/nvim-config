@@ -69,6 +69,10 @@
 --
 --  Ambiguous command? Try ":verb command XXX" to see if it is even defined, which it may not be.
 --
+--  To start minimally:
+--    nvim-qt -- -u NONE --clean --noplugin
+--    nvim -u NORC
+--
 --=====[ Various Notes ]====={{{1
 --
 -- Text objects (e.g. viw)

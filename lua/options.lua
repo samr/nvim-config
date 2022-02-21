@@ -99,11 +99,11 @@ local function load_options()
     pumheight      = 15; -- limit completion items
     --helpheight     = 12;
     --previewheight  = 12;
-    cmdheight      = 2;
     --cmdwinheight   = 5;
+    cmdheight      = 1;
     showcmd        = true;
     equalalways    = false;
-    laststatus     = 2; -- always enable statusline
+    laststatus     = 2; -- show statusline on inactive windows
     display        = "lastline";
     showbreak      = "↳  ";
     --fillchars      = "vert:│,eob:\\ "; -- make vertical split sign better
