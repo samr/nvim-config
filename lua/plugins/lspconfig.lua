@@ -190,36 +190,6 @@ nvim_lsp.clangd.setup{
   end,
 }
 
--- For Lua LSP use the sumneko lua-language-server
-local sumneko_root = global.home .. "\\Dev\\lua-language-server"
-
-nvim_lsp.sumneko_lua.setup{
-  capabilities = capabilities,
-  cmd = {
-    sumneko_root
-    .. "\\bin\\Windows\\lua-language-server", "-E",
-    sumneko_root .. "\\main.lua"
-  },
-  on_attach = custom_on_attach,
-  on_init = custom_on_init,
-  settings = {
-    Lua = {
-      runtime = { version = "LuaJIT", path = vim.split(package.path, ';'), },
-      completion = { keywordSnippet = "Disable" },
-      diagnostics = {
-        enable = true,
-        globals = {
-          "vim", "describe", "it", "before_each", "after_each",
-          "awesome", "theme", "client", "packer_plugins",
-        },
-      },
-      workspace = {
-        library = vim.list_extend({[vim.fn.expand("$VIMRUNTIME/lua")] = true},{}),
-      },
-    }
-  }
-}
-
 -- For CMake LSP use the cmake-language-server
 -- https://github.com/regen100/cmake-language-server
 -- pip install cmake-language-server
@@ -254,12 +224,48 @@ nvim_lsp.cmake.setup{
 -- }
 
 
--- TODO: Perhaps try using this instead of nvim_lsp so-as to keep them up-to-date. See 
--- https://github.com/williamboman/nvim-lsp-installer/wiki/Advanced-Configuration#overriding-the-default-lsp-server-options
+-- The williamboman/nvim-lsp-installer plugin manages the installation and startup of some language servers. Configure
+-- them here.
 if has_lsp_installer then
   lsp_installer.on_server_ready(function(server)
-    local opts = {}
+    local opts = {
+      capabilities = capabilities,
+      on_attach = custom_on_attach,
+      on_init = custom_on_init,
+    }
+
+    if server.name == 'sumenko_lua' then
+      -- Configure the Sumenko Lua Language Server
+      opts.settings = {
+        Lua = {
+          runtime = {
+            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+            version = "LuaJIT",
+            -- Setup the lua path
+            path = vim.split(package.path, ';'),
+          },
+          completion = { keywordSnippet = "Disable" },
+          diagnostics = {
+            -- Get the language server to recognize the `vim` global and others
+            enable = true,
+            globals = {
+              "vim", "describe", "it", "before_each", "after_each",
+              "awesome", "theme", "client", "packer_plugins",
+            },
+          },
+          workspace = {
+            -- Make the server aware of Neovim runtime files
+            library = vim.list_extend({
+              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+              [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+          },{}),
+          },
+        },
+      }
+    end
+
     server:setup(opts)
+    vim.cmd([[ do User LspAttach Buffers ]])
   end)
 end
 

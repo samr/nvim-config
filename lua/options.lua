@@ -99,7 +99,7 @@ local function load_options()
     pumheight      = 15; -- limit completion items
     --helpheight     = 12;
     --previewheight  = 12;
-    --cmdheight      = 2;
+    cmdheight      = 2;
     --cmdwinheight   = 5;
     showcmd        = true;
     equalalways    = false;
