@@ -20,13 +20,8 @@ aerial.setup({
   -- This can be a filetype map (see :help aerial-filetype-map)
   backends = { "lsp", "treesitter", "markdown" },
 
-  -- Enum: persist, close, auto, global
-  --   persist - aerial window will stay open until closed
-  --   close   - aerial window will close when original file is no longer visible
-  --   auto    - aerial window will stay open as long as there is a visible
-  --             buffer to attach to
-  --   global  - same as 'persist', and will always show symbols for the current buffer
-  close_behavior = "auto",
+  -- Aerial window will stay open as long as there is a visible buffer to attach to
+  close_automatic_events = { "unsupported" },
 
   -- Set to false to remove the default keybindings for the aerial buffer
   default_bindings = true,
@@ -141,11 +136,15 @@ aerial.setup({
     -- Controls border appearance. Passed to nvim_open_win
     border = "rounded",
 
-    -- Controls row offset from cursor. Passed to nvim_open_win
-    row = 1,
-
-    -- Controls col offset from cursor. Passed to nvim_open_win
-    col = 0,
+    -- override = function(conf, source_winid)
+    --   conf = {
+    --     -- Controls row offset from cursor. Passed to nvim_open_win
+    --     row = 1,
+    --     -- Controls col offset from cursor. Passed to nvim_open_win
+    --     col = 0,
+    --   }
+    --   return conf
+    -- end,
 
     -- The maximum height of the floating aerial window
     max_height = 100,
