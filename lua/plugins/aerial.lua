@@ -20,22 +20,11 @@ aerial.setup({
   -- This can be a filetype map (see :help aerial-filetype-map)
   backends = { "lsp", "treesitter", "markdown" },
 
-  -- Enum: persist, close, auto, global
-  --   persist - aerial window will stay open until closed
-  --   close   - aerial window will close when original file is no longer visible
-  --   auto    - aerial window will stay open as long as there is a visible
-  --             buffer to attach to
-  --   global  - same as 'persist', and will always show symbols for the current buffer
-  close_behavior = "auto",
+  -- Aerial window will stay open as long as there is a visible buffer to attach to
+  close_automatic_events = { "unsupported" },
 
   -- Set to false to remove the default keybindings for the aerial buffer
   default_bindings = true,
-
-  -- Enum: prefer_right, prefer_left, right, left, float
-  -- Determines the default direction to open the aerial window. The 'prefer'
-  -- options will open the window in the other direction *if* there is a
-  -- different buffer in the way of the preferred direction
-  default_direction = "prefer_right",
 
   -- Disable aerial on files with this many lines
   disable_max_lines = 10000,
@@ -92,12 +81,24 @@ aerial.setup({
   -- 'auto' will manage folds if your previous foldmethod was 'manual'
   manage_folds = false,
 
-  -- The maximum width of the aerial window
-  max_width = 40,
+  layout = {
+    -- Enum: prefer_right, prefer_left, right, left, float
+    -- Determines the default direction to open the aerial window. The 'prefer'
+    -- options will open the window in the other direction *if* there is a
+    -- different buffer in the way of the preferred direction
+    default_direction = "prefer_right",
 
-  -- The minimum width of the aerial window.
-  -- To disable dynamic resizing, set this to be equal to max_width
-  min_width = 10,
+    -- The maximum width of the aerial window
+    max_width = 40,
+
+    -- The minimum width of the aerial window.
+    -- To disable dynamic resizing, set this to be equal to max_width
+    min_width = 10,
+
+    -- Set to true to only open aerial at the far right/left of the editor
+    -- Default behavior opens aerial relative to current window
+    placement_editor_edge = false,
+  },
 
   -- Set default symbol icons to use patched font icons (see https://www.nerdfonts.com/)
   -- "auto" will set it to true if nvim-web-devicons or lspkind-nvim is installed.
@@ -110,10 +111,6 @@ aerial.setup({
   -- Automatically open aerial when entering supported buffers.
   -- This can be a function (see :help aerial-open-automatic)
   open_automatic = false,
-
-  -- Set to true to only open aerial at the far right/left of the editor
-  -- Default behavior opens aerial relative to current window
-  placement_editor_edge = false,
 
   -- Run this command after jumping to a symbol (false will disable)
   post_jump_cmd = "normal! zz",
@@ -141,11 +138,15 @@ aerial.setup({
     -- Controls border appearance. Passed to nvim_open_win
     border = "rounded",
 
-    -- Controls row offset from cursor. Passed to nvim_open_win
-    row = 1,
-
-    -- Controls col offset from cursor. Passed to nvim_open_win
-    col = 0,
+    -- override = function(conf, source_winid)
+    --   conf = {
+    --     -- Controls row offset from cursor. Passed to nvim_open_win
+    --     row = 1,
+    --     -- Controls col offset from cursor. Passed to nvim_open_win
+    --     col = 0,
+    --   }
+    --   return conf
+    -- end,
 
     -- The maximum height of the floating aerial window
     max_height = 100,

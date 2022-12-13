@@ -316,7 +316,7 @@ return packer.startup(function(use)
 
   --=====[ Quickfix and Location List ]====={{{1
   --
-  use {'jeetsukumaran/quickfix-rex.nvim'} -- :Qfrex to load quickfix from grep
+  use {'mhinz/vim-grepper', cmd = {'Grepper', '<plug>(GrepperOperator)'}}
 
   use { -- Makes quickfix and location list window editable (not a lua plugin)
     'stefandtw/quickfix-reflector.vim',
