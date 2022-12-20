@@ -122,9 +122,12 @@ end
 ColorUtil.override_darkdevel3 = function()
   local highlights = {
     -- Treesitter highlights (:h nvim-treesitter-highlights)
-    {'TSTypeBuiltin', { bg='NONE', fg='#4B5573', gui="bold"}}, -- Does not appear to work
-    {'TSType', { bg='NONE', fg='#A3E184' }},
-    {'TSKeyword', { bg='NONE', fg='#95F5F8' }},
+    {'@namespace', { bg='NONE', fg='#fff299' }},
+    {'@class', { bg='NONE', fg='#ffffff' }},
+    {'@parameter', { bg='NONE', fg='#a0c0f0' }},
+    {'@variable', { bg='NONE', fg='#b0b0b0' }},
+    {'@deduced', { bg='NONE', fg='#dc4b32' }},
+    {'@typeParameter', { bg='NONE', fg='#ff8800' }},
 
     -- Language server diagnostics
     {'LspDiagnosticsDefaultError', { bg='NONE', fg='#E64557' }},
@@ -198,8 +201,59 @@ vim.cmd('augroup END')
 -- disable invert selection for gruvbox
 -- vim.g.gruvbox_invert_selection = false
 
+-- require('onedark').setup {
+--   style = 'warmer',
+--   toggle_style_key = ",ts",
+--   toggle_style_list = {'darker', 'deep', 'warmer'}, -- List of styles to toggle between
+--
+--   colors = {
+--     bright_orange = "#ff8800",
+--     aqua_green = "#a3e184",
+--     dark_green = "#023020",
+--     dark_orange = "#c86432",
+--     cyan4 = "#008b8b",
+--     light_yellow = "#ffffe0",
+--     light_yellow2 = "#fafad2",
+--     bright_red = "#ee4b2b",
+--     dark_red = "#dc4b32",  -- '#8B0000'
+--     muted_blue = "#6496c8",
+--     white = "#ffffff",
+--   },
+--   highlights = {
+--     ["Type"] = {fg = '$bright_red'},
+--     ["@type"] = {fg = '$bright_red'},
+--     ["@parameter"] = {fg = '$white'},
+--     ["@keywords"] = {fg = '$bright_orange'},
+--     ["Structure"] = {fg = '$bright_orange'},
+--     ["@class"] = {fg = '$yellow'},
+--     ["cStorageClass"] = {fg = '$muted_blue'},
+--     ["StorageClass"] = {fg = '$muted_blue'},
+--     ["@typeParameter"] = {fg = '$dark_orange'},
+--   }
+-- }
+-- require('onedark').load()
+
 if eval('has("win32")') == 1 then
   vim.cmd('colorscheme darkdevel3')
+  --vim.cmd('colorscheme material')
+  --vim.cmd('colorscheme no-clown-fiesta')
+
+  -- require('nightfox').setup {
+  --   options = {
+  --     styles = {
+  --       keywords = "bold",
+  --     },
+  --   },
+  --   specs = {
+  --     all = {
+  --       syntax = {
+  --         keyword = "magenta",
+  --       },
+  --     },
+  --   },
+  -- }
+  -- vim.cmd('colorscheme nightfox')
+
 elseif eval('has("mac")') == 1 then
   vim.cmd('colorscheme darkdevel3osx')
 else
