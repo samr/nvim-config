@@ -58,6 +58,14 @@ return packer.startup(function(use)
     end,
   }
 
+  --=====[ Themes ]====={{{1
+  -- Onedark is pretty good, but liking dark_devel3 better currently.
+  -- use {'navarasu/onedark.nvim'}
+  -- use {'EdenEast/nightfox.nvim'}
+  -- use {'marko-cerovac/material.nvim'}
+  -- use {'aktersnurra/no-clown-fiesta.nvim'}
+  -- use {'Mofiqul/vscode.nvim'}
+
   --=====[ Treesitter ]====={{{1
   --
   use {
@@ -208,7 +216,7 @@ return packer.startup(function(use)
   use {'jlanzarotta/bufexplorer', cmd = "BufExplorer"}
   use {'famiu/bufdelete.nvim', cmd = "Bdelete"}
 
-  use {'lambdalisue/fern.vim'}
+  use {'lambdalisue/fern.vim', branch = 'main'}
   use {'hrsh7th/fern-mapping-collapse-or-leave.vim'}
 
   -- TODO: Create some key mappings for this.
