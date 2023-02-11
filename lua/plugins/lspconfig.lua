@@ -66,7 +66,7 @@ vim.diagnostic.disable()
 
 local lsp_mappings = function(client)
   -- TODO: clangd appears to be lying about its capabilities or this isn't working...
-  if client.resolved_capabilities.find_references then
+  if client.server_capabilities.find_references then
     remap("n", "<leader>lr", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true })
     remap("n", "<leader>lgr", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true })
     remap('n', 'gr', '<cmd>lua require"telescope.builtin".lsp_references()<CR>', { noremap = true, silent = true })

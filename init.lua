@@ -195,9 +195,7 @@ local disable_default_neovim_plugins = function()
   -- Opt in to new native filtetype.lua support.
   -- To go back to old support, set:
   --   vim.g.do_filetype_lua = 0
-  --   vim.g.did_load_filetypes = 1
   vim.g.do_filetype_lua = 1
-  vim.g.did_load_filetypes = 0
 end
 
 -- Set the map leaders for future key maps. {{{1

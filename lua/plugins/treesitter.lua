@@ -43,7 +43,7 @@ ts_config.setup {
     "query",
   },
 
-  indent = { enable = true },
+  indent = { enable = false },
   highlight = {
     enable = false,
     use_languagetree = true,

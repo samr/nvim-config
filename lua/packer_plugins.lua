@@ -42,7 +42,7 @@ return packer.startup(function(use)
   --=====[ Startup ]====={{{1
   --
   use {'lewis6991/impatient.nvim', opt = false} -- faster loading of lua modules
-  use {'nathom/filetype.nvim', opt = false}  -- faster filetype support
+  -- use {'nathom/filetype.nvim', opt = false}  -- faster filetype support
 
   use {  -- start with "nvim-qt -- --startuptime time.log", then use :StartupTime
     'dstein64/vim-startuptime',
@@ -88,14 +88,15 @@ return packer.startup(function(use)
     cmd = "TSPlayground",
   }
 
-  use {  -- show indentation guides
-    "lukas-reineke/indent-blankline.nvim",
-    config = function()
-      require("plugins.others").blankline()
-    end,
-  }
+  -- use {  -- show indentation guides
+  --   "lukas-reineke/indent-blankline.nvim",
+  --   config = function()
+  --     require("plugins.others").blankline()
+  --   end,
+  -- }
 
-  use {"yioneko/nvim-yati"}  -- syntax aware indentation (requires treesitter)
+  -- syntax aware indentation (requires treesitter)
+  use({ "yioneko/nvim-yati", tag = "*", requires = "nvim-treesitter/nvim-treesitter" })
 
   -- C++ specific stuff: TSCppDefineClassFunc, TSCppMakeConcreteClass, TSCppRuleOf5 (config in treesitter)
   -- TODO: Figure out why it fails in some cases
@@ -127,14 +128,14 @@ return packer.startup(function(use)
     end,
   }
 
-  use {
-    "stevearc/aerial.nvim",
-    opt = false,  -- so we can use it with lualine
-    after = "nvim-lspconfig",
-    config = function()
-      require("plugins.aerial")
-    end,
-  }
+  -- use {
+  --   "stevearc/aerial.nvim",
+  --   opt = false,  -- so we can use it with lualine
+  --   after = "nvim-lspconfig",
+  --   config = function()
+  --     require("plugins.aerial")
+  --   end,
+  -- }
 
   use {
     'j-hui/fidget.nvim',
