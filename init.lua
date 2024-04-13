@@ -212,6 +212,7 @@ local load_core = function()
   local core_modules = {
     "appearances",
     "options",
+    "settings",
     "commands",
     "mappings",
     "event",

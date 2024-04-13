@@ -96,7 +96,7 @@ return packer.startup(function(use)
   -- }
 
   -- syntax aware indentation (requires treesitter)
-  use({ "yioneko/nvim-yati", tag = "*", requires = "nvim-treesitter/nvim-treesitter" })
+  -- use({ "yioneko/nvim-yati", tag = "*", requires = "nvim-treesitter/nvim-treesitter" })
 
   -- C++ specific stuff: TSCppDefineClassFunc, TSCppMakeConcreteClass, TSCppRuleOf5 (config in treesitter)
   -- TODO: Figure out why it fails in some cases

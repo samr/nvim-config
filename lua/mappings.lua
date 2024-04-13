@@ -48,9 +48,15 @@ map("n", "<leader>l", "<cmd>HopLine<CR>")
 map("n", "<leader>tz", "<cmd>TZAtaraxis<CR>") --ataraxis
 map("n", "<leader>op", "<cmd>NvimTreeToggle<CR>") --nvimtree
 -- map("n", "<leader>tw", "<cmd>set wrap!<CR>") --nvimtree
---
-map("n", "<c-k>", "<cmd>wincmd k<CR>") --ctrlhjkl to navigate splits
-map("n", "<c-j>", "<cmd>wincmd j<CR>")
+
+if vim.g.neovide then
+  -- neovide needs these defined here instead of ginit.vim
+  map("n", "<c-k>", "<cmd>wincmd k<CR><cmd>wincmd _<CR>") --ctrlhjkl to navigate splits
+  map("n", "<c-j>", "<cmd>wincmd j<CR><cmd>wincmd _<CR>")
+else
+  map("n", "<c-k>", "<cmd>wincmd k<CR>") --ctrlhjkl to navigate splits
+  map("n", "<c-j>", "<cmd>wincmd j<CR>")
+end
 map("n", "<c-h>", "<cmd>wincmd h<CR>")
 map("n", "<c-l>", "<cmd>wincmd l<CR>")
 
@@ -120,9 +126,15 @@ remap("i", "jJ", "<Esc><Esc>", { noremap = true })
 remap("i", "JJ", "<Esc><Esc>", { noremap = true })
 
 -- Better movement between windows
+if vim.g.neovide then
+  -- neovide needs these defined here instead of ginit.vim
+  remap("n", "<C-j>", "<C-w><C-j><C-w>_", { noremap = true })
+  remap("n", "<C-k>", "<C-w><C-k><C-w>_", { noremap = true })
+else
+  remap("n", "<C-j>", "<C-w><C-j>", { noremap = true })
+  remap("n", "<C-k>", "<C-w><C-k>", { noremap = true })
+end
 remap("n", "<C-h>", "<C-w><C-h>", { noremap = true })
-remap("n", "<C-j>", "<C-w><C-j>", { noremap = true })
-remap("n", "<C-k>", "<C-w><C-k>", { noremap = true })
 remap("n", "<C-l>", "<C-w><C-l>", { noremap = true })
 
 -- Resize buffer easier
@@ -280,6 +292,9 @@ remap("v", "m", ':lua require"tsht".nodes()<CR>', { noremap = true })
 -- Mapping for plugin "stevearc/aerial.nvim",
 remap("n", "<leader>a", "<cmd>AerialToggle!<CR>", {})
 
+-- Toggle marker based folds
+remap("n", "<F11>", "&foldmethod == 'marker' ? ':set foldmethod=manual<CR>zE<CR>' : ':set foldmethod=marker<CR>zM<CR>'", { noremap = true, expr = true })
+
 -- ===[ Platform Specific Mappings ]=== {{{1
 
 -- =[ Windows ]= --
@@ -287,7 +302,6 @@ if vim.fn.has("win32") == 1 then
 	-- remap('n', '<A-/>', ':set hlsearch! hlsearch?<CR>', {noremap = true, silent = true}) -- toggle search highlighting
 	remap("n", "<A-/>", ":nohl<CR>", { noremap = true, silent = true }) -- toggle search highlighting (usually off)
 
-	remap("n", "<F11>", "<CMD>Guifont! Roboto Mono Medium for Powerlin:h8<CR>", { noremap = true })
 	remap("n", "<F10>", "<CMD>Guifont! JetBrains Mono:h8:b<CR>", { noremap = true })
 	remap("n", "<F9>", "<CMD>Guifont! Roboto Mono Medium for Powerlin:h7<CR>", { noremap = true })
 

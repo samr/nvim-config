@@ -1,3 +1,4 @@
+-- Define global variables that are useful in subsequently sourced lua scripts.
 local global   = {}
 local os_name  = vim.loop.os_uname().sysname
 local path_sep = string.find(os_name, 'Windows') and '\\' or '/'
