@@ -42,10 +42,6 @@
 --  With nvim-qt one might want to get a larger window by default:
 --    nvim-qt -qwindowgeometry 1200x800
 --
---  To profile the startup time:
---    - On command-line run "nvim-qt -- --startup time.log"
---    - From vim run ":StartupTime" (assumes 'dstein64/vim-startuptime' plugin is installed)
---
 --  For Windows Cmder and similar, may need to add the following to the .bashrc:
 --     function nv() {
 --       # This unsetting and restoring of TERM is necessary so that fzf works.
@@ -55,6 +51,23 @@
 --       nvim-qt "$@" &
 --       export TERM=$TERM_OLD
 --     }
+--
+--=====[ Profiling Vim ]====={{{1
+--
+--  To profile the startup time:
+--    - On command-line run "nvim-qt -- --startup time.log"
+--    - From vim run ":StartupTime" (assumes 'dstein64/vim-startuptime' plugin is installed)
+--    - nvim --startuptime startuptime.log -c "call timer_start(0, { -> execute('qall') })"
+--
+--  To profile something while running:
+--    - Use :profile
+--       :profile start /tmp/nvim-profile.log | profile func * | profile file *
+--       " (do some jobs or source some scripts)
+--       :profile pause | dump
+--    - Use plenary:
+--       require('plenary.profile').start("/tmp/plenary-profile.log")
+--         (do some jobs or source some scripts)
+--       require('plenary.profile').stop()
 --
 --=====[ Debugging Vim ]====={{{1
 --

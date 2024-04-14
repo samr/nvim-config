@@ -51,11 +51,11 @@ M.luasnip = function()
   if not present then
     return
   end
-  luasnip.config.set_config {
-    history = true,
-    updateevents = "TextChanged,TextChangedI",
-  }
-  require("luasnip/loaders/from_vscode").load()
+  -- luasnip.config.set_config {
+  --   history = true,
+  --   updateevents = "TextChanged,TextChangedI",
+  -- }
+  -- require("luasnip/loaders/from_vscode").load()
 end
 
 M.lsp_signature = function()

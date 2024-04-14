@@ -62,14 +62,14 @@ return {
   },
 
   { 'nvim-lua/lsp-status.nvim', },  -- statusline components from lsp
-  { "williamboman/nvim-lsp-installer", },
+  { "williamboman/mason.nvim" },
 
-  {
-    "ray-x/lsp_signature.nvim",
-    config = function()
-      require(plugin_config .. ".others").lsp_signature()
-    end,
-  },
+  -- {
+  --   "ray-x/lsp_signature.nvim",
+  --   config = function()
+  --     require(plugin_config .. ".others").lsp_signature()
+  --   end,
+  -- },
 
   -- {
   --   "stevearc/aerial.nvim",
@@ -89,12 +89,16 @@ return {
 
   --=====[ Snippets ]====={{{1
   --
-  {
-    "L3MON4D3/LuaSnip",
-    config = function()
-      require(plugin_config .. ".others").luasnip()
-    end,
-  },
+  -- {  -- TODO: Disabled due to cache related failures.
+  --   "L3MON4D3/LuaSnip",
+  --   -- follow latest release.
+  --   version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+  --   -- install jsregexp (optional!).
+  --   -- build = "make install_jsregexp"
+  --   config = function()
+  --     require(plugin_config .. ".others").luasnip()
+  --   end,
+  -- },
 
   --=====[ Code Completion ]====={{{1
   --
@@ -136,9 +140,7 @@ return {
   {'tpope/vim-projectionist', lazy = false}, -- allow for project files
   {'jlanzarotta/bufexplorer', cmd = "BufExplorer"},
   {'famiu/bufdelete.nvim', cmd = "Bdelete"},
-
   {'lambdalisue/fern.vim', branch = 'main'},
-  {'hrsh7th/fern-mapping-collapse-or-leave.vim'},
 
   -- TODO: Create some key mappings for this.
   {'ThePrimeagen/harpoon'}, -- requires "nvim-lua/plenary.nvim"
