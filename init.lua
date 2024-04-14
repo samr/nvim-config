@@ -137,25 +137,28 @@ local vim = vim
 
 --=====[ Functions ]====={{{1
 
--- Create cache dir and subs dir {{{1
+-- Create cache dir and the subdirectories needed by common nvim options {{{1
 local create_cache_dir = function()
+  -- Look at lua/global.lua to see how cache_dir and other global variables are defined.
   local data_dir = {
-    global.cache_dir..'backup',
-    global.cache_dir..'session',
-    global.cache_dir..'spell',
-    global.cache_dir..'swap',
-    global.cache_dir..'tags',
-    global.cache_dir..'undo',
-    global.cache_dir..'view'
+    global.cache_dir .. 'backup',
+    global.cache_dir .. 'session',
+    global.cache_dir .. 'spell',
+    global.cache_dir .. 'swap',
+    global.cache_dir .. 'tags',
+    global.cache_dir .. 'undo',
+    global.cache_dir .. 'view'
   }
-  local mkdir_cmd = "mkdir -p "
-  if global.is_windows then
-    mkdir_cmd = "mkdir "
-  end
 
-  -- Only check once whether cache_dir exists. If it does not then make it and
-  -- the sub dirs.
+  -- Only check once whether root cache_dir exists. If it does not then make it and all the sub dirs.
   if vim.fn.isdirectory(global.cache_dir) == 0 then
+    local mkdir_cmd
+    if global.is_windows then
+      mkdir_cmd = "mkdir "
+    else
+      mkdir_cmd = "mkdir -p "
+    end
+
     print(mkdir_cmd .. global.cache_dir)
     os.execute(mkdir_cmd .. global.cache_dir)
     for _,v in pairs(data_dir) do
@@ -166,7 +169,7 @@ local create_cache_dir = function()
   end
 end
 
--- Disable built-in neovim plugins that are unused. {{{1
+-- Disable built-in neovim plugins that are unused in order to speed up loading. {{{1
 local disable_default_neovim_plugins = function()
   local disabled_built_ins = {
     "netrw",
@@ -199,30 +202,70 @@ local disable_default_neovim_plugins = function()
 end
 
 -- Set the map leaders for future key maps. {{{1
-local leader_map = function()
+local map_leaders = function()
   vim.g.mapleader = "\\"
   vim.g.maplocalleader = ";"
   --vim.api.nvim_set_keymap('n','\\','',{noremap = true})
   --vim.api.nvim_set_keymap('x','\\','',{noremap = true})
 end
 
--- Load options, mappings and plugins. {{{1
-local load_core = function()
-  -- These correspond to .lua files
-  local core_modules = {
-    "appearances",
-    "options",
-    "settings",
-    "commands",
-    "mappings",
-    "event",
-    "packer_compiled",
+-- Set configuartion. {{{1
+local set_config = function()
+  -- These module strings correspond to directories under the lua directory where .lua files exist
+  -- The config_* directories are for easily allowing testing of different configurations of nvim.
+  --
+  -- No need to specify plugins as a submodule, that is loaded separately by the plugin manager.
+
+  -- Configuartion definitions. {{{1
+
+  local config_standard = {
+    config_module = "config_standard",
+    sub_modules = {
+      "appearances",
+      "options",
+      "settings",
+      "commands",
+      "mappings",
+      "event",
+    }
   }
 
-  for i = 1, #core_modules, 1 do
-    local ok, err = pcall(require, core_modules[i])
-    if not ok then print(err) end
+  -- Set the desired configuration. {{{1
+  local config = config_standard
+
+  global.config_module = config.config_module
+  return config
+end
+
+-- Load configuration. {{{1
+local load_config = function(config)
+  -- Load all the submodules for the config
+  for i = 1, #config.sub_modules, 1 do
+    if config.config_module ~= "plugins" then
+      local ok, err = pcall(require, config.config_module .. "." .. config.sub_modules[i])
+      if not ok then print(err) end
+    end
   end
+end
+
+-- Load plugin manager. {{{1
+local load_plugin_manager = function()
+  local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+  if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    vim.fn.system({
+      "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git",
+      "--branch=stable", -- latest stable release
+      lazypath,
+    })
+  end
+  vim.opt.rtp:prepend(lazypath)
+
+  require("lazy").setup({
+    spec = {
+      -- Loads the plugins module in the current config_module.
+      { import = global.config_module .. '.plugins' },
+    }
+  })
 end
 
 --=====[ Main ]====={{{1
@@ -232,8 +275,10 @@ vim.opt.shadafile = "NONE"
 
 create_cache_dir()
 disable_default_neovim_plugins()
-leader_map()
-load_core()
+map_leaders()
+local config = set_config()
+load_config(config)
+load_plugin_manager()
 
 -- Reenable shada file.
 vim.opt.shadafile = ""

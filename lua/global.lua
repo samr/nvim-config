@@ -1,28 +1,32 @@
 -- Define global variables that are useful in subsequently sourced lua scripts.
 local global   = {}
+
+-- Local module variables
 local os_name  = vim.loop.os_uname().sysname
 local path_sep = string.find(os_name, 'Windows') and '\\' or '/'
 local home     = os.getenv("HOME")
+local user     = os.getenv("USER")
 
 if not home then
   if string.find(os_name, 'Windows') then
-    home = "C:\\Users\\sriesland"
+    home = "C:\\Users\\" .. user
   else
     home = "~"
   end
 end
 
 function global:load_variables()
-  self.is_mac       = string.find(os_name, 'Darwin')
-  self.is_linux     = string.find(os_name, 'Linux')
-  self.is_windows   = string.find(os_name, 'Windows')
-  self.vim_path     = vim.fn.stdpath('config')  -- path to nvim config, e.g. ~/.config/nvim
-  self.lua_dir      = self.vim_path .. path_sep .. 'lua'
-  self.modules_dir  = self.vim_path .. path_sep .. 'modules'
-  self.cache_dir    = home .. path_sep ..'.cache'.. path_sep ..'nvim'.. path_sep
-  self.path_sep     = path_sep
-  self.home         = home
-  self.data_dir     = string.format('%s/site/',vim.fn.stdpath('data'))
+  self.config_module = nil
+  self.is_mac        = string.find(os_name, 'Darwin')
+  self.is_linux      = string.find(os_name, 'Linux')
+  self.is_windows    = string.find(os_name, 'Windows')
+  self.vim_path      = vim.fn.stdpath('config')  -- path to nvim config, e.g. ~/.config/nvim
+  self.lua_dir       = self.vim_path .. path_sep .. 'lua'
+  self.modules_dir   = self.vim_path .. path_sep .. 'modules'
+  self.cache_dir     = home .. path_sep ..'.cache'.. path_sep ..'nvim'.. path_sep
+  self.path_sep      = path_sep
+  self.home          = home
+  self.data_dir      = string.format('%s/site/',vim.fn.stdpath('data'))
   self.is_cfg_present = function(cfg_name)
     -- this returns 1 if it's not present and 0 if it's present
     -- we need to compare it with 1 because both 0 and 1 is `true` in lua

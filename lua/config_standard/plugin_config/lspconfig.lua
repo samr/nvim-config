@@ -1,6 +1,6 @@
-vim.cmd[[packadd nvim-lspconfig]]
-vim.cmd[[packadd lsp-status.nvim]]
-vim.cmd[[packadd nvim-lsp-installer]]
+-- vim.cmd[[packadd nvim-lspconfig]]
+-- vim.cmd[[packadd lsp-status.nvim]]
+-- vim.cmd[[packadd nvim-lsp-installer]]
 
 local has_nvim_lsp, nvim_lsp = pcall(require, "lspconfig")
 local has_lsp_status, lsp_status = pcall(require, "lsp-status")
@@ -250,7 +250,7 @@ if has_lsp_installer then
             enable = true,
             globals = {
               "vim", "describe", "it", "before_each", "after_each",
-              "awesome", "theme", "client", "packer_plugins",
+              "awesome", "theme", "client",
             },
           },
           workspace = {
