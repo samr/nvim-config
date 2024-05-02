@@ -13,6 +13,8 @@
 --   zM close all folds
 --
 --
+local global = require('global')
+
 -- helper function for clean mappings
 local remap = vim.api.nvim_set_keymap
 local eval = vim.api.nvim_eval
@@ -32,7 +34,7 @@ remap("n", ",fh", "<cmd>Telescope oldfiles<CR>", { noremap = true }) --fuzzy
 remap("n", ",fc", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { noremap = true })
 remap("n", ",fb", "<cmd>Telescope buffers<CR>", { noremap = true })
 remap("n", ",fs", '<CMD>lua require("telescope.builtin").live_grep()<CR>', { noremap = true })
-remap("n", ",fg", '<CMD>lua require("plugins.telescope").grep_prompt()<CR>', { noremap = true, silent = true })
+remap("n", ",fg", '<CMD>lua require("' .. global.config_module .. '.plugin_config.telescope").grep_prompt()<CR>', { noremap = true, silent = true })
 -- remap('n', ',ft', '<CMD>lua require("telescope.builtin").helptags()<CR>', { noremap = true })
 -- TODO: Enable once sql.nvim has windows support...
 --remap('n', ',fe', "<CMD>lua require('telescope').extensions.frecency.frecency()<CR>", {noremap = true, silent = true})

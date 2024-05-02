@@ -8,7 +8,7 @@ local home     = os.getenv("HOME")
 local user     = os.getenv("USER")
 
 if not home then
-  if string.find(os_name, 'Windows') then
+  if string.find(os_name, 'Windows') and user ~= nil then
     home = "C:\\Users\\" .. user
   else
     home = "~"

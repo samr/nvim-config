@@ -192,10 +192,12 @@ return {
   --
   {"gennaro-tedesco/nvim-peekup"}, -- vim registers made easy, type ""
   {'kana/vim-textobj-user', lazy = false}, -- define custom text objects (though many don't work or are unneeded)
-  {'kana/vim-textobj-line', lazy = false}, -- il and al for selecting the current line
-  {'kana/vim-textobj-indent', lazy = false}, -- ii and ai for things at same indent
-  {'kana/vim-textobj-entire', lazy = false}, -- ie selects the entire file
-  {'deathlyfrantic/vim-textobj-blanklines', lazy = false}, -- use vi<Space> and va<Space> to select blank lines
+  {'kana/vim-textobj-line', lazy = false, dependencies = {'kana/vim-textobj-user'}}, -- il and al for selecting the current line
+  {'kana/vim-textobj-indent', lazy = false, dependencies = {'kana/vim-textobj-user'}}, -- ii and ai for things at same indent
+  {'kana/vim-textobj-entire', lazy = false, dependencies = {'kana/vim-textobj-user'}}, -- ie selects the entire file
+
+  -- use vi<Space> and va<Space> to select blank lines
+  {'deathlyfrantic/vim-textobj-blanklines', lazy = false, dependencies = {'kana/vim-textobj-user'}},
 
   -- Text objects based on syntax trees (e.g. ]] goes to next parameter of a function, and vif selects the function)
   -- See https://github.com/nvim-treesitter/nvim-treesitter-textobjects#built-in-textobjects

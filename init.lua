@@ -139,12 +139,6 @@
 --
 -- }}}
 
--- Let impatient cache things, if it is available
-local has_impatient, impatient = pcall(require, "impatient")
-if not has_impatient then
-  print('Unable to load plugin "impatient" -- probably because you need to run :PackerSync or similar.')
-end
-
 local global = require('global')
 local vim = vim
 
