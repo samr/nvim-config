@@ -1,2 +1,3 @@
 .gitconfig
+lazy-lock.json
 lua/packer_compiled.lua

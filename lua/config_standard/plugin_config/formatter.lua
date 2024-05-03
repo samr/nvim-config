@@ -1,4 +1,4 @@
-vim.cmd[[packadd formatter.nvim]]
+-- vim.cmd[[packadd formatter.nvim]]
 
 local global = require('global')
 local remap = vim.api.nvim_set_keymap

@@ -10,7 +10,12 @@
 "Guifont! Consolas:h8
 
 " This is the Medium version (~ same as Powerline). Some icons still cause alignment issues.
-Guifont! RobotoMono NF:h7
+if exists("g:neovide")
+  "set guifont=RobotoMono\ NF:h7
+  set guifont=RobotoMono\ NF:h6.5:#e-subpixelantialias:#h-full
+else
+  Guifont! RobotoMono NF:h7
+endif
 
 "" Set a thin cursor for both insert and visual mode
 "" This does not seem to work with nvim-qt

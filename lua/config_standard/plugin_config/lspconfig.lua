@@ -1,6 +1,6 @@
-vim.cmd[[packadd nvim-lspconfig]]
-vim.cmd[[packadd lsp-status.nvim]]
-vim.cmd[[packadd nvim-lsp-installer]]
+-- vim.cmd[[packadd nvim-lspconfig]]
+-- vim.cmd[[packadd lsp-status.nvim]]
+-- vim.cmd[[packadd nvim-lsp-installer]]
 
 local has_nvim_lsp, nvim_lsp = pcall(require, "lspconfig")
 local has_lsp_status, lsp_status = pcall(require, "lsp-status")
@@ -66,7 +66,7 @@ vim.diagnostic.disable()
 
 local lsp_mappings = function(client)
   -- TODO: clangd appears to be lying about its capabilities or this isn't working...
-  if client.resolved_capabilities.find_references then
+  if client.server_capabilities.find_references then
     remap("n", "<leader>lr", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true })
     remap("n", "<leader>lgr", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true })
     remap('n', 'gr', '<cmd>lua require"telescope.builtin".lsp_references()<CR>', { noremap = true, silent = true })
@@ -250,7 +250,7 @@ if has_lsp_installer then
             enable = true,
             globals = {
               "vim", "describe", "it", "before_each", "after_each",
-              "awesome", "theme", "client", "packer_plugins",
+              "awesome", "theme", "client",
             },
           },
           workspace = {
