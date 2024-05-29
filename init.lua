@@ -82,6 +82,10 @@
 --
 --  Ambiguous command? Try ":verb command XXX" to see if it is even defined, which it may not be.
 --
+--  To start minimally:
+--    nvim-qt -- -u NONE --clean --noplugin
+--    nvim -u NORC
+--
 --=====[ Various Notes ]====={{{1
 --
 -- Text objects (e.g. viw)
@@ -195,9 +199,9 @@ local disable_default_neovim_plugins = function()
     "2html_plugin",
     "logipat",
     "rrhelper",
-    --"spellfile_plugin",
     "matchit",
-    "matchparen"
+    --"spellfile_plugin",
+    --"matchparen",
   }
   for _, plugin in pairs(disabled_built_ins) do
     vim.g["loaded_" .. plugin] = 1
