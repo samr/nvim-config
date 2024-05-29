@@ -97,8 +97,16 @@ local custom_on_attach = function(client)
 end
 
 local custom_on_init = function(client)
-  print('Language Server Protocol started!')
-  print(string(client.name()))
+  client_name = 'unknown'
+  if client.name ~= nil and type(client.name) == 'string' then
+    client_name = client.name
+  else
+    error, name = pcall(client.name)
+    if name then
+      client_name = name
+    end
+  end
+  print('Language Server Protocol client started: ' .. client_name)
 end
 
 -- --[[
@@ -185,7 +193,6 @@ nvim_lsp.clangd.setup{
     --  [[autocmd CursorMoved <buffer> lua vim.lsp.util.buf_clear_references()]])
   end,
   on_init = function(client)
-    lsp_status.on_init(client)
     custom_on_init(client)
   end,
 }
