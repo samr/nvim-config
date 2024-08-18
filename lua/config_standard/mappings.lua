@@ -201,7 +201,8 @@ remap("n", "gf", "<CMD>Format<CR>", { silent = true, noremap = true })
 remap("n", ",cf", "<CMD>Format<CR>", { silent = true, noremap = true })
 
 -- Return the syntax highlighting group that the current "thing" under the cursor belongs to.
--- nmap <silent> ,qq :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+remap("n", ",hg", ':Inspect<CR>', { silent = true, noremap = true })
+-- remap <silent> ,zz :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 -- ===[ Quickfix and Location Lists ]=== {{{1
 --

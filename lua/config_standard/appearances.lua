@@ -122,6 +122,7 @@ end
 ColorUtil.override_darkdevel3 = function()
   local highlights = {
     -- Treesitter highlights (:h nvim-treesitter-highlights)
+    {'@lsp.type.namespace.cpp', { bg='NONE', fg='#fff299' }},
     {'@namespace', { bg='NONE', fg='#fff299' }},
     {'@class', { bg='NONE', fg='#ffffff' }},
     {'@parameter', { bg='NONE', fg='#a0c0f0' }},
