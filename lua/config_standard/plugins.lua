@@ -1,3 +1,9 @@
+-- To update plugins, run :Lazy sync
+-- More info at https://lazy.folke.io/usage
+--
+-- For luarocks see https://luarocks.org/#quick-start
+-- For Lua5.1, download at https://luabinaries.sourceforge.net/download.html
+--
 -- Fold Commands
 --   (this is first in case file opens with folds folded)
 

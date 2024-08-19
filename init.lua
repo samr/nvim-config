@@ -11,29 +11,30 @@
 --=====[ Installation ]====={{{1
 --
 -- Windows:
---   Packer
---     - cd ~/AppData/Local/nvim-data   # the path returned by :lua print(vim.fn.stdpath('data'))
---     - git clone https://github.com/wbthomason/packer.nvim site/pack/packer/opt/packer.nvim
---     - open nvim and run :PackerInstall, :PackerCompile
+--   Lazy.nvim
+--     - Should be done automatically by this script, otherwise see https://lazy.folke.io/installation
+--     - Note that one can update the plugins with :Lazy sync
 --
 --   Lua Language Server
+--     - Install Lua5.1 on the path, probably from https://luabinaries.sourceforge.net/download.html
+--     - Install luarocks, from https://luarocks.org/#quick-start
 --     - cd ${DEV_DIR}
 --     - git clone https://github.com/sumneko/lua-language-server
 --     - git submodule update --init --recursive
---     - source vcvars64.bat from cmd and build with CMake/Visual Studio
---     - update lua/modules/lsp/init.lua to set "local sumenko_root = ${DEV_DIR}/lua-language-server"
+--     - Source vcvars64.bat from cmd and build with CMake/Visual Studio
+--     - Update lua/modules/lsp/init.lua to set "local sumenko_root = ${DEV_DIR}/lua-language-server"
 --
 --   Python Support
---     - ensure the following executables are in your path:
+--     - Ensure the following executables are in your path:
 --        - python3, pip3, python2 and pip2
---     - on windows, ensure python2 exists by copying python.exe to python2.exe.
+--     - On windows, ensure python2 exists by copying python.exe to python2.exe.
 --     - Run or rerun (to upgrade):
 --        % pip2 install --user --upgrade neovim
 --        % pip3 install --user --upgrade neovim
 --
 --   Clangd Language Server
---     - compile for LLVM head, and put clangd in path
---     - ensure compile_commands.json exists (e.g. mklink /H compile_commands.json build_ninja\RelWithDebInfo\compile_commands.json)
+--     - Compile for LLVM head, and put clangd in path
+--     - Ensure compile_commands.json exists (e.g. mklink /H compile_commands.json build_ninja\RelWithDebInfo\compile_commands.json)
 --
 -- Use :checkhealth to see what is setup successfully.
 --
@@ -237,8 +238,25 @@ local set_config = function()
     }
   }
 
+  local config_vscode = {
+    config_module = "config_vscode",
+    sub_modules = {
+      "appearances",
+      "options",
+      "settings",
+      "commands",
+      "mappings",
+      "event",
+    }
+  }
+
   -- Set the desired configuration. {{{1
-  local config = config_standard
+  local config
+  if vim.g.vscode then
+    config = config_vscode
+  else
+    config = config_standard
+  end
 
   global.config_module = config.config_module
   return config
@@ -257,6 +275,7 @@ end
 
 -- Load plugin manager. {{{1
 local load_plugin_manager = function()
+  -- https://github.com/folke/lazy.nvim
   local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
   if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({
@@ -271,7 +290,22 @@ local load_plugin_manager = function()
     spec = {
       -- Loads the plugins module in the current config_module.
       { import = global.config_module .. '.plugins' },
-    }
+    },
+    performance = {
+      rtp = {
+        -- Disable some rtp plugins
+        disabled_plugins = {
+          "gzip",
+          "matchit",
+          "netrwPlugin",
+          "tarPlugin",
+          "tohtml",
+          "tutor",
+          "zipPlugin",
+          -- "matchparen",
+        },
+      },
+    },
   })
 end
 
