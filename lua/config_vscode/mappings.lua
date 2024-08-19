@@ -1,6 +1,8 @@
 --
 local global = require('global')
 
+local vscode = require('vscode')
+
 local remap = vim.api.nvim_set_keymap
 local eval = vim.api.nvim_eval
 
@@ -63,10 +65,23 @@ map("n", "<c-l>", "<cmd>call VSCodeNotify('workbench.action.navigateRight')<CR>"
 --
 remap("n", "<A-/>", ":nohl<CR>", { noremap = true, silent = true }) -- toggle search highlighting (usually off)
 
+-- Move cursor up/down a page using ALT+[ui]. This is mapped in keybindings.json instead of here with:
+--    {
+--      "command": "vscode-neovim.ctrl-b",
+--      "key": "alt+i",
+--      "when": "editorTextFocus && neovim.ctrlKeysNormal.f && neovim.init && neovim.mode != 'insert' && editorLangId not in 'neovim.editorLangIdExclusions'"
+--    },
+--
+--remap("n", "<A-i>", "<C-b>", { noremap = true, silent = true })
+--remap("n", "<A-u>", "<C-f>", { noremap = true, silent = true })
+
 -- Move cursor up/down many lines using ALT+[jk]   (note, add entries similar to A-/)
 remap("n", "<A-k>", "10k", { noremap = true })
 remap("n", "<A-j>", "10j", { noremap = true })
 
+-- Move a line of text using ALT+[jk] in visual mode
+remap("v", "<A-k>", ":m'<-2<cr>`>my`<mzgv`yo`z", { noremap = true })
+remap("v", "<A-j>", ":m'>+<cr>`<my`>mzgv`yo`z", { noremap = true })
 
 -- === [ Code Modification ]== {{{1
 --
@@ -75,7 +90,11 @@ remap("n", "<A-j>", "10j", { noremap = true })
 -- gc / C-/  comment block
 -- gcc / C-/ comment line
 
--- remap("n", "?", "<Cmd>lua require('vscode').action('workbench.action.findInFiles', { args = { query = vim.fn.expand('<cword>') } })<CR>", { noremap = true })
+-- Format code (probably clang-format.
+local code_format = vscode.to_op(function(ctx)
+  vscode.action("editor.action.formatSelection", { range = ctx.range, callback = esc })
+end)
+vim.keymap.set({"n", "x"}, ",cf", code_format, { expr = true })
 
 -- Open refactor menu while something is highlighted,
 --   https://github.com/vscode-neovim/vscode-neovim?tab=readme-ov-file#vscodewith_insertcallback
@@ -84,3 +103,14 @@ vim.keymap.set({ "n", "x" }, ",r", function()
     vscode.action("editor.action.refactor")
   end)
 end)
+
+-- -- Find the current word in files.
+-- local find_in_files = vscode.to_op(function(ctx)
+--   vscode.action("workbench.action.findInFiles", { args = { query = vim.fn.expand('<cword>') } })
+-- end)
+-- vim.keymap.set({"n", "x"}, "?", find_in_files, { noremap = true })
+
+-- Better indenting experience
+remap("v", "<", "<gv", { noremap = true })
+remap("v", ">", ">gv", { noremap = true })
+

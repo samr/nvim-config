@@ -149,10 +149,6 @@ remap("n", "<Down>", "<CMD>resize -2<CR>", { noremap = true })
 remap("n", "j", "gj", { noremap = true })
 remap("n", "k", "gk", { noremap = true })
 
--- Move vertically by visual line on wrapped lines
-remap("n", "j", "gj", { noremap = true })
-remap("n", "k", "gk", { noremap = true })
-
 -- Better yank behaviour
 remap("n", "Y", "y$", { noremap = true })
 
