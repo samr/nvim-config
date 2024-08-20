@@ -143,7 +143,8 @@ return {
 
   --=====[ File and Buffer Navigation ]====={{{1
   --
-  {'tpope/vim-projectionist', lazy = false}, -- allow for project files
+  -- TODO: Appears to be broken in latest neovim
+  -- {'tpope/vim-projectionist', lazy = false}, -- allow for project files
   {'jlanzarotta/bufexplorer', cmd = "BufExplorer"},
   {'famiu/bufdelete.nvim', cmd = "Bdelete"},
   {'lambdalisue/fern.vim', branch = 'main'},

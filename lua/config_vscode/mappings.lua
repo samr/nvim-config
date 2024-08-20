@@ -37,10 +37,10 @@ end
 -- C-0       move context/focus to the left sidebar
 -- C-1       move context/focus to the editor
 -- C-2       move context/focus to the right editor (or open an editor split, if not yet split)
--- gt        gotoEditor(v:count, 'next')  -- Goto next tab
--- gT        gotoEditor(v:count, 'prev')
--- C-PgUp    next tab
--- C-PgDn    previous tab
+-- gt        next tab (within a window)
+-- gT        previous tab (within a windows)
+-- C-PgUp    next tab (across all windows)
+-- C-PgDn    previous tab (across all windows)
 -- A-o       switch between header and source
 -- z=        quickfix
 
@@ -53,7 +53,8 @@ map("n", "<c-l>", "<cmd>call VSCodeNotify('workbench.action.navigateRight')<CR>"
 
 -- Note that to get the Alt key to work in a mapping requires a VSCode keybinding passthrough.
 --     Goto Preferences -> Keyboard Shortcuts (click icont to open keyboard shortcuts JSON).
--- The file itself is probably found in C:\Users\$USER\AppData\Roaming\Code\User\keybindings.json
+-- The file itself is probably found in:
+--     C:\Users\$USER\AppData\Roaming\Code\User\keybindings.json
 --
 -- Add the following entry to keybindings.json:
 --    {

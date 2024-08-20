@@ -238,6 +238,11 @@ local set_config = function()
     }
   }
 
+  -- Configuration for when in VSCode and running the VSCode + Neovim extension.
+  -- Common VSCode locations for additional configuration:
+  --  [Windows]
+  --    C:\Users\$USER\AppData\Roaming\Code\User\settings.json
+  --    C:\Users\$USER\AppData\Roaming\Code\User\keybindings.json
   local config_vscode = {
     config_module = "config_vscode",
     sub_modules = {
