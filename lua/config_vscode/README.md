@@ -3,8 +3,8 @@
 This directory is for settings used to configure Neovim when it is running within the context of VSCode using the
 [vscode-neovim plugin](https://github.com/vscode-neovim/vscode-neovim).
 
-Notably most of the configuration for VSCode is found in Windows under the `C:\Users\$USER\AppData\Roaming\Code\User`
-directory or in Linux under `~/.vscode`.
+Notably most of the configuration for VSCode is found in Windows under the
+`C:\Users\$USERNAME\AppData\Roaming\Code\User` directory or in Linux under `~/.vscode`.
 
 
 ## VSCode Specific Settings
