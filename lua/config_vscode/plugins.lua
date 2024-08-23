@@ -39,6 +39,21 @@ return {
     end,
   },
 
+  { -- I don't use this as much as lightspeed but it's still fun.
+    "phaazon/hop.nvim",
+    cmd = {
+      "HopWord",
+      "HopLine",
+      "HopChar1",
+      "HopChar2",
+      "HopPattern",
+    },
+    name = "hop",
+    config = function()
+      require("hop").setup()
+    end,
+  },
+
   --=====[ LazyExtras ]====={{{1
   -- The ones loaded by :LazyExtras
   -- See https://www.lazyvim.org/extras/vscode

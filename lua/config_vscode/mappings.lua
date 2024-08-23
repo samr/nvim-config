@@ -74,6 +74,12 @@ remap("n", ",k", "<cmd>call VSCodeNotify('workbench.action.openGlobalKeybindings
 remap("n", ",s", "<cmd>call VSCodeNotify('workbench.action.showCommands')<CR>", { noremap = true, silent = true })
 remap("n", ",c", "<cmd>call VSCodeNotify('workbench.action.showCommands')<CR>", { noremap = true, silent = true })
 
+-- Hop/easymotion/lightspeed jump to character
+map("n", "<Leader>w", "<cmd>HopWord<CR>")
+map("n", "<LocalLeader>w", "<cmd>HopWord<CR>")
+map("n", "<Leader>l", "<cmd>HopLine<CR>")
+map("n", "<LocalLeader>l", "<cmd>HopLine<CR>")
+
 -- Note that to get the Alt key to work in a mapping requires a VSCode keybinding passthrough.
 --     Goto Preferences -> Keyboard Shortcuts (click icont to open keyboard shortcuts JSON).
 -- The file itself is probably found in:
@@ -108,6 +114,7 @@ remap("n", "<A-j>", "10j", { noremap = true })
 remap("v", "<A-k>", ":m'<-2<cr>`>my`<mzgv`yo`z", { noremap = true })
 remap("v", "<A-j>", ":m'>+<cr>`<my`>mzgv`yo`z", { noremap = true })
 
+
 -- === [ Code Modification ]== {{{1
 --
 -- C-Space   intellisense code completion
@@ -115,6 +122,9 @@ remap("v", "<A-j>", ":m'>+<cr>`<my`>mzgv`yo`z", { noremap = true })
 -- gqq / ==  editor.action.formatSelection (applied to line)
 -- gc / C-/  comment block
 -- gcc / C-/ comment line
+
+-- Fast saving
+remap("n", ";s", ":w!<CR>", { noremap = false })
 
 -- Format code (probably clang-format.
 local code_format = vscode.to_op(function(ctx)

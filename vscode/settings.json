@@ -41,6 +41,8 @@
     },
     "editor.tokenColorCustomizations": {
         // To get the names of these scopes, put the cursor over the token, C-S-p and seach for "inspect editor tokens and scopes"
+        // To find out the RGB value of a Neovim color see:
+        //     https://github.com/neovim/neovim/blob/6af9ca4926e05ac698d828ab6aeef2f45ccccdf8/src/nvim/highlight_group.c#L2516
         "[Ayu Dark Bordered]": {
             "textMateRules": [
             {
