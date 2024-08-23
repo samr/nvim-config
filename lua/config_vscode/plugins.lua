@@ -20,7 +20,25 @@ local global = require('global')
 
 local plugin_config = global.config_module .. ".plugin_config"
 
+-- Plugins that definitely do not work:
+--   plenary, popup, Telescope, lualine
 return {
+  { "nvim-treesitter/nvim-treesitter",
+    config = function()
+      require(plugin_config .. ".treesitter")
+    end,
+  },
+  { "nvim-treesitter/nvim-treesitter-textobjects" },
+
+  -- Change surrounding characters or select textobjs based on the surrounding characters, such as quotes and parens,
+  -- e.g. Typing vi{ in normal mode will select all text inside {}, or typing cs'" will change a surrounding ' to ".
+  {
+    'machakann/vim-sandwich',
+    config = function()
+      require(plugin_config .. ".vim_sandwich")
+    end,
+  },
+
   --=====[ LazyExtras ]====={{{1
   -- The ones loaded by :LazyExtras
   -- See https://www.lazyvim.org/extras/vscode

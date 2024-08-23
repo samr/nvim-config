@@ -163,7 +163,7 @@ return {
     -- requires = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "kyazdani42/nvim-web-devicons", },
   },
 
-  { -- I don't use this as much as lightpseed but it's still fun.
+  { -- I don't use this as much as lightspeed but it's still fun.
     "phaazon/hop.nvim",
     cmd = {
       "HopWord",
