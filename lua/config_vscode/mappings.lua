@@ -32,8 +32,14 @@ end
 -- C-p       Navigate lists, parameter hints, suggestions, quick-open, cmdline history, peek reference list
 -- C-S-p     fuzzy find any installed action by description  (note to reload config type this and search "reload window")
 -- C-S-e     show the current file in the left sidebar
--- C-S-m     toggle the bottom tray problems (works as a universal way to show/hide the bottom)
--- C-S-u     toggle the bottom tray output (works as a universal way to show/hide the bottom)
+--
+-- All of these "toggle bottom" bindings serve as a universal way to show/hide the bottom pane.
+-- C-S-m     toggle the bottom tray problems
+-- C-S-u     toggle the bottom output tray
+-- C-S-y     toggle the bottom debug output console tray
+-- C-S-d     toggle the bottom run and debug tray (works as a universal way to show/hide the bottom)
+-- C-`       toggle the bottom terminal
+--
 -- C-b       toggle the left sidebar (in whatever context it was last in)
 -- C-0       move context/focus to the left sidebar
 -- C-1       move context/focus to the editor
