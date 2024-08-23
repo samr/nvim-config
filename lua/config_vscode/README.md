@@ -6,6 +6,9 @@ This directory is for settings used to configure Neovim when it is running withi
 Notably most of the configuration for VSCode is found in Windows under the
 `C:\Users\$USERNAME\AppData\Roaming\Code\User` directory or in Linux under `~/.vscode`.
 
+When editing the configs for either Neovim or VSCode, you can reload the current editor config by hitting
+`Ctrl+Shift+p` then searching for "reload" to find "Reload Window", then pressing Enter.
+
 
 ## VSCode Specific Settings
 

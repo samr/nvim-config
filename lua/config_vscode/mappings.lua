@@ -51,12 +51,23 @@ end
 -- A-o       switch between header and source
 -- z=        quickfix
 
--- https://github.com/vscode-neovim/vscode-neovim/blob/master/runtime/vscode/overrides/vscode-window-commands.vim
--- C-hjkl to navigate splits
+-- C-hjkl to navigate splits.
+--   https://github.com/vscode-neovim/vscode-neovim/blob/master/runtime/vscode/overrides/vscode-window-commands.vim
 map("n", "<c-j>", "<cmd>call VSCodeNotify('workbench.action.navigateDown')<CR><cmd>call VSCodeNotify('workbench.action.toggleEditorWidths')<CR>")
 map("n", "<c-k>", "<cmd>call VSCodeNotify('workbench.action.navigateUp')<CR><cmd>call VSCodeNotify('workbench.action.toggleEditorWidths')<CR>")
 map("n", "<c-h>", "<cmd>call VSCodeNotify('workbench.action.navigateLeft')<CR>")
 map("n", "<c-l>", "<cmd>call VSCodeNotify('workbench.action.navigateRight')<CR>")
+
+-- Find and open a file like fuzzy finding in telescope, either on the filesystem or in the current buffers.
+remap("n", ",f", "<cmd>call VSCodeNotify('workbench.action.quickOpen')<CR>", { noremap = true, silent = true })
+remap("n", ",b", "<cmd>call VSCodeNotify('workbench.action.showAllEditorsByMostRecentlyUsed')<CR>", { noremap = true, silent = true })
+
+-- Find keyboard mappings
+remap("n", ",m", "<cmd>call VSCodeNotify('workbench.action.openGlobalKeybindings')<CR>", { noremap = true, silent = true })
+
+-- Find settings and recent commands
+remap("n", ",s", "<cmd>call VSCodeNotify('workbench.action.showCommands')<CR>", { noremap = true, silent = true })
+remap("n", ",c", "<cmd>call VSCodeNotify('workbench.action.showCommands')<CR>", { noremap = true, silent = true })
 
 -- Note that to get the Alt key to work in a mapping requires a VSCode keybinding passthrough.
 --     Goto Preferences -> Keyboard Shortcuts (click icont to open keyboard shortcuts JSON).
@@ -71,7 +82,8 @@ map("n", "<c-l>", "<cmd>call VSCodeNotify('workbench.action.navigateRight')<CR>"
 --        "args": "<A-/>",
 --    },
 --
-remap("n", "<A-/>", ":nohl<CR>", { noremap = true, silent = true }) -- toggle search highlighting (usually off)
+-- Toggle search highlighting (usually off)
+remap("n", "<A-/>", ":nohl<CR>", { noremap = true, silent = true })
 
 -- Move cursor up/down a page using ALT+[ui]. This is mapped in keybindings.json instead of here with:
 --    {
