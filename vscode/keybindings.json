@@ -1,0 +1,57 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "command": "vscode-neovim.send",
+        // the key sequence to activate the binding
+        "key": "alt+/",
+        // don't activate during insert mode
+        "when": "editorTextFocus && neovim.mode != insert",
+        // the input to send to Neovim
+        "args": "<A-/>"
+    },
+    {
+      "command": "vscode-neovim.ctrl-b",
+      "key": "alt+i",
+      "when": "editorTextFocus && neovim.ctrlKeysNormal.f && neovim.init && neovim.mode != 'insert' && editorLangId not in 'neovim.editorLangIdExclusions'"
+    },
+    {
+      "command": "vscode-neovim.ctrl-f",
+      "key": "alt+u",
+      "when": "editorTextFocus && neovim.ctrlKeysNormal.f && neovim.init && neovim.mode != 'insert' && editorLangId not in 'neovim.editorLangIdExclusions'"
+    },
+    {
+        "command": "vscode-neovim.send",
+        "key": "alt+j",
+        "when": "editorTextFocus && neovim.mode != insert",
+        "args": "<A-j>"
+    },
+    {
+        "command": "vscode-neovim.send",
+        "key": "alt+k",
+        "when": "editorTextFocus && neovim.mode != insert",
+        "args": "<A-k>"
+    },
+    {
+        "key": "ctrl+shift+`",
+        "command": "C_Cpp.DisableErrorSquiggles"
+    },
+    {
+        "key": "shift+alt+`",
+        "command": "C_Cpp.EnableErrorSquiggles"
+    },
+    {
+        "key": "shift+alt+t",
+        "command": "workbench.action.terminal.new",
+        "when": "terminalProcessSupported || terminalWebExtensionContributedProfile"
+    },
+    {
+        "key": "ctrl+shift+`",
+        "command": "-workbench.action.terminal.new",
+        "when": "terminalProcessSupported || terminalWebExtensionContributedProfile"
+    },
+    {
+        "key": "alt+k",
+        "command": "-editor.action.accessibilityHelpConfigureKeybindings",
+        "when": "accessibilityHelpIsShown && accessibleViewHasUnassignedKeybindings"
+    }
+]

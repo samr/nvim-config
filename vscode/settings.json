@@ -1,0 +1,215 @@
+{
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "vscode-neovim.neovimExecutablePaths.win32": "C:\\Applications\\Neovim\\bin\\nvim",
+    "vscode-neovim.neovimInitVimPaths.win32": "C:\\Users\\sriesland\\AppData\\Local\\nvim\\init.lua",
+    "telemetry.telemetryLevel": "error",
+    "cmake.configureOnOpen": false,
+    "cmake.pinnedCommands": [
+        "workbench.action.tasks.configureTaskRunner",
+        "workbench.action.tasks.runTask"
+    ],
+    "cmake.showOptionsMovedNotification": false,
+    "clang-format.fallbackStyle": "Google",
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "clang-format.language.apex.enable": false,
+    "git.autofetch": true,
+    "workbench.colorTheme": "Ayu Dark Bordered",
+    "workbench.iconTheme": "Monokai Pro Icons",
+    "workbench.preferredDarkColorTheme": "Ayu Dark",
+    "workbench.colorCustomizations": {
+        // https://code.visualstudio.com/docs/getstarted/userinterface
+        // https://code.visualstudio.com/api/references/theme-color
+        "foreground": "#fff",
+        "dropdown.foreground": "#fff",
+        "button.foreground": "#fff",
+        "sideBar.foreground": "#aaa",
+        "sideBarSectionHeader.foreground" : "#ccc",
+        "activityBar.foreground": "#fff",
+        "activityBar.inactiveForeground": "#fff",
+        "tab.inactiveForeground": "#aaa",
+        "tab.activeForeground": "#fff",
+        "titleBar.inactiveForeground": "#fff",
+        "menu.foreground": "#fff",
+        "statusBar.foreground": "#aaa",
+        "panelTitle.activeForeground": "#fff",
+        "panelTitle.inactiveForeground": "#aaa",
+        "breadcrumb.foreground": "#777",
+    },
+    "editor.tokenColorCustomizations": {
+        // To get the names of these scopes, put the cursor over the token, C-S-p and seach for "inspect editor tokens and scopes"
+        "[Ayu Dark Bordered]": {
+            "textMateRules": [
+            {
+                "name": "Comment",
+                "scope": [
+                    "comment"
+                ],
+                "settings": {
+                    "fontStyle": "italic",
+                    "foreground": "#008b8b"
+                }
+            },
+            {
+                "name": "String",
+                "scope": [
+                    "string",
+                    "constant.other.symbol"
+                ],
+                "settings": {
+                    "foreground": "#64c896"
+                }
+            },
+            {
+                "name": "Regular Expressions and Escape Characters",
+                "scope": [
+                    "string.regexp",
+                    "constant.character",
+                    "constant.other"
+                ],
+                "settings": {
+                    "foreground": "#95e6cb"
+                }
+            },
+            {
+                "name": "Number",
+                "scope": [
+                    "constant.numeric"
+                ],
+                "settings": {
+                    "foreground": "#64c896"
+                }
+            },
+            {
+                "name": "Built-in constants",
+                "scope": [
+                    "constant.language"
+                ],
+                "settings": {
+                    "foreground": "#7eb0e3"
+                }
+            },
+            {
+                "name": "Variable",
+                "scope": [
+                    "variable",
+                    "variable.parameter.function-call"
+                ],
+                "settings": {
+                    "foreground": "#bfbdb6"
+                }
+            },
+            {
+                "name": "Member Variable",
+                "scope": [
+                    "variable.member"
+                ],
+                "settings": {
+                    "foreground": "#bfbdb6"
+                }
+            },
+            {
+                "name": "Language variable",
+                "scope": [
+                    "variable.language"
+                ],
+                "settings": {
+                    "fontStyle": "italic",
+                    "foreground": "#bfbdb6"
+                }
+            },
+            {
+                "name": "Storage",
+                "scope": [
+                    "storage"
+                ],
+                "settings": {
+                    "foreground": "#bdcacf"
+                }
+            },
+            {
+                "name": "Storage",
+                "scope": [
+                    "storage.type.modifier.access.control"
+                ],
+                "settings": {
+                    "foreground": "#cda63a"
+                }
+            },
+            {
+                "name": "Storage",
+                "scope": [
+                    "storage.type.modifier.access.public",
+                    "storage.type.modifier.final",
+                    "storage.type.namespace",
+                    "storage.type.return-type.lambda",
+                    "storage.type.struct",
+                    "storage.modifier.const",
+                    "storage.modifier.static",
+                    "storage.modifier.specifier.const",
+                    "storage.modifier.virtual",
+                    "storage.modifier.specifier.functional.pre-parameters",
+                    "storage.modifier.specifier.functional.post-parameters",
+                    "storage.type.built-in",
+                    "storage.type.class"
+                ],
+                "settings": {
+                    "foreground": "#b13f28"
+                }
+            },
+            {
+                "name": "Storage Code Log",
+                "scope": [
+                    "code.log"
+                ],
+                "settings": {
+                    "foreground": "#bdcacf"
+                }
+            },
+            {
+                "name": "Storage Proto Type",
+                "scope": [
+                    "storage.type.proto"
+                ],
+                "settings": {
+                    "foreground": "#4ee0e7"
+                }
+            },
+            {
+                "name": "Keyword",
+                "scope": [
+                    "keyword"
+                ],
+                "settings": {
+                    "foreground": "#ffcb64"
+                }
+            },
+            {
+                "name": "Body Function Definition",
+                "scope": [
+                    "meta.body.function.definition"
+                ],
+                "settings": {
+                    "foreground": "#a9dbf8"
+                }
+            },
+            {
+                "name": "Operators",
+                "scope": [
+                    "keyword.operator"
+                ],
+                "settings": {
+                    "foreground": "#b09080"
+                }
+            }
+        ]}
+    },
+    "editor.minimap.enabled": false,
+    "cmake.configureOnEdit": false,
+    "debug.onTaskErrors": "abort",
+    "editor.stickyScroll.enabled": false,
+    "output.smartScroll.enabled": false
+}

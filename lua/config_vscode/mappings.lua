@@ -33,6 +33,7 @@ end
 -- C-S-p     fuzzy find any installed action by description  (note to reload config type this and search "reload window")
 -- C-S-e     show the current file in the left sidebar
 -- C-S-m     toggle the bottom tray problems (works as a universal way to show/hide the bottom)
+-- C-S-u     toggle the bottom tray output (works as a universal way to show/hide the bottom)
 -- C-b       toggle the left sidebar (in whatever context it was last in)
 -- C-0       move context/focus to the left sidebar
 -- C-1       move context/focus to the editor
@@ -86,6 +87,7 @@ remap("v", "<A-j>", ":m'>+<cr>`<my`>mzgv`yo`z", { noremap = true })
 
 -- === [ Code Modification ]== {{{1
 --
+-- C-Space   intellisense code completion
 -- gq / =    editor.action.formatSelection (applied to block)
 -- gqq / ==  editor.action.formatSelection (applied to line)
 -- gc / C-/  comment block
