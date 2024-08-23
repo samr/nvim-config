@@ -59,13 +59,16 @@ map("n", "<c-h>", "<cmd>call VSCodeNotify('workbench.action.navigateLeft')<CR>")
 map("n", "<c-l>", "<cmd>call VSCodeNotify('workbench.action.navigateRight')<CR>")
 
 -- Find and open a file like fuzzy finding in telescope, either on the filesystem or in the current buffers.
---remap("n", ",f", "<cmd>call VSCodeNotify('workbench.action.quickOpen')<CR>", { noremap = true, silent = true })
 remap("n", ",b", "<cmd>call VSCodeNotify('workbench.action.showAllEditorsByMostRecentlyUsed')<CR>", { noremap = true, silent = true })
+remap("n", ",ff", "<cmd>call VSCodeNotify('workbench.action.quickOpen')<CR>", { noremap = true, silent = true })
 
-remap("n", ",ff", "<CMD>Telescope find_files<CR>", { noremap = true })
+-- Grep across all files, not if you want to use ripgrep and regex, telescope doesn't work so might consider trying
+-- this solution:  https://vladimirzdrazil.com/posts/fuzzy-search-through-files-in-visual-studio-code/
+remap("n", ",fg", "<cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>", { noremap = true, silent = true })
 
 -- Find keyboard mappings
 remap("n", ",m", "<cmd>call VSCodeNotify('workbench.action.openGlobalKeybindings')<CR>", { noremap = true, silent = true })
+remap("n", ",k", "<cmd>call VSCodeNotify('workbench.action.openGlobalKeybindings')<CR>", { noremap = true, silent = true })
 
 -- Find settings and recent commands
 remap("n", ",s", "<cmd>call VSCodeNotify('workbench.action.showCommands')<CR>", { noremap = true, silent = true })
