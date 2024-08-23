@@ -38,6 +38,8 @@
         "panelTitle.activeForeground": "#fff",
         "panelTitle.inactiveForeground": "#aaa",
         "breadcrumb.foreground": "#777",
+        "editor.findMatchHighlightBackground": "#68751b97",
+        "editor.findMatchBackground": "#ffff0068"
     },
     "editor.tokenColorCustomizations": {
         // To get the names of these scopes, put the cursor over the token, C-S-p and seach for "inspect editor tokens and scopes"
@@ -48,10 +50,11 @@
             {
                 "name": "Comment",
                 "scope": [
-                    "comment"
+                    "comment",
+                    "comment constant.character.escape.line-continuation"
                 ],
                 "settings": {
-                    "fontStyle": "italic",
+                    // "fontStyle": "italic",
                     "foreground": "#008b8b"
                 }
             },
@@ -135,6 +138,7 @@
             {
                 "name": "Storage",
                 "scope": [
+                    "storage.type.modifier.access.public",
                     "storage.type.modifier.access.control"
                 ],
                 "settings": {
@@ -144,7 +148,6 @@
             {
                 "name": "Storage",
                 "scope": [
-                    "storage.type.modifier.access.public",
                     "storage.type.modifier.final",
                     "storage.type.namespace",
                     "storage.type.return-type.lambda",
@@ -183,10 +186,20 @@
             {
                 "name": "Keyword",
                 "scope": [
-                    "keyword"
+                    "keyword.control",
+                    "keyword.other.using"
                 ],
                 "settings": {
                     "foreground": "#ffcb64"
+                }
+            },
+            {
+                "name": "Keyword Operator",
+                "scope": [
+                    "keyword.other.operator.overload"
+                ],
+                "settings": {
+                    "foreground": "#0e9f2b"
                 }
             },
             {
@@ -213,5 +226,8 @@
     "cmake.configureOnEdit": false,
     "debug.onTaskErrors": "abort",
     "editor.stickyScroll.enabled": false,
-    "output.smartScroll.enabled": false
+    "output.smartScroll.enabled": false,
+    "gitlens.currentLine.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.codeLens.enabled": false
 }

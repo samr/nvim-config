@@ -1,3 +1,7 @@
+-- Key Bindings/Mappings
+--
+-- A list of the defaults, many of which are overwritten both here and in keybindings.json
+-- https://learn.microsoft.com/en-us/visualstudio/ide/default-keyboard-shortcuts-in-visual-studio?view=vs-2022
 --
 local global = require('global')
 
