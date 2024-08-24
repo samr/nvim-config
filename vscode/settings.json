@@ -229,5 +229,16 @@
     "output.smartScroll.enabled": false,
     "gitlens.currentLine.enabled": false,
     "gitlens.hovers.currentLine.over": "line",
-    "gitlens.codeLens.enabled": false
+    "gitlens.codeLens.enabled": false,
+    "[python]": {
+
+        "diffEditor.ignoreTrimWhitespace": false,
+        "gitlens.codeLens.symbolScopes": [
+            "!Module"
+        ],
+        "editor.formatOnType": true,
+        "editor.wordBasedSuggestions": "off"
+    },
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "files.eol": "\n"
 }
