@@ -43,7 +43,6 @@ local function load_options()
     encoding       = "utf-8";
     viewoptions    = "folds,cursor,curdir,slash,unix";
     sessionoptions = "curdir,help,tabpages,winsize";
-    clipboard      = "unnamed,unnamedplus";
     wildignorecase = true;
     wildignore     = ".git,.hg,.svn,*.pyc,*.o,*.out,*.dvi,*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store,**/node_modules/**,**/bower_modules/**";
     --               lower priority when matching multiple files or completely ignore the file
@@ -170,6 +169,9 @@ load_options()
 
 if global.is_windows then
   vim.opt.shell = "cmd.exe"; -- necessary for formatter.nvim and gutentags
+  vim.opt.clipboard = "unnamed,unnamedplus";
+elseif global.is_linux then
+  vim.opt.clipboard = "unnamedplus";
 end
 
 --=====[ Filetype options ]====={{{1
