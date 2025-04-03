@@ -1,6 +1,13 @@
 " Use a ! to supress fixed width metric warning from Qt.
-" Nerd Fonts can be found at https://github.com/ryanoasis/nerd-fonts/
-
+" Nerd Fonts can be found at:
+"   https://www.nerdfonts.com/font-downloads
+"   https://github.com/ryanoasis/nerd-fonts/
+"
+" On Linux:
+"   1.) Download a Nerd Font
+"   2.) Unzip and copy to ~/.fonts
+"   3.) Run the command "sudo fc-cache -fv" to manually rebuild the font cache
+"
 " Old fonts that were not so bad
 "Guifont! Roboto Mono Medium:h7
 "Guifont! JetBrains Mono:h8:b
@@ -9,10 +16,11 @@
 " When no fonts are downloaded, this is ok on a laptop screen but not a monitor.
 "Guifont! Consolas:h8
 
-" This is the Medium version (~ same as Powerline). Some icons still cause alignment issues.
+" Note: In the terminal, nvim just uses the terminal's font.
 if exists("g:neovide")
-  "set guifont=RobotoMono\ NF:h7
   set guifont=RobotoMono\ NF:h6.5:#e-subpixelantialias:#h-full
+elseif has("Linux")
+  set guifont=JetBrainsMono\ Nerd\ Font:h7
 else
   Guifont! RobotoMono NF:h7
 endif

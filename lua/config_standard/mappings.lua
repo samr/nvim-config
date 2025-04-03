@@ -20,11 +20,11 @@ local remap = vim.api.nvim_set_keymap
 local eval = vim.api.nvim_eval
 
 local function map(mode, lhs, rhs, opts)
-	local options = { noremap = true, silent = true }
-	if opts then
-		options = vim.tbl_extend("force", options, opts)
-	end
-	vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+    local options = { noremap = true, silent = true }
+    if opts then
+        options = vim.tbl_extend("force", options, opts)
+    end
+    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
 -- Toggle telescope.nvim
@@ -260,10 +260,10 @@ remap("n", "gR", "<cmd>lua vim.lsp.buf.rename()<CR>", { noremap = true, silent =
 remap("n", "gw", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", { noremap = true, silent = true })
 remap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", { noremap = true, silent = true })
 remap(
-	"n",
-	"go",
-	"<cmd>lua vim.lsp.buf.code_action({source = {organizeImports = true}})<CR>",
-	{ noremap = true, silent = true }
+    "n",
+    "go",
+    "<cmd>lua vim.lsp.buf.code_action({source = {organizeImports = true}})<CR>",
+    { noremap = true, silent = true }
 )
 remap("n", "gt", ":call v:lua.toggle_diagnostics()<CR>", { silent = true, noremap = true })
 
@@ -301,27 +301,30 @@ remap("n", "<F11>", "&foldmethod == 'marker' ? ':set foldmethod=manual<CR>zE<CR>
 
 -- =[ Windows ]= --
 if vim.fn.has("win32") == 1 then
-	-- remap('n', '<A-/>', ':set hlsearch! hlsearch?<CR>', {noremap = true, silent = true}) -- toggle search highlighting
-	remap("n", "<A-/>", ":nohl<CR>", { noremap = true, silent = true }) -- toggle search highlighting (usually off)
+    -- remap('n', '<A-/>', ':set hlsearch! hlsearch?<CR>', {noremap = true, silent = true}) -- toggle search highlighting
+    remap("n", "<A-/>", ":nohl<CR>", { noremap = true, silent = true }) -- toggle search highlighting (usually off)
 
-	remap("n", "<F10>", "<CMD>Guifont! JetBrains Mono:h8:b<CR>", { noremap = true })
-	remap("n", "<F9>", "<CMD>Guifont! Roboto Mono Medium for Powerlin:h7<CR>", { noremap = true })
+    remap("n", "<F10>", "<CMD>Guifont! JetBrains Mono:h8:b<CR>", { noremap = true })
+    remap("n", "<F9>", "<CMD>Guifont! Roboto Mono Medium for Powerlin:h7<CR>", { noremap = true })
 
-	-- Toggle filesystem viewer
-	remap("n", "<F2>", "<CMD>NeoTreeRevealToggle<CR>", { noremap = true })
-	remap("n", "<F3>", "<CMD>Fern . -reveal=%<CR>", { noremap = true })
+    -- Toggle filesystem viewer
+    remap("n", "<F2>", "<CMD>NeoTreeRevealToggle<CR>", { noremap = true })
+    remap("n", "<F3>", "<CMD>Fern . -reveal=%<CR>", { noremap = true })
 
 -- =[ MacOS ]= --
 elseif vim.fn.has("mac") == 1 then
-	-- Toggle filesystem viewer
-	remap("n", "<F3>", "<CMD>NeoTreeRevealToggle<CR>", { noremap = true })
+    -- Toggle filesystem viewer
+    remap("n", "<F3>", "<CMD>NeoTreeRevealToggle<CR>", { noremap = true })
 
 -- =[ Linux (or other) ]= --
 else
-	-- Toggle filesystem viewer
-	remap("n", "<F3>", "<CMD>NeoTreeRevealToggle<CR>", { noremap = true })
+    remap("n", "<A-/>", ":nohl<CR>", { noremap = true, silent = true }) -- toggle search highlighting (usually off)
 
-	-- Preview things in their native app
-	-- vim.cmd('command! -nargs=0 PreviewFile lua require"modules.util".xdg_open()') -- alternative way
-	-- remap('n', 'gx', 'call v:lua.Util.xdg_open()<CR>', { noremap = true, silent = true })
+    -- Toggle filesystem viewer
+    remap("n", "<F2>", "<CMD>NeoTreeRevealToggle<CR>", { noremap = true })
+    remap("n", "<F3>", "<CMD>Fern . -reveal=%<CR>", { noremap = true })
+
+    -- Preview things in their native app
+    -- vim.cmd('command! -nargs=0 PreviewFile lua require"modules.util".xdg_open()') -- alternative way
+    -- remap('n', 'gx', 'call v:lua.Util.xdg_open()<CR>', { noremap = true, silent = true })
 end

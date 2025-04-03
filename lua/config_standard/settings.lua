@@ -23,7 +23,7 @@ if global.is_windows then
   vim.g.python_host_prog = 'C:/Python27/python.exe'
   vim.g.python3_host_prog = 'C:/Python38/python.exe'
 
-  -- Set the clipboard explicitly for windows so that clipboard.vim loads faster.
+  -- Set the clipboard program used by the clipboard option explicitly for windows so that clipboard.vim loads faster.
   vim.g.clipboard = {
     name = 'win32yank',
     copy = {
