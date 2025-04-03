@@ -148,6 +148,26 @@ return {
   {'jlanzarotta/bufexplorer', cmd = "BufExplorer"},
   {'famiu/bufdelete.nvim', cmd = "Bdelete"},
   {'lambdalisue/fern.vim', branch = 'main'},
+  {'jakemason/ouroboros',
+    config = function()
+      -- vim.g.ouroboros_debug = 1
+      require('ouroboros').setup({
+        extension_preferences_table = {
+              -- Higher numbers are a heavier weight and thus preferred.
+              -- When dealing with c/h, prefer c/h, and likewise when dealing with cpp/hpp.
+              c = {h = 2, hpp = 1},
+              h = {c = 2, cpp = 1},
+              cpp = {hpp = 3, h = 2, inl = 1},
+              hpp = {cpp = 3, c = 2, cu = 1},
+              inl = {cpp = 3, hpp = 2, h = 1},
+              cu = {cuh = 3, hpp = 2, h = 1},
+              cuh = {cu = 1}
+        },
+        -- set to false so that we always open matching file in current buffer
+        switch_to_open_pane_if_possible = true
+      })
+    end,
+  },
 
   -- TODO: Create some key mappings for this.
   {'ThePrimeagen/harpoon'}, -- requires "nvim-lua/plenary.nvim"

@@ -92,9 +92,12 @@ remap("n", "J", "}", { noremap = true })
 remap("n", "L", "W", { noremap = true })
 remap("n", "H", "B", { noremap = true })
 
--- Easy toggle between .h/.cpp/.hpp filetypes using plugin: tpope/vim-projectionist
-remap("n", ";e", ":A<CR>", { noremap = true })
-remap("n", ";E", ":AD<CR>", { noremap = true })
+-- -- Easy toggle between .h/.cpp/.hpp filetypes using plugin: tpope/vim-projectionist
+-- remap("n", ";e", ":A<CR>", { noremap = true })
+-- remap("n", ";E", ":AD<CR>", { noremap = true })
+
+-- Easy toggle between .h/.cpp/.hpp filetypes using plugin: jakemason/ouroboros
+remap("n", ";e", ":Ouroboros<CR>", { noremap = true })
 
 -- cd/lcd to the directory of the current file
 remap("n", ";cd", ':exe ":cd " . expand("%:p:h")<CR>', { noremap = true })
