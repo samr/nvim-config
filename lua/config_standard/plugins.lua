@@ -29,6 +29,7 @@ return {
   { 'MunifTanjim/nui.nvim', lazy = false }, -- general UI component library
   { 'kyazdani42/nvim-web-devicons', lazy = false }, -- collection of icons
   { 'rafamadriz/friendly-snippets', lazy = false }, -- collection of snippets
+  { 'nvim-neotest/nvim-nio', lazy = false },  -- async io
 
   --=====[ Appearances ]====={{{1
   --
@@ -90,6 +91,74 @@ return {
     lazy = false,
     config = function()
       require("fidget").setup()
+    end,
+  },
+
+  --=====[ Debugging ]====={{{1
+  --
+  { 'mfussenegger/nvim-dap' },
+
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    ---@type MasonNvimDapSettings
+    opts = {
+      handlers = {},  -- this line is essential to making automatic installation work
+      automatic_installation = {
+        -- These will be configured by separate plugins.
+        exclude = {
+          "delve",
+          "python",
+        },
+      },
+      -- DAP servers: Mason will be invoked to install these if necessary.
+      ensure_installed = {
+        "bash",
+        "codelldb",
+        "php",
+        "python",
+      },
+    },
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "williamboman/mason.nvim",
+    },
+  },
+
+  {
+    "mfussenegger/nvim-dap-python",
+    lazy = true,
+    config = function()
+      -- mason puts the required "debugpy" package here in this venv
+      -- local python = vim.fn.expand("~/.local/share/nvim/mason/packages/debugpy/venv/bin/python")
+      local python = "python"  -- hopefully pick up the local venv python (but will neet to pip install debugpy)
+      require("dap-python").setup(python)
+    end,
+    -- Consider the mappings at
+    -- https://github.com/mfussenegger/nvim-dap-python?tab=readme-ov-file#mappings
+    dependencies = {
+      "mfussenegger/nvim-dap",
+    },
+  },
+
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    config = true,
+    dependencies = {
+      "mfussenegger/nvim-dap",
+    },
+  },
+
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio",
+      "jay-babu/mason-nvim-dap.nvim",
+      "mfussenegger/nvim-dap-python",
+      "theHamsta/nvim-dap-virtual-text",
+    },
+    config = function()
+      require(plugin_config .. ".others").dapui()
     end,
   },
 

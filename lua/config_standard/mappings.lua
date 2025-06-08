@@ -160,7 +160,7 @@ remap("v", "<A-y>", '"+y', { noremap = true })
 
 -- Yank and paste (requires set clipboard=unnamedplus)
 remap("x", "<Leader>y", '"+y', { noremap = true })
-remap("x", "<Leader>d", '"+d', { noremap = true })
+--remap("x", "<Leader>d", '"+d', { noremap = true })
 remap("x", "<Leader>p", '"+p', { noremap = true })
 remap("x", "<Leader>P", '"+P', { noremap = true })
 remap("n", "<Leader>p", '"+p', { noremap = true })
@@ -292,6 +292,22 @@ remap("n", "<leader>a", "<cmd>AerialToggle!<CR>", {})
 
 -- Toggle marker based folds
 remap("n", "<F11>", "&foldmethod == 'marker' ? ':set foldmethod=manual<CR>zE<CR>' : ':set foldmethod=marker<CR>zM<CR>'", { noremap = true, expr = true })
+
+-- ===[ Debugging ]=== {{{1
+
+remap("n", "<leader>db", '<cmd>lua require"dap".toggle_breakpoint()<CR>', { noremap = true, silent = true })
+remap("n", "<leader>dc", '<cmd>lua require"dap".continue()<CR>', { noremap = true, silent = true })  -- continue or run the program
+remap("n", "<leader>dC", '<cmd>lua require"dap".run_to_cursor()<CR>', { noremap = true, silent = true })
+remap("n", "<leader>dT", '<cmd>lua require"dap".terminate()<CR>', { noremap = true, silent = true })
+
+remap("n", "<leader>dn", '<cmd>lua require"dap-python".test_method()<CR>', { noremap = true, silent = true })
+remap("n", "<leader>df", '<cmd>lua require"dap-python".test_class()<CR>', { noremap = true, silent = true })
+remap("v", "<leader>ds", '<cmd>lua require"dap-python".debug_selection()<CR>', { noremap = true, silent = true })
+
+remap("n", "<leader>dd", '<cmd>lua require"dapui".open()<CR>', { noremap = true, silent = true })
+remap("n", "<leader>dq", '<cmd>lua require"dapui".close()<CR>', { noremap = true, silent = true })
+remap("n", "<leader>du", '<cmd>lua require"dapui".toggle()<CR>', { noremap = true, silent = true })
+remap("v", "<M-k>", '<cmd>lua require"dapui".eval()<CR>', { noremap = true, silent = true })
 
 -- ===[ Platform Specific Mappings ]=== {{{1
 

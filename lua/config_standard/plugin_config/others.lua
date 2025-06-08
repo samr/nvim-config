@@ -528,4 +528,30 @@ M.vim_expand_region = function()
     }
 end
 
+M.dapui = function()
+  local present, dapui = pcall(require, "dapui")
+  if not present then
+    return
+  end
+  local present, dap = pcall(require, "dap")
+  if not present then
+    return
+  end
+  -- Set up listeners to auto open gui for certain events (see :help dap-extensions).
+  dap.listeners.before.attach.dapui_config = function()
+    dapui.open()
+  end
+  dap.listeners.before.launch.dapui_config = function()
+    dapui.open()
+  end
+  dap.listeners.before.event_terminated.dapui_config = function()
+    dapui.close()
+  end
+  dap.listeners.before.event_exited.dapui_config = function()
+    dapui.close()
+  end
+
+  dapui.setup()
+end
+
 return M
