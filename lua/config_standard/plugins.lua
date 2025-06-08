@@ -88,9 +88,8 @@ return {
 
   {
     'j-hui/fidget.nvim',
-    lazy = false,
     config = function()
-      require("fidget").setup()
+      require(plugin_config .. ".others").fidget()
     end,
   },
 

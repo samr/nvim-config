@@ -17,13 +17,38 @@
 "Guifont! Consolas:h8
 
 " Note: In the terminal, nvim just uses the terminal's font.
+
+" Save and allow adjusting of font and font size using a function.
 if exists("g:neovide")
-  set guifont=RobotoMono\ NF:h6.5:#e-subpixelantialias:#h-full
+  let g:my_guifont = "RobotoMono\\ NF"
+  let g:my_guifontsize = 6.5
+  exe "set guifont=" . g:my_guifont . ":h" . g:my_guifontsize . ":#e-subpixelantialias:#h-full"
 elseif has("Linux")
-  set guifont=JetBrainsMono\ Nerd\ Font:h7
+  let g:my_guifont="JetBrainsMono\\ Nerd\\ Font"
+  let g:my_guifontsize = 7
+  exe "set guifont=" . g:my_guifont . ":h" . g:my_guifontsize
 else
+  let g:my_guifont = "RobotoMono\\ NF"
+  let g:my_guifontsize = 7
+  " TODO: no idea if we can use set guifont here instead...
   Guifont! RobotoMono NF:h7
 endif
+
+function! AdjustFontSize(amount)
+  let g:my_guifontsize = g:my_guifontsize + a:amount
+  if exists("g:neovide")
+    " echom "set guifont=" . g:my_guifont . ":h" . g:my_guifontsize . ":#e-subpixelantialias:#h-full"
+    exe "set guifont=" . g:my_guifont . ":h" . g:my_guifontsize . ":#e-subpixelantialias:#h-full"
+  else
+    " echom "set guifont=" . g:my_guifont . ":h" . g:my_guifontsize
+    exe "set guifont=" . g:my_guifont . ":h" . g:my_guifontsize
+  endif
+endfunction
+
+" Map <C-ScrollWheelUp> to increase font size
+noremap <C-ScrollWheelUp> :call AdjustFontSize(0.5)<CR>
+" Map <C-ScrollWheelDown> to decrease font size
+noremap <C-ScrollWheelDown> :call AdjustFontSize(-0.5)<CR>
 
 "" Set a thin cursor for both insert and visual mode
 "" This does not seem to work with nvim-qt
