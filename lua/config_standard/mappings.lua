@@ -45,11 +45,11 @@ remap("n", ",fg", '<CMD>lua require("' .. global.config_module .. '.plugin_confi
 --map("n", "<leader>:", "<cmd>Telescope commands<CR>")
 --map("n", "<leader>bb", "<cmd>Telescope buffers<CR>")
 
-map("n", "<leader>ww", "<cmd>HopWord<CR>") --easymotion/hop
-map("n", "<leader>l", "<cmd>HopLine<CR>")
-map("n", "<leader>tz", "<cmd>TZAtaraxis<CR>") --ataraxis
-map("n", "<leader>op", "<cmd>NvimTreeToggle<CR>") --nvimtree
--- map("n", "<leader>tw", "<cmd>set wrap!<CR>") --nvimtree
+-- easymotion/hop.nvim mappings
+map("n", ";ww", "<cmd>HopWord<CR>")
+map("n", ";ll", "<cmd>HopLine<CR>")
+map("n", ";cc", "<cmd>HopChar1<CR>")
+map("n", ";ss", "<cmd>HopPattern<CR>")  -- s for search
 
 if vim.g.neovide then
   -- neovide needs these defined here instead of ginit.vim
@@ -72,7 +72,6 @@ vim.cmd([[
 
 -- Fast saving
 remap("n", ";w", ":w!<CR>", { noremap = false })
-remap("n", ";s", ":w!<CR>", { noremap = false })
 
 -- Move cursor up/down a page using ALT+[ui]
 remap("n", "<A-i>", "<C-B>", { noremap = true, silent = true })
@@ -92,12 +91,9 @@ remap("n", "J", "}", { noremap = true })
 remap("n", "L", "W", { noremap = true })
 remap("n", "H", "B", { noremap = true })
 
--- -- Easy toggle between .h/.cpp/.hpp filetypes using plugin: tpope/vim-projectionist
--- remap("n", ";e", ":A<CR>", { noremap = true })
--- remap("n", ";E", ":AD<CR>", { noremap = true })
-
--- Easy toggle between .h/.cpp/.hpp filetypes using plugin: jakemason/ouroboros
-remap("n", ";e", ":Ouroboros<CR>", { noremap = true })
+-- -- Easy toggle between .h/.cpp/.hpp filetypes using plugin: samr/fileblink.nvim
+remap("n", ";e", ":FileBlinkByExtension<CR>", { noremap = true })
+remap("n", ";E", ":FileBlinkByPrefixSuffix<CR>", { noremap = true })
 
 -- cd/lcd to the directory of the current file
 remap("n", ";cd", ':exe ":cd " . expand("%:p:h")<CR>', { noremap = true })
@@ -109,9 +105,6 @@ remap("n", "<F4>", "<CMD>MundoToggle<CR>", { noremap = true })
 -- Show mappings
 remap("n", ",m", ":ToggleShowMappings<CR>", { noremap = true, silent = true })
 remap("n", ",com", ":ToggleShowCommands<CR>", { noremap = true, silent = true })
---remap('n', ',', ':<C-u>WhichKey ","<CR>', { noremap = true, silent = true })
-remap("n", ";", ':<C-u>WhichKey ";"<CR>', { noremap = true, silent = true })
-remap("n", "\\", ':<C-u>WhichKey "\\\\"<CR>', { noremap = true, silent = true })
 
 -- Show buffers & buffer movements
 remap("n", ",B", "<CMD>BufExplorer<CR>", { noremap = true, silent = true, script = true })
@@ -308,20 +301,20 @@ if vim.fn.has("win32") == 1 then
     remap("n", "<F9>", "<CMD>Guifont! Roboto Mono Medium for Powerlin:h7<CR>", { noremap = true })
 
     -- Toggle filesystem viewer
-    remap("n", "<F2>", "<CMD>NeoTreeRevealToggle<CR>", { noremap = true })
+    remap("n", "<F2>", "<CMD>Neotree filesystem reveal left toggle<CR>", { noremap = true })
     remap("n", "<F3>", "<CMD>Fern . -reveal=%<CR>", { noremap = true })
 
 -- =[ MacOS ]= --
 elseif vim.fn.has("mac") == 1 then
     -- Toggle filesystem viewer
-    remap("n", "<F3>", "<CMD>NeoTreeRevealToggle<CR>", { noremap = true })
+    remap("n", "<F3>", "<CMD>Neotree filesystem reveal left toggle<CR>", { noremap = true })
 
 -- =[ Linux (or other) ]= --
 else
     remap("n", "<A-/>", ":nohl<CR>", { noremap = true, silent = true }) -- toggle search highlighting (usually off)
 
     -- Toggle filesystem viewer
-    remap("n", "<F2>", "<CMD>NeoTreeRevealToggle<CR>", { noremap = true })
+    remap("n", "<F2>", "<CMD>Neotree filesystem reveal left toggle<CR>", { noremap = true })
     remap("n", "<F3>", "<CMD>Fern . -reveal=%<CR>", { noremap = true })
 
     -- Preview things in their native app

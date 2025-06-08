@@ -148,34 +148,67 @@ return {
   {'jlanzarotta/bufexplorer', cmd = "BufExplorer"},
   {'famiu/bufdelete.nvim', cmd = "Bdelete"},
   {'lambdalisue/fern.vim', branch = 'main'},
-  {'jakemason/ouroboros',
+  {
+    'samr/fileblink.nvim',
+    -- dir = "C:/Users/___/fileblink.nvim", -- for plugin development
+    lazy = false,
     config = function()
-      -- vim.g.ouroboros_debug = 1
-      require('ouroboros').setup({
-        extension_preferences_table = {
-              -- Higher numbers are a heavier weight and thus preferred.
-              -- When dealing with c/h, prefer c/h, and likewise when dealing with cpp/hpp.
-              c = {h = 2, hpp = 1},
-              h = {c = 2, cpp = 1},
-              cpp = {hpp = 3, h = 2, inl = 1},
-              hpp = {cpp = 3, c = 2, cu = 1},
-              inl = {cpp = 3, hpp = 2, h = 1},
-              cu = {cuh = 3, hpp = 2, h = 1},
-              cuh = {cu = 1}
+      require("fileblink").setup({
+        extension_maps = {
+            h = { "cpp", "cc", "c" },
+            hpp = { "cpp", "cc" },
+            c = { "h" },
+            cc = { "hpp", "h" },
+            cpp = { "hpp", "h" },
+
+            cu = { "cuh" },
+            cuh = { "cu" },
+
+            js = { "ts", "jsx", "tsx" },
+            ts = { "js", "jsx", "tsx" },
+            jsx = { "js", "ts", "tsx" },
+            tsx = { "js", "ts", "jsx" },
+
+            html = { "css", "scss", "sass" },
+            css = { "html", "scss", "sass" },
+            scss = { "css", "html" },
+            sass = { "css", "html" },
         },
-        -- set to false so that we always open matching file in current buffer
-        switch_to_open_pane_if_possible = true
+
+        prefix_suffix_maps = {
+            ["_test"] = { "" },        -- suffix  (foo_test.cc -> foo.cc)
+            ["test_/"] = { "" },       -- prefix  (test_foo.cc -> foo.cc)
+            ["_impl"] = { "" },
+            [""] = { "_test", "test_/", "_impl" },  -- maps back (foo.cc -> *)
+        },
+
+        root_markers = { ".git", ".clang-format", ".dockerignore", "requirements.txt", "package.json", "Cargo.toml" },
+
+        cache_size = 20000,
+        autoload_fileblinkrc = false,
       })
     end,
   },
 
+
+  -- Note: currently disabled because I haven't been using it much.
   -- TODO: Create some key mappings for this.
-  {'ThePrimeagen/harpoon'}, -- requires "nvim-lua/plenary.nvim"
+  -- {
+  --   "ThePrimeagen/harpoon",
+  --   branch = "harpoon2",
+  --   -- requires = { {"nvim-lua/plenary.nvim"} }
+  -- }
 
   {
     "nvim-neo-tree/neo-tree.nvim",
-    branch = "v1.x",
-    cmd = "NeoTreeReveal", -- lazy load when F2 is pressed
+    branch = "v3.x",
+    lazy = false, -- neo-tree lazy loads itself
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
+    },
     config = function()
       require(plugin_config .. ".others").neo_tree()
     end,
@@ -183,14 +216,14 @@ return {
     -- requires = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "kyazdani42/nvim-web-devicons", },
   },
 
-  { -- I don't use this as much as lightspeed but it's still fun.
+  { -- Currently use this rather than lightspeed or leap.nvim.
     "phaazon/hop.nvim",
     cmd = {
-      "HopWord",
-      "HopLine",
-      "HopChar1",
+      "HopWord",    -- type ;ww
+      "HopLine",    -- type ;ll
+      "HopChar1",   -- type ;cc
       "HopChar2",
-      "HopPattern",
+      "HopPattern", -- type ;ss (for search)
     },
     name = "hop",
     config = function()
@@ -200,7 +233,13 @@ return {
 
   --=====[ Git and Diff ]====={{{1
   --
-  {'lewis6991/gitsigns.nvim'}, -- look at lines added/modified/taken away, all at a glance.
+  {
+    'lewis6991/gitsigns.nvim', -- look at lines added/modified/taken away, all at a glance.
+    -- Currently causes issues similar to https://github.com/LazyVim/LazyVim/discussions/3407 with Lazy, so be super
+    -- lazy about loading it. Maybe it will work in a future version.
+    lazy = true,
+    cmd = "Gitsigns",
+  },
 
   {
     "TimUntersberger/neogit",

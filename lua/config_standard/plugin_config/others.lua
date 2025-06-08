@@ -330,7 +330,7 @@ M.neo_tree = function()
           ["C"] = "close_node",
           ["<bs>"] = "navigate_up",
           ["."] = "set_root",
-          ["H"] = "toggle_hidden",
+          ["!"] = "toggle_hidden",
           ["I"] = "toggle_gitignore",
           ["R"] = "refresh",
           ["/"] = "filter_as_you_type",
@@ -344,6 +344,9 @@ M.neo_tree = function()
           ["p"] = "paste_from_clipboard",
           ["bd"] = "buffer_delete",
         }
+      },
+      filtered_items = {
+          visible = true, -- when true, they will just be displayed differently than normal items
       }
     },
     buffers = {
