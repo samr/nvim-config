@@ -231,6 +231,13 @@ return {
     end,
   },
 
+  -- {
+  --   "ggandor/leap.nvim",
+  --   config = function()
+  --     require(plugin_config .. ".others").leap()
+  --   end,
+  -- },
+
   --=====[ Git and Diff ]====={{{1
   --
   {

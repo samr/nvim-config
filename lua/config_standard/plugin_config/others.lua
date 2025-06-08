@@ -398,6 +398,15 @@ M.neo_tree = function()
   })
 end
 
+M.leap = function()
+  local present, leap = pcall(require, "leap")
+  if not present then
+    return
+  end
+  -- leap.opts.safe_labels = {}  -- disables auto jump to first match
+  -- leap.set_default_mappings()  -- loads default mappings (i.e. 's' and 'S')
+end
+
 M.nvim_mapper = function()
   local present, nvim_mapper = pcall(require, "nvim-mapper")
   if not present then

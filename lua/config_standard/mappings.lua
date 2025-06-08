@@ -51,6 +51,9 @@ map("n", ";ll", "<cmd>HopLine<CR>")
 map("n", ";cc", "<cmd>HopChar1<CR>")
 map("n", ";ss", "<cmd>HopPattern<CR>")  -- s for search
 
+-- ggandor/leap.nvim mappings
+-- vim.keymap.set({'n', 'x', 'o'}, ';cc', '<Plug>(leap)')
+
 if vim.g.neovide then
   -- neovide needs these defined here instead of ginit.vim
   map("n", "<c-k>", "<cmd>wincmd k<CR><cmd>wincmd _<CR>") --ctrlhjkl to navigate splits
