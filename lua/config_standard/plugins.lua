@@ -161,6 +161,16 @@ return {
     end,
   },
 
+  --=====[ Running Background Tasks ]====={{{1
+  --
+  {
+    'stevearc/overseer.nvim',
+    opts = {},
+    config = function()
+      require(plugin_config .. ".others").overseer()
+    end,
+  },
+
   --=====[ Snippets ]====={{{1
   --
   -- {  -- TODO: Disabled due to cache related failures.
@@ -387,7 +397,15 @@ return {
 
   --=====[ Quickfix and Location List ]====={{{1
   --
-  { 'mhinz/vim-grepper', cmd='Grepper' },
+  { -- This is old and does not work fantastically well. Type ,fB to use telescope instead.
+    'mhinz/vim-grepper',
+    cmd='Grepper',
+    config = function()
+      vim.api.nvim_set_var("grepper", {
+        tools = {'rg', 'git'}
+      })
+    end
+  },
 
   { -- Makes quickfix and location list window editable (not a lua plugin)
     'stefandtw/quickfix-reflector.vim',

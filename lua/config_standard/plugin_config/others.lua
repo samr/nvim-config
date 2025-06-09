@@ -567,7 +567,14 @@ M.fidget = function()
       override_vim_notify = true,   -- Automatically override vim.notify() with Fidget
     },
   })
+end
 
+M.overseer = function()
+  local present, overseer = pcall(require, "overseer")
+  if not present then
+    return
+  end
+  overseer.setup()
 end
 
 return M

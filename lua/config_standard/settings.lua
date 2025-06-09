@@ -47,6 +47,13 @@ if vim.g.neovide then
   vim.g.neovide_scroll_animation_length = 0.1 -- default 0.3
 end
 
+-------[ Bugs ]-----{{{2
+
+-- Flickering when same file is open in multiple windows at different scroll positions
+-- https://github.com/neovim/neovim/issues/32660
+-- Disabled for now as it tends to slow things down quite a bit...
+-- vim.g._ts_force_sync_parsing = true 
+
 -------[ Assorted plugin settings ]-----{{{2
 
 -- Auto start the coq nvim plugin, but quietly

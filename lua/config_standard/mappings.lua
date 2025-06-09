@@ -33,6 +33,7 @@ remap("n", ",ff", "<CMD>Telescope find_files<CR>", { noremap = true })
 remap("n", ",fh", "<cmd>Telescope oldfiles<CR>", { noremap = true }) --fuzzy
 remap("n", ",fc", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { noremap = true })
 remap("n", ",fb", "<cmd>Telescope buffers<CR>", { noremap = true })
+remap("n", ",fB", '<CMD>lua require("telescope.builtin").live_grep({grep_open_files=true})<CR>', { noremap = true })
 remap("n", ",fs", '<CMD>lua require("telescope.builtin").live_grep()<CR>', { noremap = true })
 remap("n", ",fg", '<CMD>lua require("' .. global.config_module .. '.plugin_config.telescope").grep_prompt()<CR>', { noremap = true, silent = true })
 -- remap('n', ',ft', '<CMD>lua require("telescope.builtin").helptags()<CR>', { noremap = true })
