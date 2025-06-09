@@ -577,4 +577,25 @@ M.overseer = function()
   overseer.setup()
 end
 
+M.toggleterm = function()
+  local present, toggleterm = pcall(require, "toggleterm")
+  if not present then
+    return
+  end
+  toggleterm.setup({
+    --open_mapping = [[<c-\>]],
+    open_mapping = [[<c-'>]],
+    terminal_mappings = true,
+    hide_numbers = false,
+    shade_filetypes = {},
+    shade_terminals = true,
+    start_in_insert = true,
+    insert_mappings = false,
+    persist_size = true,
+    direction = "horizontal",
+    close_on_exit = true,
+    shell = "bash",
+  })
+end
+
 return M

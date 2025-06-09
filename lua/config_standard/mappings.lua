@@ -1,5 +1,8 @@
 -- Key Mappings
 --
+-- Note this is not all the key mappings, some are in plugin configurations, some are in ginit.vim, but hopefully many
+-- are here in one place where they are easy to search for.
+--
 -- If E464 is thrown, look at command prefix by using ":verb command <cmd>"
 --
 -- Fold Commands
@@ -47,10 +50,10 @@ remap("n", ",fg", '<CMD>lua require("' .. global.config_module .. '.plugin_confi
 --map("n", "<leader>bb", "<cmd>Telescope buffers<CR>")
 
 -- easymotion/hop.nvim mappings
-map("n", ";ww", "<cmd>HopWord<CR>")
-map("n", ";ll", "<cmd>HopLine<CR>")
-map("n", ";cc", "<cmd>HopChar1<CR>")
-map("n", ";ss", "<cmd>HopPattern<CR>")  -- s for search
+map("n", ";ww", "<cmd>HopWord<CR>", { desc = 'hop to next word' })
+map("n", ";ll", "<cmd>HopLine<CR>", { desc = 'hop to next line' })
+map("n", ";cc", "<cmd>HopChar1<CR>", { desc = 'hop to next character' })
+map("n", ";ss", "<cmd>HopPattern<CR>", { desc = 'hop to a searched for pattern' })  -- s for search
 
 -- ggandor/leap.nvim mappings
 -- vim.keymap.set({'n', 'x', 'o'}, ';cc', '<Plug>(leap)')
@@ -65,6 +68,10 @@ else
 end
 map("n", "<c-h>", "<cmd>wincmd h<CR>")
 map("n", "<c-l>", "<cmd>wincmd l<CR>")
+
+map("n", "<c-0>", "<cmd>wincmd +<CR>", { desc = 'increase current window vertically, moving split' })
+map("n", "<c-9>", "<cmd>wincmd -<CR>", { desc = 'decrease current window vertically, moving split' })
+map("n", "<c-8>", "<cmd>wincmd =<CR>", { desc = 'equalize horizontal window splits' })
 
 -- prevent typo when pressing `wq` or `q`
 vim.cmd([[
@@ -294,8 +301,23 @@ remap("n", "<leader>a", "<cmd>AerialToggle!<CR>", {})
 -- Toggle marker based folds
 remap("n", "<F11>", "&foldmethod == 'marker' ? ':set foldmethod=manual<CR>zE<CR>' : ':set foldmethod=marker<CR>zM<CR>'", { noremap = true, expr = true })
 
--- ===[ Debugging ]=== {{{1
+-- ===[ Terminal ]=== {{{1
+--
+function _G.set_terminal_keymaps()
+  local opts = {buffer = 0}
+  vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+  vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+  vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+end
 
+-- if you only want these mappings for toggle term use term://*toggleterm#* instead
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
+-- ===[ Debugging ]=== {{{1
+--
 remap("n", "<leader>db", '<cmd>lua require"dap".toggle_breakpoint()<CR>', { noremap = true, silent = true })
 remap("n", "<leader>dc", '<cmd>lua require"dap".continue()<CR>', { noremap = true, silent = true })  -- continue or run the program
 remap("n", "<leader>dC", '<cmd>lua require"dap".run_to_cursor()<CR>', { noremap = true, silent = true })
@@ -311,7 +333,7 @@ remap("n", "<leader>du", '<cmd>lua require"dapui".toggle()<CR>', { noremap = tru
 remap("v", "<M-k>", '<cmd>lua require"dapui".eval()<CR>', { noremap = true, silent = true })
 
 -- ===[ Platform Specific Mappings ]=== {{{1
-
+--
 -- =[ Windows ]= --
 if vim.fn.has("win32") == 1 then
     -- remap('n', '<A-/>', ':set hlsearch! hlsearch?<CR>', {noremap = true, silent = true}) -- toggle search highlighting

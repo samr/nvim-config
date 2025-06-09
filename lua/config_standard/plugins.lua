@@ -170,6 +170,13 @@ return {
       require(plugin_config .. ".others").overseer()
     end,
   },
+  {
+      'akinsho/toggleterm.nvim',
+      version = "*",
+      config = function()
+        require(plugin_config .. ".others").toggleterm()
+      end,
+  },
 
   --=====[ Snippets ]====={{{1
   --
