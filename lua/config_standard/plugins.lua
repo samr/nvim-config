@@ -234,11 +234,11 @@ return {
   {'famiu/bufdelete.nvim', cmd = "Bdelete"},
   {'lambdalisue/fern.vim', branch = 'main'},
   {
-    'samr/fileblink.nvim',
-    -- dir = "C:/Users/___/fileblink.nvim", -- for plugin development
+    'samr/fileflip.nvim',
+    -- dir = "C:/Users/___/fileflip.nvim", -- for plugin development
     lazy = false,
     config = function()
-      require("fileblink").setup({
+      require("fileflip").setup({
         extension_maps = {
             h = { "cpp", "cc", "c" },
             hpp = { "cpp", "cc" },
@@ -270,7 +270,7 @@ return {
         root_markers = { ".git", ".clang-format", ".dockerignore", "requirements.txt", "package.json", "Cargo.toml" },
 
         cache_size = 20000,
-        autoload_fileblinkrc = false,
+        autoload_filefliprc = false,
       })
     end,
   },

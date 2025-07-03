@@ -102,9 +102,9 @@ remap("n", "J", "}", { noremap = true })
 remap("n", "L", "W", { noremap = true })
 remap("n", "H", "B", { noremap = true })
 
--- -- Easy toggle between .h/.cpp/.hpp filetypes using plugin: samr/fileblink.nvim
-remap("n", ";e", ":FileBlinkByExtension<CR>", { noremap = true })
-remap("n", ";E", ":FileBlinkByPrefixSuffix<CR>", { noremap = true })
+-- -- Easy toggle between .h/.cpp/.hpp filetypes using plugin: samr/fileflip.nvim
+remap("n", ";e", ":FileFlipByExtension<CR>", { noremap = true })
+remap("n", ";E", ":FileFlipByPrefixSuffix<CR>", { noremap = true })
 
 -- cd/lcd to the directory of the current file
 remap("n", ";cd", ':exe ":cd " . expand("%:p:h")<CR>', { noremap = true })
