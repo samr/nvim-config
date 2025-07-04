@@ -574,7 +574,12 @@ M.overseer = function()
   if not present then
     return
   end
-  overseer.setup()
+  overseer.setup({
+    strategy = {
+      "toggleterm",
+    },
+    templates = { "builtin", "user.cpp_build" },
+  })
 end
 
 M.toggleterm = function()
@@ -583,7 +588,7 @@ M.toggleterm = function()
     return
   end
   toggleterm.setup({
-    --open_mapping = [[<c-\>]],
+    -- Define our own open mapping since <c-\> does not seem to work by default.
     open_mapping = [[<c-'>]],
     terminal_mappings = true,
     hide_numbers = false,

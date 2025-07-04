@@ -303,6 +303,12 @@ remap("n", "<F11>", "&foldmethod == 'marker' ? ':set foldmethod=manual<CR>zE<CR>
 
 -- ===[ Terminal ]=== {{{1
 --
+
+-- For ToggleTerm, the open terminal mapping is set in its setup in others.lua, and is set to <C-'>
+--
+-- Note that to open two terminal windows, toggle window 1 open with <c-'>, press <esc> to get out of terminal mode,
+-- then type 2<c-'> to open terminal 2 in a split.
+
 function _G.set_terminal_keymaps()
   local opts = {buffer = 0}
   vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
@@ -313,7 +319,7 @@ function _G.set_terminal_keymaps()
   vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
 end
 
--- if you only want these mappings for toggle term use term://*toggleterm#* instead
+-- If you only want the above terminal keymaps for toggle term use term://*toggleterm#* instead of term://*
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
 -- ===[ Debugging ]=== {{{1
