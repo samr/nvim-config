@@ -159,6 +159,9 @@ remap("n", "k", "gk", { noremap = true })
 -- Better yank behaviour
 remap("n", "Y", "y$", { noremap = true })
 
+-- Registers
+-- in normal mode "" will open Peekup to look at all registers
+
 -- Remove annoying exmode
 remap("n", "Q", "<Nop>", { noremap = true })
 remap("n", "q:", "<Nop>", { noremap = true })
@@ -173,6 +176,7 @@ remap("x", "<Leader>p", '"+p', { noremap = true })
 remap("x", "<Leader>P", '"+P', { noremap = true })
 remap("n", "<Leader>p", '"+p', { noremap = true })
 remap("n", "<Leader>P", '"+P', { noremap = true })
+-- in insert mode <C-R>* will paste into the buffer
 
 -- Run luafile on current file
 remap("n", "<Leader>r", "<CMD>luafile %<CR>", { noremap = true })
