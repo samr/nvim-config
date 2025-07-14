@@ -39,6 +39,12 @@ return {
       require(plugin_config .. ".others").lualine()
     end,
   },
+  {
+    'j-hui/fidget.nvim',  -- prettier notifications
+    config = function()
+      require(plugin_config .. ".others").fidget()
+    end,
+  },
 
   --=====[ Startup ]====={{{1
   --
@@ -85,13 +91,6 @@ return {
   --     require(plugin_config .. ".aerial")
   --   end,
   -- },
-
-  {
-    'j-hui/fidget.nvim',
-    config = function()
-      require(plugin_config .. ".others").fidget()
-    end,
-  },
 
   --=====[ Debugging ]====={{{1
   --
@@ -224,6 +223,12 @@ return {
     config = function()
       require(plugin_config .. ".others").neoclip()
     end,
+  },
+
+  { -- search undo hostory with :Telescope undo
+    "debugloop/telescope-undo.nvim",
+    -- <C-Enter> or <C-r> to revert to found undo state, <C-n> and <C-p> to move up and down
+    -- <Enter> to yank insertions into default register, <S-Enter> to yank deletions
   },
 
   --=====[ File and Buffer Navigation ]====={{{1
@@ -425,7 +430,6 @@ return {
   --
   { 'vim-scripts/stlrefvim' }, --  C++ STL docs
   { 'antoinemadec/FixCursorHold.nvim' },
-  { 'simnalamburt/vim-mundo' }, -- a tree of undo
   { 'plasticboy/vim-markdown',  ft = { 'markdown' } },
   { 'dhruvasagar/vim-table-mode', ft = { 'markdown'} },
 

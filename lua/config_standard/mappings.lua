@@ -39,6 +39,9 @@ remap("n", ",fb", "<cmd>Telescope buffers<CR>", { noremap = true })
 remap("n", ",fB", '<CMD>lua require("telescope.builtin").live_grep({grep_open_files=true})<CR>', { noremap = true })
 remap("n", ",fs", '<CMD>lua require("telescope.builtin").live_grep()<CR>', { noremap = true })
 remap("n", ",fg", '<CMD>lua require("' .. global.config_module .. '.plugin_config.telescope").grep_prompt()<CR>', { noremap = true, silent = true })
+remap("n", ",fu", '<cmd>lua require("telescope").extensions.undo.undo()<cr>', { noremap = true })
+remap("n", "<F4>", '<cmd>lua require("telescope").extensions.undo.undo()<cr>', { noremap = true })
+
 -- remap('n', ',ft', '<CMD>lua require("telescope.builtin").helptags()<CR>', { noremap = true })
 -- TODO: Enable once sql.nvim has windows support...
 --remap('n', ',fe', "<CMD>lua require('telescope').extensions.frecency.frecency()<CR>", {noremap = true, silent = true})
@@ -109,9 +112,6 @@ remap("n", ";E", ":FileFlipByPrefixSuffix<CR>", { noremap = true })
 -- cd/lcd to the directory of the current file
 remap("n", ";cd", ':exe ":cd " . expand("%:p:h")<CR>', { noremap = true })
 remap("n", ";lcd", ':exe ":lcd " . expand("%:p:h")<CR>', { noremap = true })
-
--- Toggle mundo
-remap("n", "<F4>", "<CMD>MundoToggle<CR>", { noremap = true })
 
 -- Show mappings
 remap("n", ",m", ":ToggleShowMappings<CR>", { noremap = true, silent = true })
