@@ -5,7 +5,7 @@
 "
 " On Linux:
 "   1.) Download a Nerd Font
-"   2.) Unzip and copy to ~/.fonts
+"   2.) Unzip and copy to ~/.fonts or ~/.local/share/fonts
 "   3.) Run the command "sudo fc-cache -fv" to manually rebuild the font cache
 "
 " Old fonts that were not so bad
@@ -20,7 +20,11 @@
 
 " Save and allow adjusting of font and font size using a function.
 if exists("g:neovide")
-  let g:my_guifont = "RobotoMono\\ NF"
+  if has("Linux")
+    let g:my_guifont = "RobotoMono\\ Nerd\\ Font"
+  else
+    let g:my_guifont = "RobotoMono\\ NF"
+  endif
   let g:my_guifontsize = 6.5
   exe "set guifont=" . g:my_guifont . ":h" . g:my_guifontsize . ":#e-subpixelantialias:#h-full"
 elseif has("Linux")
