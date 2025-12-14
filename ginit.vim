@@ -19,15 +19,22 @@
 " Note: In the terminal, nvim just uses the terminal's font.
 
 " Save and allow adjusting of font and font size using a function.
+" Note on OS X, this can be installed on with:  brew install --cask font-roboto-mono-nerd-font
 if exists("g:neovide")
   if has("Linux")
     let g:my_guifont = "RobotoMono\\ Nerd\\ Font"
-    let g:my_guifontsize = 11.5
+    let g:my_guifontsize = 9.5
+  elseif system('uname -s') =~ "Darwin"
+    let g:my_guifont = "RobotoMono\\ Nerd\\ Font"
+    let g:my_guifontsize = 6.5
   else
     let g:my_guifont = "RobotoMono\\ NF"
     let g:my_guifontsize = 6.5
   endif
   exe "set guifont=" . g:my_guifont . ":h" . g:my_guifontsize . ":#e-subpixelantialias:#h-full"
+elseif system('uname -s') =~ "Darwin"
+  let g:my_guifont = "RobotoMono\\ Nerd\\ Font"
+  let g:my_guifontsize = 7
 elseif has("Linux")
   let g:my_guifont="JetBrainsMono\\ Nerd\\ Font"
   let g:my_guifontsize = 7
