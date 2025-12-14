@@ -2,7 +2,6 @@
 -- vim.cmd[[packadd lsp-status.nvim]]
 -- vim.cmd[[packadd nvim-lsp-installer]]
 
-local has_nvim_lsp, nvim_lsp = pcall(require, "lspconfig")
 local has_lsp_status, lsp_status = pcall(require, "lsp-status")
 local has_lsp_installer, lsp_installer = pcall(require, "nvim-lsp-installer")
 local has_lsp_signature, lsp_signature = pcall(require, "lsp_signature")
@@ -12,10 +11,6 @@ local global = require "global"
 local lsp = vim.lsp
 local remap = vim.api.nvim_set_keymap
 
-if not has_nvim_lsp then
-  print("Failed to load nvim-lspconfig")
-  return
-end
 if not has_lsp_status then
   print("Failed to load lsp-status")
   return
@@ -150,7 +145,7 @@ end
 --     CompileFlags:
 --       Add: -std=c++17
 --
-nvim_lsp.clangd.setup{
+vim.lsp.config.clangd = {
   handlers = lsp_status.extensions.clangd.setup(),
   capabilities = capabilities,
   cmd = {
@@ -160,10 +155,12 @@ nvim_lsp.clangd.setup{
     "--log=info",  -- To help debugging, set "--log=verbose" can help.
     --
     -- TODO: Maybe try these
+    -- "--offset-encoding=utf-8",
     -- "--suggest-missing-includes",
     -- "--clang-tidy",
     -- "--header-insertion=iwyu",
   },
+  root_markers = { '.clangd', 'compile_commands.json' },
   filetypes = { "c", "cpp", "objc", "objcpp", "cuh", "cu" },
   init_options = {
     clangdFileStatus = true,
@@ -195,21 +192,26 @@ nvim_lsp.clangd.setup{
     custom_on_init(client)
   end,
 }
+vim.lsp.enable("clangd")
 
 -- For CMake LSP use the cmake-language-server
 -- https://github.com/regen100/cmake-language-server
 -- pip install cmake-language-server
-nvim_lsp.cmake.setup{
-  capabilities = capabilities,
+vim.lsp.config("cmake", {
   cmd = { "cmake-language-server" },
   filetypes = { "cmake" },
+  root_dir = function(fname)
+    -- Function to find the project root (e.g., nearest build directory)
+    return vim.lsp.util.find_nearest_parent_file_directory(fname, 'build/')
+  end,
+  -- Optional: specific initialization options
   init_options = {
-    buildDirectory = "build"
+    buildDirectory = "build",
   },
-  root_dir = nvim_lsp.util.root_pattern(".git", "compile_commands.json", "build"),
   on_attach = custom_on_attach,
   on_init = custom_on_init,
-}
+})
+vim.lsp.enable("cmake")
 
 -- TODO: Figure out how this is useful
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
