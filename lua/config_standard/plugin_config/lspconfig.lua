@@ -28,13 +28,12 @@ lsp_status.register_progress()
 function _G.toggle_diagnostics()
   if vim.g.diagnostics_visible then
     vim.g.diagnostics_visible = false
-    vim.diagnostic.disable()
   else
     -- Note, there appears to be a race condition where if this error randomly gets triggered when enabling diagnostics:
     -- "E5108: ... diagnostic.lua:945: line value outside range"
     vim.g.diagnostics_visible = true
-    vim.diagnostic.enable()
   end
+  vim.diagnostic.enable(vim.g.diagnostics_visible)
 end
 
 -- Control the appearance of the diagnostics.
@@ -62,7 +61,7 @@ lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(
 
 -- Do not show diagnostics by default.
 vim.g.diagnostics_visible = false
-vim.diagnostic.disable()
+vim.diagnostic.enable(false)
 
 local lsp_mappings = function(client)
   -- TODO: clangd appears to be lying about its capabilities or this isn't working...
