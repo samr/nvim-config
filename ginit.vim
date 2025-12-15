@@ -26,7 +26,7 @@ if exists("g:neovide")
     let g:my_guifontsize = 9.5
   elseif system('uname -s') =~ "Darwin"
     let g:my_guifont = "RobotoMono\\ Nerd\\ Font"
-    let g:my_guifontsize = 6.5
+    let g:my_guifontsize = 13.5
   else
     let g:my_guifont = "RobotoMono\\ NF"
     let g:my_guifontsize = 6.5
@@ -34,7 +34,7 @@ if exists("g:neovide")
   exe "set guifont=" . g:my_guifont . ":h" . g:my_guifontsize . ":#e-subpixelantialias:#h-full"
 elseif system('uname -s') =~ "Darwin"
   let g:my_guifont = "RobotoMono\\ Nerd\\ Font"
-  let g:my_guifontsize = 7
+  let g:my_guifontsize = 13.5
 elseif has("Linux")
   let g:my_guifont="JetBrainsMono\\ Nerd\\ Font"
   let g:my_guifontsize = 7
