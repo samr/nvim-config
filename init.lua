@@ -89,6 +89,8 @@
 --
 --=====[ Various Notes ]====={{{1
 --
+-- To see the notifications that disappear after a period of time on startup run :Fidget history
+--
 -- Text objects (e.g. viw)
 --   [If there are strange characters below then utf8 might not be supported.]
 --   iw …inner word

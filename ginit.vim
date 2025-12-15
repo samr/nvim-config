@@ -23,10 +23,10 @@
 if exists("g:neovide")
   if has("Linux")
     let g:my_guifont = "RobotoMono\\ Nerd\\ Font"
-    let g:my_guifontsize = 6.5
+    let g:my_guifontsize = 9.5
   elseif system('uname -s') =~ "Darwin"
     let g:my_guifont = "RobotoMono\\ Nerd\\ Font"
-    let g:my_guifontsize = 11.5
+    let g:my_guifontsize = 6.5
   else
     let g:my_guifont = "RobotoMono\\ NF"
     let g:my_guifontsize = 6.5
