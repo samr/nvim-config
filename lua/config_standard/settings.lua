@@ -45,6 +45,15 @@ if vim.g.neovide then
   vim.g.neovide_cursor_animation_length = 0.04  -- default 0.13
   vim.g.neovide_cursor_trail_size = 0.4  -- default 0.8
   vim.g.neovide_scroll_animation_length = 0.1 -- default 0.3
+
+  -- Map the option key to the alt key on mac keyboards
+  vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
+
+  if global.is_mac then
+    -- Allow clipboard copy paste in neovim
+    -- see https://github.com/neovide/neovide/issues/1263
+    vim.g.neovide_input_use_logo = 1
+  end
 end
 
 -------[ Bugs ]-----{{{2

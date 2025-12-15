@@ -345,7 +345,8 @@ remap("v", "<M-k>", '<cmd>lua require"dapui".eval()<CR>', { noremap = true, sile
 -- ===[ Platform Specific Mappings ]=== {{{1
 --
 -- =[ Windows ]= --
-if vim.fn.has("win32") == 1 then
+if global.is_windows then
+-- if vim.fn.has("win32") == 1 then
     -- remap('n', '<A-/>', ':set hlsearch! hlsearch?<CR>', {noremap = true, silent = true}) -- toggle search highlighting
     remap("n", "<A-/>", ":nohl<CR>", { noremap = true, silent = true }) -- toggle search highlighting (usually off)
 
@@ -357,9 +358,33 @@ if vim.fn.has("win32") == 1 then
     remap("n", "<F3>", "<CMD>Fern . -reveal=%<CR>", { noremap = true })
 
 -- =[ MacOS ]= --
-elseif vim.fn.has("mac") == 1 then
+elseif global.is_mac then
+--elseif vim.fn.has("mac") == 1 then
     -- Toggle filesystem viewer
+    remap("n", "<F2>", "<CMD>Neotree filesystem reveal left toggle<CR>", { noremap = true })
     remap("n", "<F3>", "<CMD>Neotree filesystem reveal left toggle<CR>", { noremap = true })
+    -- TODO: Maybe use https://github.com/stevearc/oil.nvim instead of Fern
+
+    -- Allow clipboard copy paste in neovim
+    -- see https://github.com/neovide/neovide/issues/1263
+    remap('n', '<D-c>', '"+y<CR>', { noremap = true, silent = true })
+    remap('i', '<D-c>', '+y<CR>', { noremap = true, silent = true })
+    remap('!', '<D-c>', '<C-R>+', { noremap = true, silent = true })
+    remap('t', '<D-c>', '<C-R>+', { noremap = true, silent = true })
+    remap('v', '<D-c>', '"+y', { noremap = true, silent = true })
+
+    remap('n', '<D-v>', '"+p<CR>', { noremap = true, silent = true })
+    remap('i', '<D-v>', '+p<CR>', { noremap = true, silent = true })
+    remap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true })
+    remap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true })
+    remap('v', '<D-v>', '"+p', { noremap = true, silent = true })
+    -- maybe try:
+    -- vim.keymap.set(
+    --      {'n', 'v', 's', 'x', 'o', 'i', 'l', 'c', 't'},
+    --      '<D-v>',
+    --      function() vim.api.nvim_paste(vim.fn.getreg('+'), true, -1) end,
+    --      { noremap = true, silent = true }
+    -- )
 
 -- =[ Linux (or other) ]= --
 else

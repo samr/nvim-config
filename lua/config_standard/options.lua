@@ -172,6 +172,10 @@ if global.is_windows then
   vim.opt.clipboard = "unnamed,unnamedplus";
 elseif global.is_linux then
   vim.opt.clipboard = "unnamedplus";
+elseif global.is_mac then
+  vim.opt.clipboard = "unnamedplus";
+else
+  print("clipboard option is unset for this OS...")
 end
 
 --=====[ Filetype options ]====={{{1

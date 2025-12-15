@@ -40,7 +40,9 @@ return {
     end,
   },
   {
-    'j-hui/fidget.nvim',  -- prettier notifications
+    -- prettier notifications that disappear
+    -- use ":Fidget history" to see notification history that has gone
+    'j-hui/fidget.nvim',
     config = function()
       require(plugin_config .. ".others").fidget()
     end,
