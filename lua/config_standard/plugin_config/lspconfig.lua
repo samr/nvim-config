@@ -3,7 +3,6 @@
 -- vim.cmd[[packadd nvim-lsp-installer]]
 
 local has_lsp_status, lsp_status = pcall(require, "lsp-status")
-local has_lsp_installer, lsp_installer = pcall(require, "nvim-lsp-installer")
 local has_lsp_signature, lsp_signature = pcall(require, "lsp_signature")
 local has_cmp_nvim_lsp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 
@@ -34,7 +33,7 @@ end
 -- Control the appearance of the diagnostics.
 vim.diagnostic.config({
   virtual_text = {
-    source = "always", -- Or "if_many"
+    source = true, -- Or "if_many"
   },
   signs = {
     -- Note: 'enable = true' is handled by passing a boolean or table in modern Nvim
@@ -72,8 +71,7 @@ vim.g.diagnostics_visible = false
 vim.diagnostic.enable(false)
 
 local lsp_mappings = function(client)
-  -- TODO: clangd appears to be lying about its capabilities or this isn't working...
-  if client.server_capabilities.find_references then
+  if client.server_capabilities.referencesProvider then
     remap("n", "<leader>lr", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true })
     remap("n", "<leader>lgr", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true })
     remap('n', 'gr', '<cmd>lua require"telescope.builtin".lsp_references()<CR>', { noremap = true, silent = true })
@@ -104,16 +102,7 @@ local custom_on_attach = function(client)
 end
 
 local custom_on_init = function(client)
-  client_name = 'unknown'
-  if client.name ~= nil and type(client.name) == 'string' then
-    client_name = client.name
-  else
-    error, name = pcall(client.name)
-    if name then
-      client_name = name
-    end
-  end
-  print('Language Server Protocol client started: ' .. client_name)
+  print('Language Server Protocol client started: ' .. (client.name or 'unknown'))
 end
 
 -- --[[
@@ -213,11 +202,8 @@ vim.lsp.enable("clangd")
 vim.lsp.config("cmake", {
   cmd = { "cmake-language-server" },
   filetypes = { "cmake" },
-  root_dir = function(fname)
-    -- Function to find the project root (e.g., nearest build directory)
-    return vim.lsp.util.find_nearest_parent_file_directory(fname, 'build/')
-  end,
-  -- Optional: specific initialization options
+  -- The project root is the nearest ancestor directory containing 'build'.
+  root_markers = { "build" },
   init_options = {
     buildDirectory = "build",
   },
@@ -245,49 +231,31 @@ vim.lsp.enable("cmake")
 -- }
 
 
--- The williamboman/nvim-lsp-installer plugin manages the installation and startup of some language servers. Configure
--- them here.
-if has_lsp_installer then
-  lsp_installer.on_server_ready(function(server)
-    local opts = {
-      capabilities = capabilities,
-      on_attach = custom_on_attach,
-      on_init = custom_on_init,
-    }
-
-    if server.name == 'sumenko_lua' then
-      -- Configure the Sumenko Lua Language Server
-      opts.settings = {
-        Lua = {
-          runtime = {
-            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-            version = "LuaJIT",
-            -- Setup the lua path
-            path = vim.split(package.path, ';'),
-          },
-          completion = { keywordSnippet = "Disable" },
-          diagnostics = {
-            -- Get the language server to recognize the `vim` global and others
-            enable = true,
-            globals = {
-              "vim", "describe", "it", "before_each", "after_each",
-              "awesome", "theme", "client",
-            },
-          },
-          workspace = {
-            -- Make the server aware of Neovim runtime files
-            library = vim.list_extend({
-              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-              [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-          },{}),
-          },
+-- For the Lua language server (lua_ls), install it with :MasonInstall lua-language-server or put it on the path.
+vim.lsp.config("lua_ls", {
+  capabilities = capabilities,
+  on_attach = custom_on_attach,
+  on_init = custom_on_init,
+  settings = {
+    Lua = {
+      runtime = { version = "LuaJIT" },
+      completion = { keywordSnippet = "Disable" },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global and others
+        globals = {
+          "vim", "describe", "it", "before_each", "after_each",
+          "awesome", "theme", "client",
         },
-      }
-    end
-
-    server:setup(opts)
-    vim.cmd([[ do User LspAttach Buffers ]])
-  end)
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = { vim.env.VIMRUNTIME },
+      },
+    },
+  },
+})
+if vim.fn.executable("lua-language-server") == 1 then
+  vim.lsp.enable("lua_ls")
 end
 
 -- -- replace the default lsp diagnostic symbols

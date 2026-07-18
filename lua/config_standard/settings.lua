@@ -19,8 +19,7 @@ vim.g.author = "sriesland"
 vim.g.author_short = "sriesland"
 
 if global.is_windows then
-  -- Set python and node provider path to make startup faster
-  vim.g.python_host_prog = 'C:/Python27/python.exe'
+  -- Set python provider path to make startup faster (the python2 provider no longer exists)
   vim.g.python3_host_prog = 'C:/Users/samri/AppData/Local/Microsoft/WindowsApps/python.exe'
 
   -- Set the clipboard program used by the clipboard option explicitly for windows so that clipboard.vim loads faster.

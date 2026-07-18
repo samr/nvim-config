@@ -262,7 +262,7 @@ remap("n", ";P", ":cpfile<CR>", { noremap = true, silent = true })
 remap("n", "gK", "<cmd>lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true })
 remap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
 remap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { noremap = true, silent = true })
-remap("n", "gD", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", { noremap = true, silent = true })
+remap("n", "gD", "<cmd>lua vim.diagnostic.open_float()<CR>", { noremap = true, silent = true })
 remap("n", "gr", '<cmd>lua require"telescope.builtin".lsp_references()<CR>', { noremap = true, silent = true })
 remap("n", "gR", "<cmd>lua vim.lsp.buf.rename()<CR>", { noremap = true, silent = true })
 remap("n", "gw", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", { noremap = true, silent = true })
@@ -280,14 +280,13 @@ remap("n", "gt", ":call v:lua.toggle_diagnostics()<CR>", { silent = true, norema
 --remap('i', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', { noremap = true, silent = true })
 
 -- Few language severs support these three
-remap("n", "<leader>ff", "<cmd>lua vim.lsp.buf.formatting()<CR>", { noremap = true, silent = true })
+remap("n", "<leader>ff", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", { noremap = true, silent = true })
 remap("n", "<leader>ai", "<cmd>lua vim.lsp.buf.incoming_calls()<CR>", { noremap = true, silent = true })
 remap("n", "<leader>ao", "<cmd>lua vim.lsp.buf.outgoing_calls()<CR>", { noremap = true, silent = true })
 
--- if diagnostic plugin is installed
-remap("n", "<leader>ep", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", { noremap = true, silent = true })
-remap("n", "<leader>en", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", { noremap = true, silent = true })
-remap("n", "<leader>eo", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", { noremap = true, silent = true })
+remap("n", "<leader>ep", "<cmd>lua vim.diagnostic.jump({ count = -1, float = true })<CR>", { noremap = true, silent = true })
+remap("n", "<leader>en", "<cmd>lua vim.diagnostic.jump({ count = 1, float = true })<CR>", { noremap = true, silent = true })
+remap("n", "<leader>eo", "<cmd>lua vim.diagnostic.setloclist()<CR>", { noremap = true, silent = true })
 
 -- Text objects for plugin 'David-Kunz/treesitter-unit'
 remap("x", "iu", ':lua require"treesitter-unit".select()<CR>', { noremap = true })

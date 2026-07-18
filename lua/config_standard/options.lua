@@ -117,7 +117,7 @@ local function load_options()
     undodir        = global.cache_dir .. "undo/";
     backupdir      = global.cache_dir .. "backup/";
     viewdir        = global.cache_dir .. "view/";
-    spellfile      = global.cache_dir .. "spell/en.uft-8.add";
+    spellfile      = global.cache_dir .. "spell/en.utf-8.add";
     ----
     -- Seems this is better set in ginit.vim with :Guifont!
     --guifont        = 'Roboto\\ Mono\\ Medium\\ for\\ Powerlin:h7';

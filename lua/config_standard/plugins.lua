@@ -27,7 +27,7 @@ return {
   { 'nvim-lua/plenary.nvim', lazy = false },  -- async coroutines
   { 'nvim-lua/popup.nvim', lazy = false },
   { 'MunifTanjim/nui.nvim', lazy = false }, -- general UI component library
-  { 'kyazdani42/nvim-web-devicons', lazy = false }, -- collection of icons
+  { 'nvim-tree/nvim-web-devicons', lazy = false }, -- collection of icons (kyazdani42 repo moved here)
   { 'rafamadriz/friendly-snippets', lazy = false }, -- collection of snippets
   { 'nvim-neotest/nvim-nio', lazy = false },  -- async io
 
@@ -59,11 +59,18 @@ return {
   --
   {
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',  -- the master branch is frozen; main is a rewrite with a new API
     build = ':TSUpdate',
+    lazy = false,
     config = function()
-      require('nvim-treesitter').setup({
-        ensure_installed = { "lua", "vim", "vimdoc", "query" }, -- Add languages here
-        highlight = { enable = true },
+      -- On the main branch setup() no longer takes ensure_installed/highlight.
+      require('nvim-treesitter').install({ "lua", "vim", "vimdoc", "query" }) -- Add languages here
+      -- Highlighting must now be started per buffer; do it whenever a parser is available.
+      vim.api.nvim_create_autocmd('FileType', {
+        group = vim.api.nvim_create_augroup('treesitter_highlight', {}),
+        callback = function(ev)
+          pcall(vim.treesitter.start, ev.buf)
+        end,
       })
     end
   },
