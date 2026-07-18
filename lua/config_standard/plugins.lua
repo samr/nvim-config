@@ -64,7 +64,7 @@ return {
     lazy = false,
     config = function()
       -- On the main branch setup() no longer takes ensure_installed/highlight.
-      require('nvim-treesitter').install({ "lua", "vim", "vimdoc", "query" }) -- Add languages here
+      require('nvim-treesitter').install({ "lua", "vim", "vimdoc", "query", "c", "cpp", "cmake", "python" }) -- Add languages here
       -- Highlighting must now be started per buffer; do it whenever a parser is available.
       vim.api.nvim_create_autocmd('FileType', {
         group = vim.api.nvim_create_augroup('treesitter_highlight', {}),
@@ -77,10 +77,55 @@ return {
   { "nvim-treesitter/nvim-treesitter-locals" }, -- Highlight definition of current symbol, current scope
 
   -- Text objects based on syntax trees (e.g. ]] goes to next parameter of a function, and vif selects the function)
-  -- See https://github.com/nvim-treesitter/nvim-treesitter-textobjects#built-in-textobjects
-  {'nvim-treesitter/nvim-treesitter-textobjects'},
+  -- See https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    branch = 'main',  -- required to work with the nvim-treesitter main branch
+    config = function()
+      require('nvim-treesitter-textobjects').setup({
+        select = {
+          lookahead = true,  -- Automatically jump forward to textobj, similar to targets.vim
+        },
+        move = {
+          set_jumps = true,  -- whether to set jumps in the jumplist
+        },
+      })
 
-  { "nvim-treesitter/playground", cmd = "TSPlayground", lazy = true },
+      local select_keymaps = {
+        ["a."] = "@class.outer",
+        ["i."] = "@class.inner",
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["a?"] = "@conditional.outer",
+        ["i?"] = "@conditional.inner",
+        ["ao"] = "@loop.outer",
+        ["io"] = "@loop.inner",
+        ["ac"] = "@comment.outer",  -- works well for C++ comments of form /* */
+      }
+      for lhs, query in pairs(select_keymaps) do
+        vim.keymap.set({ "x", "o" }, lhs, function()
+          require("nvim-treesitter-textobjects.select").select_textobject(query, "textobjects")
+        end)
+      end
+
+      local move_keymaps = {
+        goto_next_start     = { ["]m"] = "@function.outer", ["]]"] = "@parameter.inner" },
+        goto_next_end       = { ["]M"] = "@function.outer", ["]["] = "@parameter.outer" },
+        goto_previous_start = { ["[m"] = "@function.outer", ["[["] = "@parameter.inner" },
+        goto_previous_end   = { ["[M"] = "@function.outer", ["[]"] = "@parameter.outer" },
+      }
+      for method, maps in pairs(move_keymaps) do
+        for lhs, query in pairs(maps) do
+          vim.keymap.set({ "n", "x", "o" }, lhs, function()
+            require("nvim-treesitter-textobjects.move")[method](query, "textobjects")
+          end)
+        end
+      end
+    end,
+  },
+
+  -- Note: for inspecting syntax trees and queries use the builtin :InspectTree and :EditQuery
+  -- (the old nvim-treesitter/playground plugin is deprecated).
   { "David-Kunz/treesitter-unit" },
   { "mfussenegger/nvim-treehopper" },
   -- C++ specific stuff: TSCppDefineClassFunc, TSCppMakeConcreteClass, TSCppRuleOf5 (config in treesitter)
@@ -96,8 +141,7 @@ return {
     end,
   },
 
-  { 'nvim-lua/lsp-status.nvim', },  -- statusline components from lsp
-  { "williamboman/mason.nvim" },
+  { "mason-org/mason.nvim" },  -- williamboman/mason.nvim moved here
 
   -- {
   --   "ray-x/lsp_signature.nvim",
@@ -140,7 +184,7 @@ return {
     },
     dependencies = {
       "mfussenegger/nvim-dap",
-      "williamboman/mason.nvim",
+      "mason-org/mason.nvim",
     },
   },
 
@@ -361,7 +405,7 @@ return {
   },
 
   {
-    "TimUntersberger/neogit",
+    "NeogitOrg/neogit",  -- TimUntersberger/neogit moved here
     cmd = {
       "Neogit",
       "Neogit commit",
@@ -447,7 +491,6 @@ return {
   --=====[ Miscellaneous Plugins ]====={{{1
   --
   { 'vim-scripts/stlrefvim' }, --  C++ STL docs
-  { 'antoinemadec/FixCursorHold.nvim' },
   { 'plasticboy/vim-markdown',  ft = { 'markdown' } },
   { 'dhruvasagar/vim-table-mode', ft = { 'markdown'} },
 

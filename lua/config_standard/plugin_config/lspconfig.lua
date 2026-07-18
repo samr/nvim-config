@@ -1,21 +1,9 @@
--- vim.cmd[[packadd nvim-lspconfig]]
--- vim.cmd[[packadd lsp-status.nvim]]
--- vim.cmd[[packadd nvim-lsp-installer]]
-
-local has_lsp_status, lsp_status = pcall(require, "lsp-status")
 local has_lsp_signature, lsp_signature = pcall(require, "lsp_signature")
 local has_cmp_nvim_lsp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 
 local global = require "global"
 local lsp = vim.lsp
 local remap = vim.api.nvim_set_keymap
-
-if not has_lsp_status then
-  print("Failed to load lsp-status")
-  return
-end
-
-lsp_status.register_progress()
 
 -- Allow toggling of showing diagnostics from the LSP.
 -- Taken from, https://github.com/neovim/neovim/issues/14825
@@ -42,7 +30,7 @@ vim.diagnostic.config({
   },
   underline = true,
   update_in_insert = false,
-  -- severity_sort = true, -- Highly recommended option to sort errors above warnings
+  severity_sort = true, -- Sort errors above warnings.
 })
 -- lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 --   lsp.diagnostic.on_publish_diagnostics, {
@@ -148,7 +136,6 @@ end
 --       Add: -std=c++17
 --
 vim.lsp.config.clangd = {
-  handlers = lsp_status.extensions.clangd.setup(),
   capabilities = capabilities,
   cmd = {
     "clangd",
@@ -181,7 +168,6 @@ vim.lsp.config.clangd = {
   --     }
   --   },
   on_attach = function(client)
-    lsp_status.on_attach(client)
     custom_on_attach(client)
 
     -- TODO: Maybe enable these?

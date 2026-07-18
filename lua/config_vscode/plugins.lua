@@ -24,11 +24,38 @@ local plugin_config = global.config_module .. ".plugin_config"
 --   plenary, popup, Telescope, lualine
 return {
   { "nvim-treesitter/nvim-treesitter",
+    branch = 'main',  -- the master branch is frozen; main is a rewrite with a new API
+    build = ':TSUpdate',
     config = function()
-      require(plugin_config .. ".treesitter")
+      -- VSCode does its own highlighting; parsers are only needed for textobjects and similar.
+      require('nvim-treesitter').install({ "lua", "vim", "vimdoc", "query", "c", "cpp", "cmake", "python" })
     end,
   },
-  { "nvim-treesitter/nvim-treesitter-textobjects" },
+  { "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = 'main',  -- required to work with the nvim-treesitter main branch
+    config = function()
+      require('nvim-treesitter-textobjects').setup({
+        select = { lookahead = true },
+        move = { set_jumps = true },
+      })
+      local select_keymaps = {
+        ["a."] = "@class.outer",
+        ["i."] = "@class.inner",
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["a?"] = "@conditional.outer",
+        ["i?"] = "@conditional.inner",
+        ["ao"] = "@loop.outer",
+        ["io"] = "@loop.inner",
+        ["ac"] = "@comment.outer",
+      }
+      for lhs, query in pairs(select_keymaps) do
+        vim.keymap.set({ "x", "o" }, lhs, function()
+          require("nvim-treesitter-textobjects.select").select_textobject(query, "textobjects")
+        end)
+      end
+    end,
+  },
 
   -- Change surrounding characters or select textobjs based on the surrounding characters, such as quotes and parens,
   -- e.g. Typing vi{ in normal mode will select all text inside {}, or typing cs'" will change a surrounding ' to ".
