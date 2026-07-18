@@ -2,15 +2,15 @@
 local global   = {}
 
 -- Local module variables
-local os_name  = vim.loop.os_uname().sysname
+local os_name  = vim.uv.os_uname().sysname
 local path_sep = string.find(os_name, 'Windows') and '\\' or '/'
 local home     = os.getenv("HOME")
 local user     = os.getenv("USER")
 
-if not home then
-  if string.find(os_name, 'Windows') and user ~= nil then
-    home = "C:\\Users\\" .. user
-  else
+if string.find(os_name, 'Windows') and user ~= nil then
+  home = "C:\\Users\\" .. user
+else
+  if not home then
     home = "~"
   end
 end
@@ -27,17 +27,21 @@ function global:load_variables()
   self.path_sep      = path_sep
   self.home          = home
   self.data_dir      = string.format('%s/site/',vim.fn.stdpath('data'))
+
+  -- Function to check whether the cfg_name exists in the current working directory.
+  -- returns 1 if it's not present and 0 if it's present
+  -- we need to compare it with 1 because both 0 and 1 is `true` in lua
   self.is_cfg_present = function(cfg_name)
-    -- this returns 1 if it's not present and 0 if it's present
-    -- we need to compare it with 1 because both 0 and 1 is `true` in lua
-    return vim.fn.empty(vim.fn.glob(vim.loop.cwd()..cfg_name)) ~= 1
+    return vim.fn.empty(vim.fn.glob(vim.uv.cwd() .. path_sep .. cfg_name)) ~= 1
   end
 end
 
+-- Populate the global.* variables/functions that are returned by this module.
 global:load_variables()
 
--- Allow ":lua put(foo)" instead of ":lua print(vim.inspect(foo))"
--- Recommended in https://github.com/nanotee/nvim-lua-guide#the-vim-namespace
+-- Add a put() function that supports ":lua put(foo)" instead of ":lua print(vim.inspect(foo))"
+-- Recommended in the old lua guide (the new guide is in :he lua-guide)
+--    https://github.com/nanotee/nvim-lua-guide/blob/master/OLD_README.md#tips-3
 function _G.put(...)
   local objects = {}
   for i = 1, select('#', ...) do

@@ -32,20 +32,33 @@ function _G.toggle_diagnostics()
 end
 
 -- Control the appearance of the diagnostics.
-lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(
-  lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = {
-      source = "always",  -- Or "if_many"
-    },
-    signs = {
-      enable = true,
-      priority = 20
-    },
-    underline = true,
-    update_in_insert = false,
-    -- float = { border = "single" },
-  }
-)
+vim.diagnostic.config({
+  virtual_text = {
+    source = "always", -- Or "if_many"
+  },
+  signs = {
+    -- Note: 'enable = true' is handled by passing a boolean or table in modern Nvim
+    -- To set priority, wrap it in a table like this:
+    priority = 20,
+  },
+  underline = true,
+  update_in_insert = false,
+  -- severity_sort = true, -- Highly recommended option to sort errors above warnings
+})
+-- lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+--   lsp.diagnostic.on_publish_diagnostics, {
+--     virtual_text = {
+--       source = "always",  -- Or "if_many"
+--     },
+--     signs = {
+--       enable = true,
+--       priority = 20
+--     },
+--     underline = true,
+--     update_in_insert = false,
+--     -- float = { border = "single" },
+--   }
+-- )
 
 -- Show line diagnostics automatically in hover window.
 -- Set updatetime which affects CursorHold

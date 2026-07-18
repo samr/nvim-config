@@ -57,9 +57,22 @@ return {
 
   --=====[ Treesitter ]====={{{1
   --
-  { "nvim-treesitter/nvim-treesitter" },
-  { "nvim-treesitter/nvim-treesitter-refactor" }, -- Highlight definition of current symbol, current scope
-  { "nvim-treesitter/nvim-treesitter-textobjects", lazy = true},
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+    config = function()
+      require('nvim-treesitter').setup({
+        ensure_installed = { "lua", "vim", "vimdoc", "query" }, -- Add languages here
+        highlight = { enable = true },
+      })
+    end
+  },
+  { "nvim-treesitter/nvim-treesitter-locals" }, -- Highlight definition of current symbol, current scope
+
+  -- Text objects based on syntax trees (e.g. ]] goes to next parameter of a function, and vif selects the function)
+  -- See https://github.com/nvim-treesitter/nvim-treesitter-textobjects#built-in-textobjects
+  {'nvim-treesitter/nvim-treesitter-textobjects'},
+
   { "nvim-treesitter/playground", cmd = "TSPlayground", lazy = true },
   { "David-Kunz/treesitter-unit" },
   { "mfussenegger/nvim-treehopper" },
@@ -309,7 +322,7 @@ return {
   },
 
   { -- Currently use this rather than lightspeed or leap.nvim.
-    "phaazon/hop.nvim",
+    "smoka7/hop.nvim",
     cmd = {
       "HopWord",    -- type ;ww
       "HopLine",    -- type ;ll
@@ -363,10 +376,6 @@ return {
 
   -- use vi<Space> and va<Space> to select blank lines
   {'deathlyfrantic/vim-textobj-blanklines', lazy = false, dependencies = {'kana/vim-textobj-user'}},
-
-  -- Text objects based on syntax trees (e.g. ]] goes to next parameter of a function, and vif selects the function)
-  -- See https://github.com/nvim-treesitter/nvim-treesitter-textobjects#built-in-textobjects
-  {'nvim-treesitter/nvim-treesitter-textobjects'},
 
   { -- in visual mode + and - expand or shrink selection
     'terryma/vim-expand-region',

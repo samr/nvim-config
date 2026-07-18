@@ -5,6 +5,7 @@ local remap = vim.api.nvim_set_keymap
 local fn = vim.fn
 local is_cfg_present = require('global').is_cfg_present
 
+-- Makes javascript and typescript prettier https://prettier.io/docs/
 local prettier = function()
   if is_cfg_present("/.prettierrc") then
     return {
@@ -12,7 +13,7 @@ local prettier = function()
       args = {
         string.format(
           "--stdin-filepath '%s' --config '%s'",
-          vim.api.nvim_buf_get_name(0), vim.loop.cwd().."/.prettierrc"
+          vim.api.nvim_buf_get_name(0), vim.uv.cwd() .. global.path_sep .. ".prettierrc"
         )
       },
       stdin = true
@@ -24,7 +25,7 @@ local prettier = function()
       args = {
         string.format(
           "--stdin-filepath '%s' --config '%s'",
-          vim.api.nvim_buf_get_name(0), vim.fn.stdpath("config").."/.prettierrc"
+          vim.api.nvim_buf_get_name(0), vim.fn.stdpath("config") .. global.path_sep .. ".prettierrc"
         )
       },
       stdin = true
@@ -63,7 +64,7 @@ local luafmt = function()
     -- Note: LuaFormatter is best compiled from source directly, luarocks was a no-go.
     return {
       exe = "lua-format",
-      args = {"-i", "--config", global.vim_path.."/.luafmt"},
+      args = {"-i", "--config", global.vim_path .. global.path_sep .. ".luafmt"},
       stdin = true
     }
 end
