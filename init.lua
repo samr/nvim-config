@@ -166,18 +166,9 @@ local create_cache_dir = function()
 
   -- Only check once whether root cache_dir exists. If it does not then make it and all the sub dirs.
   if vim.fn.isdirectory(global.cache_dir) == 0 then
-    local mkdir_cmd
-    if global.is_windows then
-      mkdir_cmd = "mkdir "
-    else
-      mkdir_cmd = "mkdir -p "
-    end
-
-    print(mkdir_cmd .. global.cache_dir)
-    os.execute(mkdir_cmd .. global.cache_dir)
     for _,v in pairs(data_dir) do
       if vim.fn.isdirectory(v) == 0 then
-        os.execute(mkdir_cmd .. v)
+        vim.fn.mkdir(v, "p")
       end
     end
   end

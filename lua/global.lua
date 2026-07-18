@@ -4,16 +4,9 @@ local global   = {}
 -- Local module variables
 local os_name  = vim.uv.os_uname().sysname
 local path_sep = string.find(os_name, 'Windows') and '\\' or '/'
-local home     = os.getenv("HOME")
-local user     = os.getenv("USER")
-
-if string.find(os_name, 'Windows') and user ~= nil then
-  home = "C:\\Users\\" .. user
-else
-  if not home then
-    home = "~"
-  end
-end
+-- Resolves via USERPROFILE on Windows and HOME on unix, so it works even when
+-- nvim is launched outside a shell (e.g. Explorer) where HOME/USER are unset.
+local home     = vim.uv.os_homedir()
 
 function global:load_variables()
   self.config_module = nil
